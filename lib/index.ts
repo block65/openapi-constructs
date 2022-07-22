@@ -14,7 +14,6 @@ interface DocumentOptions {
   info?: OpenAPI.Document['info'];
 }
 
-
 interface InfoOptions {
   title: string;
   version: string;
@@ -40,8 +39,36 @@ export class Info extends Construct {
   }
 }
 
+interface SchemaOptions {
+  schema: OpenAPIV3_1.SchemaObject;
+}
+export class Schema extends Construct {
+  private options: SchemaOptions;
 
+  public name: string;
 
+  constructor(scope: Construct, id: string, options: SchemaOptions) {
+    super(scope, id);
+    this.options = options;
+    this.name = id;
+  }
+
+  public toJSON(): OpenAPIV3_1.ReferenceObject {
+    return {
+      $ref: this.jsonPointer(),
+    };
+  }
+
+  public jsonPointer(): string {
+    return `#/components/schemas/${this.name}`;
+  }
+
+  public synth(): OpenAPIV3_1.SchemaObject {
+    return {
+      ...this.options.schema,
+    };
+  }
+}
 
 export class Contact extends Construct {}
 
@@ -51,7 +78,10 @@ export class Server extends Construct {}
 
 type ParameterObjectFromPathParam<TParam extends string> = {
   name: TParam | string;
-} & SetRequired<Omit<OpenAPIV3_1.ParameterObject, 'name'>, 'schema' | 'required'>
+} & SetRequired<
+  Omit<OpenAPIV3_1.ParameterObject, 'name'>,
+  'schema' | 'required'
+>;
 
 interface OperationOptions<TPath extends string> {
   summary?: string;
@@ -67,17 +97,22 @@ export class Operation<TPath extends string> extends Construct {
 
   public readonly method: OpenAPIV3_1.HttpMethods;
 
-  constructor(scope: Construct, method: OpenAPIV3_1.HttpMethods, options: OperationOptions<TPath>) {
+  constructor(
+    scope: Construct,
+    method: OpenAPIV3_1.HttpMethods,
+    options: OperationOptions<TPath>,
+  ) {
     super(scope, method);
     this.method = method;
     this.options = options;
   }
 
-
   public synth(): OpenAPIV3_1.OperationObject {
     return {
-      ...this.options.operationId && {operationId: this.options.operationId,},
-      ...this.options.parameters && {parameters: this.options.parameters,},
+      ...(this.options.operationId && {
+        operationId: this.options.operationId,
+      }),
+      ...(this.options.parameters && { parameters: this.options.parameters }),
       // requestBody: {
       //   content: {}
       // }
@@ -96,21 +131,26 @@ export class Path<TPath extends string = '/'> extends Construct {
     this.options = options;
   }
 
-  public addOperation(method: OpenAPIV3_1.HttpMethods, options: OperationOptions<TPath>) {
+  public addOperation(
+    method: OpenAPIV3_1.HttpMethods,
+    options: OperationOptions<TPath>,
+  ) {
     return new Operation(this, method, options);
   }
 
   public synth(): OpenAPIV3_1.PathItemObject {
-    return Object.fromEntries(this.node
-      .findAll()
-      .filter((child): child is Operation<TPath> => child instanceof Operation)
-      .map((child) => [child.method, child.synth()]));
+    return Object.fromEntries(
+      this.node
+        .findAll()
+        .filter(
+          (child): child is Operation<TPath> => child instanceof Operation,
+        )
+        .map((child) => [child.method, child.synth()]),
+    );
   }
 }
 
 export class ServerVariable extends Construct {}
-
-
 
 export class Api extends Construct {
   private openapi: OpenApiVersion;
@@ -157,14 +197,15 @@ export class Api extends Construct {
           return acc;
         }, {}),
       },
-      paths: Object.fromEntries(this.node
-        .findAll()
-        .filter((child): child is Path => child instanceof Path)
-        .map((path) => [path.options.path, path.synth()]))
+      paths: Object.fromEntries(
+        this.node
+          .findAll()
+          .filter((child): child is Path => child instanceof Path)
+          .map((path) => [path.options.path, path.synth()]),
+      ),
     };
   }
 }
-
 
 // interface PathItemOptions {
 //   // path: string;
@@ -202,7 +243,6 @@ export class Api extends Construct {
 //   }
 // }
 
-
 export class ExternalDocumentation extends Construct {}
 
 export class Parameter extends Construct {}
@@ -226,37 +266,6 @@ export class Header extends Construct {}
 export class Tag extends Construct {}
 
 export class Reference extends Construct {}
-
-interface SchemaOptions {
-  schema: OpenAPIV3_1.SchemaObject;
-}
-export class Schema extends Construct {
-  private options: SchemaOptions;
-
-  public name: string;
-
-  constructor(scope: Construct, id: string, options: SchemaOptions) {
-    super(scope, id);
-    this.options = options;
-    this.name = id;
-  }
-
-  public toJSON(): OpenAPIV3_1.ReferenceObject {
-    return {
-      $ref: this.jsonPointer()
-    };
-  }
-
-  public jsonPointer(): string {
-    return `#/components/schemas/${this.name}`;
-  }
-
-  public synth(): OpenAPIV3_1.SchemaObject {
-    return {
-      ...this.options.schema,
-    };
-  }
-}
 
 export class Discriminator extends Construct {}
 

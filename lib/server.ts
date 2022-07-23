@@ -3,7 +3,7 @@ import type { OpenAPIV3_1 } from 'openapi-types';
 import type { Api } from './api.js';
 
 interface ServerOptions {
-  url: string;
+  url: URL;
   description?: string;
 }
 
@@ -16,6 +16,9 @@ export class Server extends Construct {
   }
 
   public synth(): OpenAPIV3_1.ServerObject {
-    return this.options;
+    return {
+      description: this.options.description,
+      url: this.options.url.toString(),
+    };
   }
 }

@@ -1,0 +1,254 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Example REST API",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {
+      "Address": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "postcode": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1000,
+            "maximum": 9999
+          }
+        }
+      },
+      "Id": {
+        "type": "string"
+      },
+      "User": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "postcode": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 1000,
+                "maximum": 9999
+              }
+            }
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        }
+      },
+      "UpdateUserRequest": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "postcode": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 1000,
+                "maximum": 9999
+              }
+            }
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        }
+      },
+      "Users": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "address": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "postcode": {
+                  "type": "integer",
+                  "format": "int32",
+                  "minimum": 1000,
+                  "maximum": 9999
+                }
+              }
+            },
+            "age": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "UserId": {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "securitySchemes": {
+      "HttpBearerJwtScheme": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "operationId": "listUsers",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "User 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "operationId": "getUserByIdCommand",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "User 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteUserByIdCommand",
+        "security": [
+          {
+            "HttpBearerJwtScheme": [
+              "users.delete"
+            ]
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      },
+      "head": {
+        "operationId": "checkUserIdAvailableCommand",
+        "security": [
+          {}
+        ],
+        "tags": [
+          "user"
+        ]
+      },
+      "post": {
+        "operationId": "updateUserCommand",
+        "tags": [
+          "user"
+        ],
+        "requestBody": {
+          "description": "postRequestBody",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/UserId"
+        }
+      ]
+    }
+  },
+  "security": [
+    {
+      "HttpBearerJwtScheme": []
+    },
+    {
+      "HttpBearerJwtScheme": [
+        "users.delete"
+      ]
+    },
+    {}
+  ]
+}

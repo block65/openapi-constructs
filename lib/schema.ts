@@ -1,33 +1,29 @@
 import { Construct } from 'constructs';
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { OpenAPIV3 } from 'openapi-types';
 
 interface SchemaOptions {
-  schema: OpenAPIV3_1.SchemaObject;
+  schema: OpenAPIV3.SchemaObject | OpenAPIV3.ReferenceObject;
 }
+
 export class Schema extends Construct {
   private options: SchemaOptions;
-
-  public name: string;
 
   constructor(scope: Construct, id: string, options: SchemaOptions) {
     super(scope, id);
     this.options = options;
-    this.name = id;
   }
 
-  public toJSON(): OpenAPIV3_1.ReferenceObject {
+  public referenceObject(): OpenAPIV3.ReferenceObject {
     return {
       $ref: this.jsonPointer(),
     };
   }
 
   public jsonPointer(): string {
-    return `#/components/schemas/${this.name}`;
+    return `#/components/schemas/${this.node.path}`;
   }
 
-  public synth(): OpenAPIV3_1.SchemaObject {
-    return {
-      ...this.options.schema,
-    };
+  public synth(): OpenAPIV3.SchemaObject | OpenAPIV3.ReferenceObject {
+    return this.options.schema;
   }
 }

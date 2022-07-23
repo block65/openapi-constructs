@@ -1,20 +1,25 @@
 import { Construct, IConstruct } from 'constructs';
 import type { OpenAPIV3_1 } from 'openapi-types';
-import { Info } from './info.js';
+import { Parameter } from './parameter.js';
 import { Path } from './path.js';
 import { Schema } from './schema.js';
 import { SecurityRequirement } from './security-requirement.js';
 import { SecurityScheme } from './security-scheme.js';
-import type { DocumentOptions, OpenApiVersion } from './index.js';
+import type { OpenApiVersion } from './index.js';
+
+export interface ApiOptions {
+  openapi: OpenApiVersion; //  | `${OpenApiVersion}`;
+  info: OpenAPIV3_1.InfoObject;
+}
 
 export class Api extends Construct {
-  private openapi: OpenApiVersion;
+  private options: ApiOptions;
 
-  constructor(options: DocumentOptions) {
+  constructor(options: ApiOptions) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
     super(undefined as any, '');
 
-    this.openapi = options.openapi;
+    this.options = options;
   }
 
   public static of(c: IConstruct): Api {
@@ -29,31 +34,29 @@ export class Api extends Construct {
   }
 
   public synth(): OpenAPIV3_1.Document {
-    const [info] = this.node
-      .findAll()
-      .filter((child): child is Info => child instanceof Info);
+    const schemas = this.node.children.filter(
+      (child): child is Schema => child instanceof Schema,
+    );
 
-    if (!info) {
-      throw new Error('bad');
-    }
-
-    const schemas = this.node
+    const parameters = this.node
       .findAll()
-      .filter((child): child is Schema => child instanceof Schema);
+      .filter((child): child is Parameter => child instanceof Parameter);
 
     return {
-      openapi: this.openapi,
-      info: info.synth(),
+      openapi: this.options.openapi,
+      info: this.options.info,
       components: {
-        schemas: schemas.reduce<
-          Required<OpenAPIV3_1.ComponentsObject>['schemas']
-        >((acc, schema) => {
-          acc[schema.name] = schema.synth();
-          return acc;
-        }, {}),
+        schemas: Object.fromEntries(
+          schemas.map((child) => [
+            child.node.id,
+            child.synth() as OpenAPIV3_1.SchemaObject,
+          ]),
+        ),
+        parameters: Object.fromEntries(
+          parameters.map((child) => [child.node.id, child.synth()]),
+        ),
         securitySchemes: Object.fromEntries(
-          this.node
-            .findAll()
+          this.node.children
             .filter(
               (child): child is SecurityScheme =>
                 child instanceof SecurityScheme,

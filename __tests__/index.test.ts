@@ -2,7 +2,17 @@
 import SwaggerParser from '@apidevtools/swagger-parser';
 import { describe, test } from '@jest/globals';
 import { OpenAPIV3 } from 'openapi-types';
-import { Api, Info, OpenApiVersion, Path, Schema } from '../lib/index.js';
+import {
+  Api,
+  Info,
+  OpenApiVersion,
+  Path,
+  Schema,
+  SecurityRequirement,
+  SecurityScheme,
+  Tag,
+  Server,
+} from '../lib/index.js';
 
 describe('Basic', () => {
   test('Nothing', async () => {
@@ -13,6 +23,32 @@ describe('Basic', () => {
         version: '1.0.0',
       },
     });
+
+    new Server(api, 'ExampleServer', {
+      url: 'https://api.example.com',
+    });
+
+    const httpBearerJwtScheme = new SecurityScheme(api, 'HttpBearerJwtScheme', {
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    });
+
+    new SecurityRequirement(api, 'AllScopes', {
+      securityScheme: httpBearerJwtScheme,
+      scopes: [],
+    });
+
+    const userTag = new Tag(api, 'UserTag', {
+      name: 'user',
+    });
+
+    const userDeleteScopeReq = new SecurityRequirement(api, 'UserReadScope', {
+      securityScheme: httpBearerJwtScheme,
+      scopes: ['users.delete'],
+    });
+
+    const noSecurityRequirement = new SecurityRequirement(api, 'NoSecurity');
 
     new Info(api, 'info', {
       title: 'Sites REST API',
@@ -69,17 +105,43 @@ describe('Basic', () => {
 
     new Path(api, {
       path: '/users/{userId}',
-    }).addOperation(OpenAPIV3.HttpMethods.GET, {
-      operationId: 'getUserById',
-      parameters: [
-        {
-          name: 'userId',
-          in: 'path',
-          required: true,
-          schema: userIdentifiersSchema.toJSON(),
-        },
-      ],
-    });
+    })
+      .addOperation(OpenAPIV3.HttpMethods.GET, {
+        operationId: 'getUserById',
+        tags: [userTag],
+        parameters: [
+          {
+            name: 'userId',
+            in: 'path',
+            required: true,
+            schema: userIdentifiersSchema.toJSON(),
+          },
+        ],
+      })
+      .addOperation(OpenAPIV3.HttpMethods.DELETE, {
+        operationId: 'deleteUserById',
+        security: userDeleteScopeReq,
+        parameters: [
+          {
+            name: 'userId',
+            in: 'path',
+            required: true,
+            schema: userIdentifiersSchema.toJSON(),
+          },
+        ],
+      })
+      .addOperation(OpenAPIV3.HttpMethods.HEAD, {
+        operationId: 'checkUserIdAvailable',
+        security: noSecurityRequirement,
+        parameters: [
+          {
+            name: 'userId',
+            in: 'path',
+            required: true,
+            schema: userIdentifiersSchema.toJSON(),
+          },
+        ],
+      });
 
     expect(api.synth()).toMatchInlineSnapshot(`
       Object {
@@ -133,6 +195,13 @@ describe('Basic', () => {
               "type": "object",
             },
           },
+          "securitySchemes": Object {
+            "HttpBearerJwtScheme": Object {
+              "bearerFormat": "JWT",
+              "scheme": "bearer",
+              "type": "http",
+            },
+          },
         },
         "info": Object {
           "title": "Sites REST API",
@@ -141,6 +210,26 @@ describe('Basic', () => {
         "openapi": "3.1.0",
         "paths": Object {
           "/users/{userId}": Object {
+            "delete": Object {
+              "operationId": "deleteUserById",
+              "parameters": Array [
+                Object {
+                  "in": "path",
+                  "name": "userId",
+                  "required": true,
+                  "schema": Object {
+                    "$ref": "#/components/schemas/UserIdentifiers",
+                  },
+                },
+              ],
+              "security": Array [
+                Object {
+                  "HttpBearerJwtScheme": Array [
+                    "users.delete",
+                  ],
+                },
+              ],
+            },
             "get": Object {
               "operationId": "getUserById",
               "parameters": Array [
@@ -153,9 +242,39 @@ describe('Basic', () => {
                   },
                 },
               ],
+              "tags": Array [
+                "user",
+              ],
+            },
+            "head": Object {
+              "operationId": "checkUserIdAvailable",
+              "parameters": Array [
+                Object {
+                  "in": "path",
+                  "name": "userId",
+                  "required": true,
+                  "schema": Object {
+                    "$ref": "#/components/schemas/UserIdentifiers",
+                  },
+                },
+              ],
+              "security": Array [
+                Object {},
+              ],
             },
           },
         },
+        "security": Array [
+          Object {
+            "HttpBearerJwtScheme": Array [],
+          },
+          Object {
+            "HttpBearerJwtScheme": Array [
+              "users.delete",
+            ],
+          },
+          Object {},
+        ],
       }
     `);
 

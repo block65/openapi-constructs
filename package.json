@@ -16,9 +16,6 @@
     "dist/lib/*.d.ts"
   ],
   "dependencies": {},
-  "peerDependencies": {
-    "constructs": "^10.1.53"
-  },
   "devDependencies": {
     "@apidevtools/swagger-parser": "^10.1.0",
     "@babel/core": "^7.18.9",
@@ -42,6 +39,9 @@
     "prettier": "^2.7.1",
     "type-fest": "^2.17.0",
     "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "constructs": "^10.1.53"
   },
   "engines": {
     "node": ">=18.0.0"

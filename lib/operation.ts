@@ -25,6 +25,7 @@ export class Operation<TPath extends string = '/'> extends Construct {
   private readonly options: OperationOptions<TPath>;
 
   public readonly method: OpenAPIV3_1.HttpMethods;
+
   private requestBody?: RequestBody;
 
   public hasOperationId(operationId: OperationOptions['operationId']): boolean {
@@ -44,10 +45,8 @@ export class Operation<TPath extends string = '/'> extends Construct {
       this.requestBody =
         options.requestBody instanceof RequestBody
           ? options.requestBody
-          : new RequestBody(this, `${method}RequestBody`, options.requestBody);
+          : new RequestBody(this, method, options.requestBody);
     }
-
-    this.validate();
   }
 
   public validate() {
@@ -61,8 +60,10 @@ export class Operation<TPath extends string = '/'> extends Construct {
       .find((child) => child.hasOperationId(this.options.operationId));
 
     if (duplicateOperation) {
-      throw new Error(`Duplicate operationId ${this.options.operationId}`);
+      return [`Duplicate operationId ${this.options.operationId}`];
     }
+
+    return [];
   }
 
   public synth(): OpenAPIV3_1.OperationObject {

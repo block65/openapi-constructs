@@ -17,8 +17,10 @@ export class Server extends Construct {
 
   public synth(): OpenAPIV3_1.ServerObject {
     return {
-      description: this.options.description,
       url: this.options.url.toString(),
+      ...(this.options.description && {
+        description: this.options.description,
+      }),
     };
   }
 }

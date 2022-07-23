@@ -10,16 +10,18 @@ export class Reference<T extends Target> extends Construct {
 
   constructor(target: T, id: string) {
     super(target, id);
-    this.schema = new Schema(Api.of(this), `${id}Ref`, {
+    this.schema = new Schema(Api.of(this), id, {
+      // NOTE: synth because refs are not valid as #/component/schemas
+      // if it did, we could use referenceObject here instead
       schema: target.synth(),
     });
   }
 
-  public synth(): OpenAPIV3_1.ReferenceObject {
-    return this.schema.referenceObject();
+  public get schemaKey() {
+    return this.schema.schemaKey;
   }
 
-  public static from<T extends Target>(target: T): Reference<T> {
-    return new Reference(target, `${target.node.id}From`);
+  public synth(): OpenAPIV3_1.ReferenceObject {
+    return this.schema.referenceObject();
   }
 }

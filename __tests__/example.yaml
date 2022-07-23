@@ -5,7 +5,6 @@ info:
 components:
   schemas:
     Address:
-      &a1
       type: object
       required:
         - name
@@ -17,10 +16,9 @@ components:
           minimum: 1000
           maximum: 9999
     Id:
-      &a3
       type: string
     User:
-      &a2
+      &a1
       type: object
       required:
         - name
@@ -28,34 +26,36 @@ components:
       properties:
         name:
           type: string
-        address: *a1
+        address:
+          $ref: "#/components/schemas/Address"
         age:
           type: integer
           format: int32
           minimum: 0
     UpdateUserRequest:
       type: object
-      required:
-        - name
+      minProperties: 1
       additionalProperties: false
       properties:
-        name:
-          type: string
-        address: *a1
+        address:
+          $ref: "#/components/schemas/Address"
         age:
           type: integer
           format: int32
           minimum: 0
+    CreateUserRequest: *a1
     Users:
       type: array
       uniqueItems: true
-      items: *a2
+      items:
+        $ref: "#/components/schemas/User"
   parameters:
     UserId:
       name: userId
       in: path
       required: true
-      schema: *a3
+      schema:
+        $ref: "#/components/schemas/Id"
   securitySchemes:
     HttpBearerJwtScheme:
       type: http
@@ -64,9 +64,26 @@ components:
 paths:
   /users:
     get:
-      operationId: listUsers
+      operationId: listUsersCommand
       tags:
         - user
+      responses:
+        "200":
+          description: User 200 response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+    post:
+      operationId: createUserCommand
+      tags:
+        - user
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
       responses:
         "200":
           description: User 200 response
@@ -90,7 +107,7 @@ paths:
       operationId: deleteUserByIdCommand
       security:
         - HttpBearerJwtScheme:
-            &a4
+            &a2
             - users.delete
       tags:
         - user
@@ -105,7 +122,7 @@ paths:
       tags:
         - user
       requestBody:
-        description: postRequestBody
+        description: ""
         content:
           application/json:
             schema:
@@ -121,5 +138,5 @@ paths:
       - $ref: "#/components/parameters/UserId"
 security:
   - HttpBearerJwtScheme: []
-  - HttpBearerJwtScheme: *a4
+  - HttpBearerJwtScheme: *a2
   - {}

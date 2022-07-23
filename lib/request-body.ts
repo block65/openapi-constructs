@@ -20,12 +20,12 @@ export class RequestBody extends Construct {
     this.content =
       options.content instanceof MediaType
         ? options.content
-        : new MediaType(this, `${id}MediaType`, options.content);
+        : new MediaType(this, id, options.content);
   }
 
   public synth(): OpenAPIV3_1.RequestBodyObject {
     return {
-      description: this.options.description || this.node.id,
+      description: this.options.description || '',
       content: {
         [this.options.content.contentType]: this.content.synth(),
       },

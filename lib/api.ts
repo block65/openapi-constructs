@@ -6,6 +6,8 @@ import { Schema } from './schema.js';
 import { SecurityRequirement } from './security-requirement.js';
 import { SecurityScheme } from './security-scheme.js';
 import type { OpenApiVersion } from './index.js';
+import type { JSONSchema4, JSONSchema7 } from 'json-schema';
+import { Reference } from './reference.js';
 
 export interface ApiOptions {
   openapi: OpenApiVersion; //  | `${OpenApiVersion}`;
@@ -34,10 +36,6 @@ export class Api extends Construct {
   }
 
   public synth(): OpenAPIV3_1.Document {
-    const schemas = this.node.children.filter(
-      (child): child is Schema => child instanceof Schema,
-    );
-
     const parameters = this.node
       .findAll()
       .filter((child): child is Parameter => child instanceof Parameter);
@@ -47,13 +45,15 @@ export class Api extends Construct {
       info: this.options.info,
       components: {
         schemas: Object.fromEntries(
-          schemas.map((child) => [
-            child.node.id,
-            child.synth() as OpenAPIV3_1.SchemaObject,
-          ]),
+          this.node.children
+            .filter(
+              (child): child is Schema | Reference<Schema> =>
+                child instanceof Schema || child instanceof Reference,
+            )
+            .map((child) => [child.schemaKey, child.synth()]),
         ),
         parameters: Object.fromEntries(
-          parameters.map((child) => [child.node.id, child.synth()]),
+          parameters.map((child) => [child.schemaKey, child.synth()]),
         ),
         securitySchemes: Object.fromEntries(
           this.node.children
@@ -76,6 +76,17 @@ export class Api extends Construct {
             child instanceof SecurityRequirement,
         )
         .map((child) => child.synth()),
+    };
+  }
+
+  public synthJsonSchema(): JSONSchema4 | JSONSchema7 {
+    return {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      definitions: Object.fromEntries(
+        this.node.children
+          .filter((child): child is Schema => child instanceof Schema)
+          .map((child) => [child.schemaKey, child.synth()]),
+      ),
     };
   }
 }

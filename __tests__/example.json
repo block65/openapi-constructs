@@ -35,19 +35,7 @@
             "type": "string"
           },
           "address": {
-            "type": "object",
-            "required": [
-              "name"
-            ],
-            "additionalProperties": false,
-            "properties": {
-              "postcode": {
-                "type": "integer",
-                "format": "int32",
-                "minimum": 1000,
-                "maximum": 9999
-              }
-            }
+            "$ref": "#/components/schemas/Address"
           },
           "age": {
             "type": "integer",
@@ -58,6 +46,21 @@
       },
       "UpdateUserRequest": {
         "type": "object",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        }
+      },
+      "CreateUserRequest": {
+        "type": "object",
         "required": [
           "name"
         ],
@@ -67,19 +70,7 @@
             "type": "string"
           },
           "address": {
-            "type": "object",
-            "required": [
-              "name"
-            ],
-            "additionalProperties": false,
-            "properties": {
-              "postcode": {
-                "type": "integer",
-                "format": "int32",
-                "minimum": 1000,
-                "maximum": 9999
-              }
-            }
+            "$ref": "#/components/schemas/Address"
           },
           "age": {
             "type": "integer",
@@ -92,36 +83,7 @@
         "type": "array",
         "uniqueItems": true,
         "items": {
-          "type": "object",
-          "required": [
-            "name"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "name": {
-              "type": "string"
-            },
-            "address": {
-              "type": "object",
-              "required": [
-                "name"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "postcode": {
-                  "type": "integer",
-                  "format": "int32",
-                  "minimum": 1000,
-                  "maximum": 9999
-                }
-              }
-            },
-            "age": {
-              "type": "integer",
-              "format": "int32",
-              "minimum": 0
-            }
-          }
+          "$ref": "#/components/schemas/User"
         }
       }
     },
@@ -131,7 +93,7 @@
         "in": "path",
         "required": true,
         "schema": {
-          "type": "string"
+          "$ref": "#/components/schemas/Id"
         }
       }
     },
@@ -146,10 +108,38 @@
   "paths": {
     "/users": {
       "get": {
-        "operationId": "listUsers",
+        "operationId": "listUsersCommand",
         "tags": [
           "user"
         ],
+        "responses": {
+          "200": {
+            "description": "User 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createUserCommand",
+        "tags": [
+          "user"
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "User 200 response",
@@ -211,7 +201,7 @@
           "user"
         ],
         "requestBody": {
-          "description": "postRequestBody",
+          "description": "",
           "content": {
             "application/json": {
               "schema": {

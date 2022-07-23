@@ -2,7 +2,7 @@ import { Construct } from 'constructs';
 import type { OpenAPIV3 } from 'openapi-types';
 
 interface SchemaOptions {
-  schema: OpenAPIV3.SchemaObject | OpenAPIV3.ReferenceObject;
+  schema: OpenAPIV3.SchemaObject;
 }
 
 export class Schema extends Construct {
@@ -10,7 +10,20 @@ export class Schema extends Construct {
 
   constructor(scope: Construct, id: string, options: SchemaOptions) {
     super(scope, id);
+
     this.options = options;
+  }
+
+  public get schema() {
+    return this.options.schema;
+  }
+
+  public get schemaKey() {
+    return this.node.id;
+  }
+
+  public jsonPointer(): string {
+    return `#/components/schemas/${this.schemaKey}`;
   }
 
   public referenceObject(): OpenAPIV3.ReferenceObject {
@@ -19,11 +32,11 @@ export class Schema extends Construct {
     };
   }
 
-  public jsonPointer(): string {
-    return `#/components/schemas/${this.node.path}`;
+  public validate() {
+    return [];
   }
 
-  public synth(): OpenAPIV3.SchemaObject | OpenAPIV3.ReferenceObject {
+  public synth(): OpenAPIV3.SchemaObject {
     return this.options.schema;
   }
 }

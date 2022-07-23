@@ -38,11 +38,15 @@ export class Parameter<
     };
   }
 
-  public jsonPointer(): string {
-    return `#/components/parameters/${this.node.id}`;
+  public get schemaKey() {
+    return this.node.id;
   }
 
-  public synth(): OpenAPIV3.ParameterObject {
+  public jsonPointer(): string {
+    return `#/components/parameters/${this.schemaKey}`;
+  }
+
+  public synth(): OpenAPIV3.ParameterObject | OpenAPIV3.ReferenceObject {
     return {
       name: this.options.name.toString(),
       in: this.options.in,
@@ -52,7 +56,7 @@ export class Parameter<
       }),
       ...(this.options.style && { style: this.options.style }),
       ...(this.options.schema && {
-        schema: this.options.schema.synth(),
+        schema: this.options.schema.referenceObject(),
       }),
     };
   }

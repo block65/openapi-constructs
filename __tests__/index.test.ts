@@ -2,17 +2,15 @@
 import SwaggerParser from '@apidevtools/swagger-parser';
 import { describe, test } from '@jest/globals';
 import { OpenAPIV3 } from 'openapi-types';
-import {
-  Api,
-  Info,
-  OpenApiVersion,
-  Path,
-  Schema,
-  SecurityRequirement,
-  SecurityScheme,
-  Tag,
-  Server,
-} from '../lib/index.js';
+import { Api } from '../lib/api.js';
+import { OpenApiVersion } from '../lib/index.js';
+import { Info } from '../lib/info.js';
+import { Path } from '../lib/path.js';
+import { Schema } from '../lib/schema.js';
+import { SecurityRequirement } from '../lib/security-requirement.js';
+import { SecurityScheme } from '../lib/security-scheme.js';
+import { Server } from '../lib/server.js';
+import { Tag } from '../lib/tag.js';
 
 describe('Basic', () => {
   test('Nothing', async () => {

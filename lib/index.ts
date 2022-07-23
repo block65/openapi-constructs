@@ -3,12 +3,6 @@ import { Construct } from 'constructs';
 import type { OpenAPIV3_1 } from 'openapi-types';
 import type { SetRequired } from 'type-fest';
 
-export enum OpenApiVersion {
-  V2 = '2.0',
-  V3 = '3.0',
-  V3_1 = '3.1.0',
-}
-
 export type ParameterObjectFromPathParam<TParam extends string> = {
   name: TParam | string;
 } & SetRequired<

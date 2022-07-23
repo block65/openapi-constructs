@@ -1,13 +1,18 @@
 import { Construct, IConstruct } from 'constructs';
+import type { JSONSchema4, JSONSchema7 } from 'json-schema';
 import type { OpenAPIV3_1 } from 'openapi-types';
 import { Parameter } from './parameter.js';
 import { Path } from './path.js';
+import { Reference } from './reference.js';
 import { Schema } from './schema.js';
 import { SecurityRequirement } from './security-requirement.js';
 import { SecurityScheme } from './security-scheme.js';
-import type { OpenApiVersion } from './index.js';
-import type { JSONSchema4, JSONSchema7 } from 'json-schema';
-import { Reference } from './reference.js';
+
+export enum OpenApiVersion {
+  V2 = '2.0',
+  V3 = '3.0',
+  V3_1 = '3.1.0',
+}
 
 export interface ApiOptions {
   openapi: OpenApiVersion; //  | `${OpenApiVersion}`;

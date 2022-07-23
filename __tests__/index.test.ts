@@ -4,18 +4,16 @@ import SwaggerParser from '@apidevtools/swagger-parser';
 import { describe, test } from '@jest/globals';
 import { OpenAPIV3 } from 'openapi-types';
 import yaml from 'yaml';
-import { Api } from '../lib/api.js';
-import { OpenApiVersion } from '../lib/index.js';
-import { MediaType } from '../lib/media-type.js';
+import { Api, OpenApiVersion } from '../lib/api.js';
 import { Parameter } from '../lib/parameter.js';
 import { Path } from '../lib/path.js';
+import { Reference } from '../lib/reference.js';
 import { Response } from '../lib/response.js';
 import { Schema } from '../lib/schema.js';
 import { SecurityRequirement } from '../lib/security-requirement.js';
 import { SecurityScheme } from '../lib/security-scheme.js';
 import { Server } from '../lib/server.js';
 import { Tag } from '../lib/tag.js';
-import { Reference } from '../lib/reference.js';
 
 describe('Synth', () => {
   const api = new Api({

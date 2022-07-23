@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import type { OpenAPIV3_1 } from 'openapi-types';
-import type { OperationOptions, Operation } from './operation.js';
+import { type OperationOptions, Operation } from './operation.js';
 import type { Server } from './server.js';
 
 interface PathOptions<TPath extends string> {

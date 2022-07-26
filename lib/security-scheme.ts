@@ -13,6 +13,10 @@ export class SecurityScheme extends Construct {
     this.options = options;
   }
 
+  public get schemaKey() {
+    return this.node.id;
+  }
+
   public synth(): OpenAPIV3_1.SecuritySchemeObject {
     return this.options;
   }

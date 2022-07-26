@@ -43,6 +43,10 @@ describe('Synth', () => {
     name: 'user',
   });
 
+  const randomTag = new Tag(api, 'RandomTag', {
+    name: 'random',
+  });
+
   const userDeleteScopeReq = new SecurityRequirement(api, 'UserReadScope', {
     securityScheme: httpBearerJwtScheme,
     scopes: ['users.delete'],
@@ -78,6 +82,7 @@ describe('Synth', () => {
       required: ['name'],
       additionalProperties: false,
       properties: {
+        userId: idSchema.referenceObject(),
         name: {
           type: 'string',
         },
@@ -166,10 +171,10 @@ describe('Synth', () => {
 
   new Path(api, {
     path: '/users',
+    tags: new Set([userTag]),
   })
     .addOperation(OpenAPIV3.HttpMethods.GET, {
       operationId: 'listUsersCommand',
-      tags: [userTag],
       responses: {
         200: new Response(api, 'ListUsers200Response', {
           description: 'User 200 response',
@@ -182,7 +187,7 @@ describe('Synth', () => {
     })
     .addOperation(OpenAPIV3.HttpMethods.POST, {
       operationId: 'createUserCommand',
-      tags: [userTag],
+      tags: new Set([randomTag]),
       requestBody: {
         content: {
           contentType: 'application/json',
@@ -203,7 +208,6 @@ describe('Synth', () => {
   new Path(api, {
     path: '/users/{userId}',
     parameters: [userIdParameter],
-    tags: new Set([userTag]),
   })
     .addOperation(OpenAPIV3.HttpMethods.GET, {
       operationId: 'getUserByIdCommand',
@@ -220,6 +224,7 @@ describe('Synth', () => {
     .addOperation(OpenAPIV3.HttpMethods.DELETE, {
       operationId: 'deleteUserByIdCommand',
       security: userDeleteScopeReq,
+      tags: new Set([userTag, randomTag]),
     })
     .addOperation(OpenAPIV3.HttpMethods.HEAD, {
       operationId: 'checkUserIdAvailableCommand',
@@ -289,6 +294,9 @@ describe('Synth', () => {
                 "name": Object {
                   "type": "string",
                 },
+                "userId": Object {
+                  "$ref": "#/components/schemas/Id",
+                },
               },
               "required": Array [
                 "name",
@@ -326,6 +334,9 @@ describe('Synth', () => {
                 },
                 "name": Object {
                   "type": "string",
+                },
+                "userId": Object {
+                  "$ref": "#/components/schemas/Id",
                 },
               },
               "required": Array [
@@ -400,6 +411,7 @@ describe('Synth', () => {
               },
               "tags": Array [
                 "user",
+                "random",
               ],
             },
           },
@@ -415,6 +427,7 @@ describe('Synth', () => {
               ],
               "tags": Array [
                 "user",
+                "random",
               ],
             },
             "get": Object {
@@ -431,18 +444,14 @@ describe('Synth', () => {
                   "description": "User 200 response",
                 },
               },
-              "tags": Array [
-                "user",
-              ],
+              "tags": Array [],
             },
             "head": Object {
               "operationId": "checkUserIdAvailableCommand",
               "security": Array [
                 Object {},
               ],
-              "tags": Array [
-                "user",
-              ],
+              "tags": Array [],
             },
             "parameters": Array [
               Object {
@@ -473,9 +482,7 @@ describe('Synth', () => {
                   "description": "",
                 },
               },
-              "tags": Array [
-                "user",
-              ],
+              "tags": Array [],
             },
           },
         },
@@ -548,6 +555,9 @@ describe('Synth', () => {
               "name": Object {
                 "type": "string",
               },
+              "userId": Object {
+                "$ref": "#/components/schemas/Id",
+              },
             },
             "required": Array [
               "name",
@@ -585,6 +595,9 @@ describe('Synth', () => {
               },
               "name": Object {
                 "type": "string",
+              },
+              "userId": Object {
+                "$ref": "#/components/schemas/Id",
               },
             },
             "required": Array [

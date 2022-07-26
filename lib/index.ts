@@ -1,14 +1,19 @@
 /* eslint-disable max-classes-per-file */
 import { Construct } from 'constructs';
-import type { OpenAPIV3_1 } from 'openapi-types';
-import type { SetRequired } from 'type-fest';
+import { OpenAPIV3 } from 'openapi-types';
 
-export type ParameterObjectFromPathParam<TParam extends string> = {
-  name: TParam | string;
-} & SetRequired<
-  Omit<OpenAPIV3_1.ParameterObject, 'name'>,
-  'schema' | 'required'
->;
+export const { HttpMethods } = OpenAPIV3;
+
+export { Api, OpenApiVersion } from '../lib/api.js';
+export { Parameter } from '../lib/parameter.js';
+export { Path } from '../lib/path.js';
+export { Reference } from '../lib/reference.js';
+export { Response } from '../lib/response.js';
+export { Schema } from '../lib/schema.js';
+export { SecurityRequirement } from '../lib/security-requirement.js';
+export { SecurityScheme } from '../lib/security-scheme.js';
+export { Server } from '../lib/server.js';
+export { Tag } from '../lib/tag.js';
 
 export class ServerVariable extends Construct {}
 

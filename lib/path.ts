@@ -1,6 +1,7 @@
 import assert from 'node:assert';
 import { Construct } from 'constructs';
 import type { OpenAPIV3_1 } from 'openapi-types';
+import type { Api } from './api.js';
 import { Operation, type OperationOptions } from './operation.js';
 import type { Parameter } from './parameter.js';
 import type { Server } from './server.js';
@@ -18,7 +19,7 @@ interface PathOptions<TPath extends string> {
 export class Path<TPath extends string = '/'> extends Construct {
   public options: PathOptions<TPath>;
 
-  constructor(scope: Construct, options: PathOptions<TPath>) {
+  constructor(scope: Api, options: PathOptions<TPath>) {
     super(scope, options.path);
     this.options = options;
   }
@@ -33,11 +34,13 @@ export class Path<TPath extends string = '/'> extends Construct {
     // eslint-disable-next-line no-new
     new Operation(this, method, {
       ...options,
-      tags: [
-        ...new Set([...(this.options.tags || []), ...(options.tags || [])]),
-      ],
+      tags: new Set([...(this.options.tags || []), ...(options.tags || [])]),
     });
     return this;
+  }
+
+  public get schemaKey() {
+    return this.options.path;
   }
 
   public synth(): OpenAPIV3_1.PathItemObject {

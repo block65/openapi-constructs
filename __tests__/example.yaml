@@ -24,6 +24,8 @@ components:
         - name
       additionalProperties: false
       properties:
+        userId:
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         address:
@@ -78,6 +80,7 @@ paths:
       operationId: createUserCommand
       tags:
         - user
+        - random
       requestBody:
         description: ""
         content:
@@ -94,8 +97,7 @@ paths:
   "/users/{userId}":
     get:
       operationId: getUserByIdCommand
-      tags:
-        - user
+      tags: []
       responses:
         "200":
           description: User 200 response
@@ -111,16 +113,15 @@ paths:
             - users.delete
       tags:
         - user
+        - random
     head:
       operationId: checkUserIdAvailableCommand
       security:
         - {}
-      tags:
-        - user
+      tags: []
     post:
       operationId: updateUserCommand
-      tags:
-        - user
+      tags: []
       requestBody:
         description: ""
         content:

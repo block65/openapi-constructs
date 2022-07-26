@@ -1,5 +1,6 @@
 import { Construct } from 'constructs';
 import type { OpenAPIV3 } from 'openapi-types';
+import type { Api } from './api.js';
 import type { Schema } from './schema.js';
 
 interface ParameterOptionsBase<TName extends string | number | symbol> {
@@ -27,7 +28,7 @@ export class Parameter<
 > extends Construct {
   private options: ParameterOptions<TName>;
 
-  constructor(scope: Construct, id: string, options: ParameterOptions<TName>) {
+  constructor(scope: Api, id: string, options: ParameterOptions<TName>) {
     super(scope, id);
     this.options = options;
   }

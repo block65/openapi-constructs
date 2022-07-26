@@ -20,6 +20,3 @@ dist: node_modules tsconfig.json $(SRCS)
 .PHONY: dev
 dev:
 	yarn tsc -w
-	# "build": "jsii",
-    # "watch": "jsii -w",
-    # "package": "jsii-pacmak",

@@ -11,7 +11,7 @@ export interface OperationOptions<TPath extends string = '/'> {
   operationId: string;
   summary?: string;
   description?: string;
-  tags?: Tag[];
+  tags?: Set<Tag>;
   deprecated?: boolean;
   parameters?: Parameter<keyof ExtractRouteParams<TPath>>[];
   security?: SecurityRequirement;
@@ -78,7 +78,7 @@ export class Operation<TPath extends string = '/'> extends Construct {
         security: [this.options.security.synth()],
       }),
       ...(this.options.tags && {
-        tags: this.options.tags.map((child) => child.name),
+        tags: Array.from(this.options.tags).map((child) => child.name),
       }),
       ...(this.requestBody && {
         requestBody: this.requestBody.synth(),

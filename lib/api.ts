@@ -41,10 +41,6 @@ export class Api extends Construct {
   }
 
   public synth(): OpenAPIV3_1.Document {
-    const parameters = this.node
-      .findAll()
-      .filter((child): child is Parameter => child instanceof Parameter);
-
     return {
       openapi: this.options.openapi,
       info: this.options.info,
@@ -58,7 +54,9 @@ export class Api extends Construct {
             .map((child) => [child.schemaKey, child.synth()]),
         ),
         parameters: Object.fromEntries(
-          parameters.map((child) => [child.schemaKey, child.synth()]),
+          this.node.children
+            .filter((child): child is Parameter => child instanceof Parameter)
+            .map((child) => [child.schemaKey, child.synth()]),
         ),
         securitySchemes: Object.fromEntries(
           this.node.children
@@ -66,14 +64,13 @@ export class Api extends Construct {
               (child): child is SecurityScheme =>
                 child instanceof SecurityScheme,
             )
-            .map((child) => [child.node.id, child.synth()]),
+            .map((child) => [child.schemaKey, child.synth()]),
         ),
       },
       paths: Object.fromEntries(
-        this.node
-          .findAll()
+        this.node.children
           .filter((child): child is Path => child instanceof Path)
-          .map((child) => [child.options.path, child.synth()]),
+          .map((child) => [child.schemaKey, child.synth()]),
       ),
       security: this.node.children
         .filter(

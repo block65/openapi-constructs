@@ -1,14 +1,16 @@
 import { Construct } from 'constructs';
 import type { OpenAPIV3 } from 'openapi-types';
 
-interface SchemaOptions {
-  schema: OpenAPIV3.SchemaObject;
+interface SchemaOptions<T extends OpenAPIV3.SchemaObject> {
+  schema: T;
 }
 
-export class Schema extends Construct {
-  private options: SchemaOptions;
+export class Schema<
+  T extends OpenAPIV3.SchemaObject = OpenAPIV3.SchemaObject,
+> extends Construct {
+  private options: SchemaOptions<T>;
 
-  constructor(scope: Construct, id: string, options: SchemaOptions) {
+  constructor(scope: Construct, id: string, options: SchemaOptions<T>) {
     super(scope, id);
 
     this.options = options;
@@ -36,7 +38,7 @@ export class Schema extends Construct {
     return [];
   }
 
-  public synth(): OpenAPIV3.SchemaObject {
+  public synth(): T {
     return this.options.schema;
   }
 }

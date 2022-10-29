@@ -4,6 +4,10 @@ import { OpenAPIV3 } from 'openapi-types';
 
 export const { HttpMethods } = OpenAPIV3;
 
+// export the version of Constructs we are using to ensure we're
+// everyone is using the same version
+export { Construct };
+
 export { Api, OpenApiVersion } from '../lib/api.js';
 export { Parameter } from '../lib/parameter.js';
 export { Path } from '../lib/path.js';

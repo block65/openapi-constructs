@@ -17,8 +17,7 @@ components:
           maximum: 9999
     Id:
       type: string
-    User:
-      &a1
+    User: &a1
       type: object
       required:
         - name
@@ -108,8 +107,7 @@ paths:
     delete:
       operationId: deleteUserByIdCommand
       security:
-        - HttpBearerJwtScheme:
-            &a2
+        - HttpBearerJwtScheme: &a2
             - users.delete
       tags:
         - user

@@ -4,7 +4,7 @@ import type { Header } from './header.js';
 import { MediaType, type MediaTypeOptions } from './media-type.js';
 
 interface ResponseOptions {
-  content: MediaType | MediaTypeOptions;
+  content?: MediaType | MediaTypeOptions;
   description?: string;
   headers?: Header[];
 }
@@ -12,23 +12,27 @@ interface ResponseOptions {
 export class Response extends Construct {
   private options: ResponseOptions;
 
-  private content: MediaType;
+  private content?: MediaType | undefined;
 
-  constructor(scope: Construct, id: string, options: ResponseOptions) {
+  constructor(scope: Construct, id: string, options: ResponseOptions = {}) {
     super(scope, id);
     this.options = options;
 
-    this.content =
-      options.content instanceof MediaType
-        ? options.content
-        : new MediaType(this, `${id}MediaType`, options.content);
+    if (options.content) {
+      this.content =
+        options.content instanceof MediaType
+          ? options.content
+          : new MediaType(this, `${id}MediaType`, options.content);
+    }
   }
 
   public synth(): OpenAPIV3_1.ResponseObject {
     return {
       description: this.options.description || '',
       content: {
-        [this.options.content.contentType]: this.content.synth(),
+        ...(this.content && {
+          [this.content.contentType]: this.content.synth(),
+        }),
       },
     };
   }

@@ -185,6 +185,10 @@ describe('Example', () => {
       .addOperation(HttpMethods.HEAD, {
         operationId: 'checkUserIdAvailableCommand',
         security: noSecurityRequirement,
+        responses: {
+          204: new Response(api, 'HeadUserResponseFound'),
+          404: new Response(api, 'HeadUserResponseNotFound'),
+        },
       })
       .addOperation(HttpMethods.POST, {
         operationId: 'updateUserCommand',

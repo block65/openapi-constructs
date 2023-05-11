@@ -1,4 +1,4 @@
-import * as assert from 'node:assert';
+import { strict } from 'node:assert';
 import { Construct } from 'constructs';
 import type { OpenAPIV3_1 } from 'openapi-types';
 import type { Api } from './api.js';
@@ -29,7 +29,7 @@ export class Path<TPath extends string = '/'> extends Construct {
     options: OperationOptions<TPath>,
   ): this {
     // make sure we are not duplicating tags
-    options.tags?.forEach((tag) => assert(!this.options.tags?.has(tag)));
+    options.tags?.forEach((tag) => strict(!this.options.tags?.has(tag)));
 
     // eslint-disable-next-line no-new
     new Operation(this, method, {

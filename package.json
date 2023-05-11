@@ -16,6 +16,9 @@
     "dist/lib/*.js.map",
     "dist/lib/*.d.ts"
   ],
+  "scripts": {
+    "preversion": "make test"
+  },
   "dependencies": {
     "openapi-types": "^12.1.0",
     "yaml": "^2.2.2"

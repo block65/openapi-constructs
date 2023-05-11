@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import type { OpenAPIV3_1 } from 'openapi-types';
 import type { Parameter } from './parameter.js';
-import { RequestBody, RequestBodyOptions } from './request-body.js';
+import { RequestBody, type RequestBodyOptions } from './request-body.js';
 import type { Response } from './response.js';
 import type { SecurityRequirement } from './security-requirement.js';
 import type { Tag } from './tag.js';

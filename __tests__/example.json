@@ -8,9 +8,7 @@
     "schemas": {
       "Address": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "additionalProperties": false,
         "properties": {
           "postcode": {
@@ -26,9 +24,7 @@
       },
       "User": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "additionalProperties": false,
         "properties": {
           "userId": {
@@ -64,9 +60,7 @@
       },
       "CreateUserRequest": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "additionalProperties": false,
         "properties": {
           "userId": {
@@ -115,9 +109,7 @@
     "/users": {
       "get": {
         "operationId": "listUsersCommand",
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "responses": {
           "200": {
             "description": "User 200 response",
@@ -133,10 +125,7 @@
       },
       "post": {
         "operationId": "createUserCommand",
-        "tags": [
-          "user",
-          "random"
-        ],
+        "tags": ["user", "random"],
         "requestBody": {
           "description": "",
           "content": {
@@ -182,21 +171,14 @@
         "operationId": "deleteUserByIdCommand",
         "security": [
           {
-            "HttpBearerJwtScheme": [
-              "users.delete"
-            ]
+            "HttpBearerJwtScheme": ["users.delete"]
           }
         ],
-        "tags": [
-          "user",
-          "random"
-        ]
+        "tags": ["user", "random"]
       },
       "head": {
         "operationId": "checkUserIdAvailableCommand",
-        "security": [
-          {}
-        ],
+        "security": [{}],
         "tags": []
       },
       "post": {
@@ -237,9 +219,7 @@
       "HttpBearerJwtScheme": []
     },
     {
-      "HttpBearerJwtScheme": [
-        "users.delete"
-      ]
+      "HttpBearerJwtScheme": ["users.delete"]
     },
     {}
   ]

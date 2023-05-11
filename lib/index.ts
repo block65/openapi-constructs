@@ -8,16 +8,16 @@ export const { HttpMethods } = OpenAPIV3;
 // everyone is using the same version
 export { Construct };
 
-export { Api, OpenApiVersion } from '../lib/api.js';
-export { Parameter } from '../lib/parameter.js';
-export { Path } from '../lib/path.js';
-export { Reference } from '../lib/reference.js';
-export { Response } from '../lib/response.js';
-export { Schema } from '../lib/schema.js';
-export { SecurityRequirement } from '../lib/security-requirement.js';
-export { SecurityScheme } from '../lib/security-scheme.js';
-export { Server } from '../lib/server.js';
-export { Tag } from '../lib/tag.js';
+export { Api, OpenApiVersion } from './api.js';
+export { Parameter } from './parameter.js';
+export { Path } from './path.js';
+export { Reference } from './reference.js';
+export { Response } from './response.js';
+export { Schema } from './schema.js';
+export { SecurityRequirement } from './security-requirement.js';
+export { SecurityScheme } from './security-scheme.js';
+export { Server } from './server.js';
+export { Tag } from './tag.js';
 
 export class ServerVariable extends Construct {}
 

@@ -1,4 +1,4 @@
-import { Construct, IConstruct } from 'constructs';
+import { Construct, type IConstruct } from 'constructs';
 import type { JSONSchema4, JSONSchema7 } from 'json-schema';
 import type { OpenAPIV3_1 } from 'openapi-types';
 import { Parameter } from './parameter.js';

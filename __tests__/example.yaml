@@ -24,11 +24,11 @@ components:
       additionalProperties: false
       properties:
         userId:
-          $ref: "#/components/schemas/Id"
+          $ref: '#/components/schemas/Id'
         name:
           type: string
         address:
-          $ref: "#/components/schemas/Address"
+          $ref: '#/components/schemas/Address'
         age:
           type: integer
           format: int32
@@ -39,7 +39,7 @@ components:
       additionalProperties: false
       properties:
         address:
-          $ref: "#/components/schemas/Address"
+          $ref: '#/components/schemas/Address'
         age:
           type: integer
           format: int32
@@ -49,14 +49,14 @@ components:
       type: array
       uniqueItems: true
       items:
-        $ref: "#/components/schemas/User"
+        $ref: '#/components/schemas/User'
   parameters:
     UserId:
       name: userId
       in: path
       required: true
       schema:
-        $ref: "#/components/schemas/Id"
+        $ref: '#/components/schemas/Id'
   securitySchemes:
     HttpBearerJwtScheme:
       type: http
@@ -69,41 +69,41 @@ paths:
       tags:
         - user
       responses:
-        "200":
+        '200':
           description: User 200 response
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Users"
+                $ref: '#/components/schemas/Users'
     post:
       operationId: createUserCommand
       tags:
         - user
         - random
       requestBody:
-        description: ""
+        description: ''
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUserRequest"
+              $ref: '#/components/schemas/CreateUserRequest'
       responses:
-        "200":
+        '200':
           description: User 200 response
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Users"
-  "/users/{userId}":
+                $ref: '#/components/schemas/Users'
+  '/users/{userId}':
     get:
       operationId: getUserByIdCommand
       tags: []
       responses:
-        "200":
+        '200':
           description: User 200 response
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
     delete:
       operationId: deleteUserByIdCommand
       security:
@@ -121,20 +121,20 @@ paths:
       operationId: updateUserCommand
       tags: []
       requestBody:
-        description: ""
+        description: ''
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateUserRequest"
+              $ref: '#/components/schemas/UpdateUserRequest'
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
     parameters:
-      - $ref: "#/components/parameters/UserId"
+      - $ref: '#/components/parameters/UserId'
 security:
   - HttpBearerJwtScheme: []
   - HttpBearerJwtScheme: *a2

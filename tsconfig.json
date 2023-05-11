@@ -7,11 +7,8 @@
     "incremental": true,
     "strict": true,
     "declaration": true,
-    "rootDir": ".",
     "outDir": "dist",
-    "esModuleInterop": true,
     "preserveSymlinks": true,
-    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
@@ -19,13 +16,13 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
-    "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     "removeComments": true,
-    "sourceMap": true
+    "allowArbitraryExtensions": true,
+    "skipLibCheck": true
   },
   "include": ["./lib", "./__tests__"],
   "exclude": ["./dist", "node_modules"]

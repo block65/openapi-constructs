@@ -3,20 +3,28 @@ SRCS = $(wildcard lib/**)
 
 all: dist
 
+.PHONY: deps
+deps: node_modules
+
 .PHONY: clean
 clean:
-	yarn tsc -b --clean
+	pnpm tsc -b --clean
 
 .PHONY: test
 test:
-	NODE_OPTIONS=--experimental-vm-modules yarn jest --watchAll
+	NODE_OPTIONS=--experimental-vm-modules pnpm jest
 
 node_modules: package.json
-	yarn install
+	pnpm install
 
 dist: node_modules tsconfig.json $(SRCS)
-	yarn tsc
+	pnpm tsc
 
-.PHONY: dev
-dev:
-	yarn tsc -w
+.PHONY: dist-watch
+dist-watch:
+	pnpm tsc -w --preserveWatchOutput
+
+.PHONY: pretty
+pretty: node_modules
+	pnpm eslint --fix .
+	pnpm prettier --write .

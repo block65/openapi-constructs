@@ -10,6 +10,7 @@ interface ParameterOptionsBase<TName extends string | number | symbol> {
   description?: string;
   deprecated?: boolean;
   allowEmptyValue?: boolean;
+  allowReserved?: boolean;
   style?: 'simple';
 }
 
@@ -51,6 +52,12 @@ export class Parameter<
     return {
       name: this.options.name.toString(),
       in: this.options.in,
+      ...(this.options.description && {
+        description: this.options.description,
+      }),
+      ...(this.options.allowReserved && {
+        allowReserved: this.options.allowReserved,
+      }),
       required: this.options.required,
       ...(this.options.allowEmptyValue && {
         allowEmptyValue: this.options.allowEmptyValue,

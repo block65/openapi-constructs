@@ -252,68 +252,68 @@ describe('Synth', () => {
     const document = api.synth();
 
     expect(document).toMatchInlineSnapshot(`
-      Object {
-        "components": Object {
-          "parameters": Object {
-            "UserId": Object {
+      {
+        "components": {
+          "parameters": {
+            "UserId": {
               "in": "path",
               "name": "userId",
               "required": true,
-              "schema": Object {
+              "schema": {
                 "$ref": "#/components/schemas/Id",
               },
             },
           },
-          "schemas": Object {
-            "Address": Object {
+          "schemas": {
+            "Address": {
               "additionalProperties": false,
-              "properties": Object {
-                "postcode": Object {
+              "properties": {
+                "postcode": {
                   "format": "int32",
                   "maximum": 9999,
                   "minimum": 1000,
                   "type": "integer",
                 },
               },
-              "required": Array [
+              "required": [
                 "name",
               ],
               "type": "object",
             },
-            "CreateUserRequest": Object {
+            "CreateUserRequest": {
               "additionalProperties": false,
-              "properties": Object {
-                "address": Object {
+              "properties": {
+                "address": {
                   "$ref": "#/components/schemas/Address",
                 },
-                "age": Object {
+                "age": {
                   "format": "int32",
                   "minimum": 0,
                   "type": "integer",
                 },
-                "name": Object {
+                "name": {
                   "type": "string",
                 },
-                "userId": Object {
+                "userId": {
                   "$ref": "#/components/schemas/Id",
                 },
               },
-              "required": Array [
+              "required": [
                 "name",
               ],
               "type": "object",
             },
-            "Id": Object {
+            "Id": {
               "type": "string",
             },
-            "UpdateUserRequest": Object {
+            "UpdateUserRequest": {
               "additionalProperties": false,
               "minProperties": 1,
-              "properties": Object {
-                "address": Object {
+              "properties": {
+                "address": {
                   "$ref": "#/components/schemas/Address",
                 },
-                "age": Object {
+                "age": {
                   "format": "int32",
                   "minimum": 0,
                   "type": "integer",
@@ -321,59 +321,59 @@ describe('Synth', () => {
               },
               "type": "object",
             },
-            "User": Object {
+            "User": {
               "additionalProperties": false,
-              "properties": Object {
-                "address": Object {
+              "properties": {
+                "address": {
                   "$ref": "#/components/schemas/Address",
                 },
-                "age": Object {
+                "age": {
                   "format": "int32",
                   "minimum": 0,
                   "type": "integer",
                 },
-                "name": Object {
+                "name": {
                   "type": "string",
                 },
-                "userId": Object {
+                "userId": {
                   "$ref": "#/components/schemas/Id",
                 },
               },
-              "required": Array [
+              "required": [
                 "name",
               ],
               "type": "object",
             },
-            "Users": Object {
-              "items": Object {
+            "Users": {
+              "items": {
                 "$ref": "#/components/schemas/User",
               },
               "type": "array",
               "uniqueItems": true,
             },
           },
-          "securitySchemes": Object {
-            "HttpBearerJwtScheme": Object {
+          "securitySchemes": {
+            "HttpBearerJwtScheme": {
               "bearerFormat": "JWT",
               "scheme": "bearer",
               "type": "http",
             },
           },
         },
-        "info": Object {
+        "info": {
           "title": "Example REST API",
           "version": "1.0.0",
         },
         "openapi": "3.1.0",
-        "paths": Object {
-          "/users": Object {
-            "get": Object {
+        "paths": {
+          "/users": {
+            "get": {
               "operationId": "listUsersCommand",
-              "responses": Object {
-                "200": Object {
-                  "content": Object {
-                    "application/json": Object {
-                      "schema": Object {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
                         "$ref": "#/components/schemas/Users",
                       },
                     },
@@ -381,27 +381,27 @@ describe('Synth', () => {
                   "description": "User 200 response",
                 },
               },
-              "tags": Array [
+              "tags": [
                 "user",
               ],
             },
-            "post": Object {
+            "post": {
               "operationId": "createUserCommand",
-              "requestBody": Object {
-                "content": Object {
-                  "application/json": Object {
-                    "schema": Object {
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
                       "$ref": "#/components/schemas/CreateUserRequest",
                     },
                   },
                 },
                 "description": "",
               },
-              "responses": Object {
-                "200": Object {
-                  "content": Object {
-                    "application/json": Object {
-                      "schema": Object {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
                         "$ref": "#/components/schemas/Users",
                       },
                     },
@@ -409,34 +409,34 @@ describe('Synth', () => {
                   "description": "User 200 response",
                 },
               },
-              "tags": Array [
+              "tags": [
                 "user",
                 "random",
               ],
             },
           },
-          "/users/{userId}": Object {
-            "delete": Object {
+          "/users/{userId}": {
+            "delete": {
               "operationId": "deleteUserByIdCommand",
-              "security": Array [
-                Object {
-                  "HttpBearerJwtScheme": Array [
+              "security": [
+                {
+                  "HttpBearerJwtScheme": [
                     "users.delete",
                   ],
                 },
               ],
-              "tags": Array [
+              "tags": [
                 "user",
                 "random",
               ],
             },
-            "get": Object {
+            "get": {
               "operationId": "getUserByIdCommand",
-              "responses": Object {
-                "200": Object {
-                  "content": Object {
-                    "application/json": Object {
-                      "schema": Object {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
                         "$ref": "#/components/schemas/User",
                       },
                     },
@@ -444,37 +444,37 @@ describe('Synth', () => {
                   "description": "User 200 response",
                 },
               },
-              "tags": Array [],
+              "tags": [],
             },
-            "head": Object {
+            "head": {
               "operationId": "checkUserIdAvailableCommand",
-              "security": Array [
-                Object {},
+              "security": [
+                {},
               ],
-              "tags": Array [],
+              "tags": [],
             },
-            "parameters": Array [
-              Object {
+            "parameters": [
+              {
                 "$ref": "#/components/parameters/UserId",
               },
             ],
-            "post": Object {
+            "post": {
               "operationId": "updateUserCommand",
-              "requestBody": Object {
-                "content": Object {
-                  "application/json": Object {
-                    "schema": Object {
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
                       "$ref": "#/components/schemas/UpdateUserRequest",
                     },
                   },
                 },
                 "description": "",
               },
-              "responses": Object {
-                "200": Object {
-                  "content": Object {
-                    "application/json": Object {
-                      "schema": Object {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
                         "$ref": "#/components/schemas/User",
                       },
                     },
@@ -482,20 +482,20 @@ describe('Synth', () => {
                   "description": "",
                 },
               },
-              "tags": Array [],
+              "tags": [],
             },
           },
         },
-        "security": Array [
-          Object {
-            "HttpBearerJwtScheme": Array [],
+        "security": [
+          {
+            "HttpBearerJwtScheme": [],
           },
-          Object {
-            "HttpBearerJwtScheme": Array [
+          {
+            "HttpBearerJwtScheme": [
               "users.delete",
             ],
           },
-          Object {},
+          {},
         ],
       }
     `);
@@ -523,58 +523,58 @@ describe('Synth', () => {
     const schema = api.synthJsonSchema();
 
     expect(schema).toMatchInlineSnapshot(`
-      Object {
+      {
         "$schema": "http://json-schema.org/draft-07/schema#",
-        "definitions": Object {
-          "Address": Object {
+        "definitions": {
+          "Address": {
             "additionalProperties": false,
-            "properties": Object {
-              "postcode": Object {
+            "properties": {
+              "postcode": {
                 "format": "int32",
                 "maximum": 9999,
                 "minimum": 1000,
                 "type": "integer",
               },
             },
-            "required": Array [
+            "required": [
               "name",
             ],
             "type": "object",
           },
-          "CreateUserRequest": Object {
+          "CreateUserRequest": {
             "additionalProperties": false,
-            "properties": Object {
-              "address": Object {
+            "properties": {
+              "address": {
                 "$ref": "#/components/schemas/Address",
               },
-              "age": Object {
+              "age": {
                 "format": "int32",
                 "minimum": 0,
                 "type": "integer",
               },
-              "name": Object {
+              "name": {
                 "type": "string",
               },
-              "userId": Object {
+              "userId": {
                 "$ref": "#/components/schemas/Id",
               },
             },
-            "required": Array [
+            "required": [
               "name",
             ],
             "type": "object",
           },
-          "Id": Object {
+          "Id": {
             "type": "string",
           },
-          "UpdateUserRequest": Object {
+          "UpdateUserRequest": {
             "additionalProperties": false,
             "minProperties": 1,
-            "properties": Object {
-              "address": Object {
+            "properties": {
+              "address": {
                 "$ref": "#/components/schemas/Address",
               },
-              "age": Object {
+              "age": {
                 "format": "int32",
                 "minimum": 0,
                 "type": "integer",
@@ -582,31 +582,31 @@ describe('Synth', () => {
             },
             "type": "object",
           },
-          "User": Object {
+          "User": {
             "additionalProperties": false,
-            "properties": Object {
-              "address": Object {
+            "properties": {
+              "address": {
                 "$ref": "#/components/schemas/Address",
               },
-              "age": Object {
+              "age": {
                 "format": "int32",
                 "minimum": 0,
                 "type": "integer",
               },
-              "name": Object {
+              "name": {
                 "type": "string",
               },
-              "userId": Object {
+              "userId": {
                 "$ref": "#/components/schemas/Id",
               },
             },
-            "required": Array [
+            "required": [
               "name",
             ],
             "type": "object",
           },
-          "Users": Object {
-            "items": Object {
+          "Users": {
+            "items": {
               "$ref": "#/components/schemas/User",
             },
             "type": "array",

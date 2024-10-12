@@ -27,5 +27,5 @@ dist-watch:
 
 .PHONY: pretty
 pretty: node_modules
-	pnpm eslint --fix .
-	pnpm prettier --write .
+	pnpm exec eslint --fix . || true
+	pnpm exec prettier --write .

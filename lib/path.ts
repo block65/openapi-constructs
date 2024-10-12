@@ -2,6 +2,7 @@ import { strict } from 'node:assert';
 import { Construct } from 'constructs';
 import type { OpenAPIV3_1 } from 'openapi-types';
 import type { Api } from './api.js';
+import { HttpMethods } from './http-methods.js';
 import { Operation, type OperationOptions } from './operation.js';
 import type { Parameter } from './parameter.js';
 import type { Server } from './server.js';
@@ -25,7 +26,7 @@ export class Path<TPath extends string = '/'> extends Construct {
   }
 
   public addOperation(
-    method: OpenAPIV3_1.HttpMethods,
+    method: HttpMethods,
     options: OperationOptions<TPath>,
   ): this {
     // make sure we are not duplicating tags
@@ -43,7 +44,7 @@ export class Path<TPath extends string = '/'> extends Construct {
     return this.options.path;
   }
 
-  public synth(): OpenAPIV3_1.PathItemObject {
+  public synth() {
     return {
       ...Object.fromEntries(
         this.node

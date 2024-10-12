@@ -1,8 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import { Construct } from 'constructs';
-import { OpenAPIV3 } from 'openapi-types';
 
-export const { HttpMethods } = OpenAPIV3;
+export { HttpMethods } from './http-methods.js';
 
 // export the version of Constructs we are using to ensure we're
 // everyone is using the same version

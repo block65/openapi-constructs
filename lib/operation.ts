@@ -1,5 +1,6 @@
 import { Construct } from 'constructs';
 import type { OpenAPIV3_1 } from 'openapi-types';
+import type { HttpMethods } from './http-methods.js';
 import type { Parameter } from './parameter.js';
 import { RequestBody, type RequestBodyOptions } from './request-body.js';
 import type { Response } from './response.js';
@@ -24,7 +25,7 @@ export interface OperationOptions<TPath extends string = '/'> {
 export class Operation<TPath extends string = '/'> extends Construct {
   private readonly options: OperationOptions<TPath>;
 
-  public readonly method: OpenAPIV3_1.HttpMethods;
+  public readonly method: HttpMethods;
 
   private requestBody?: RequestBody;
 
@@ -34,7 +35,7 @@ export class Operation<TPath extends string = '/'> extends Construct {
 
   constructor(
     scope: Construct,
-    method: OpenAPIV3_1.HttpMethods,
+    method: HttpMethods,
     options: OperationOptions<TPath>,
   ) {
     super(scope, method);

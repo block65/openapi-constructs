@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import type { OpenAPIV3_1 } from 'openapi-types';
-import { Api } from './api.js';
 import { Schema } from './schema.js';
+import { Api } from './api.js';
 
 type Target = Schema; // | Parameter;
 

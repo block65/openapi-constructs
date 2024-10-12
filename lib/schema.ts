@@ -34,6 +34,7 @@ export class Schema<
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
   public validate() {
     return [];
   }

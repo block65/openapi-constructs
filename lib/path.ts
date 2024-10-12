@@ -62,6 +62,6 @@ export class Path<TPath extends string = '/'> extends Construct {
         ),
       }),
       ...(this.options.summary && { summary: this.options.summary }),
-    };
+    } satisfies OpenAPIV3_1.PathItemObject;
   }
 }

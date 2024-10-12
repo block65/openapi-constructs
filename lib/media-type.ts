@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import type { OpenAPIV3 } from 'openapi-types';
+import type { OpenAPIV3_1 } from 'openapi-types';
 import { Reference } from './reference.js';
 import type { Schema } from './schema.js';
 
@@ -24,7 +24,7 @@ export class MediaType extends Construct {
     this.options = options;
   }
 
-  public synth(): OpenAPIV3.MediaTypeObject {
+  public synth(): OpenAPIV3_1.MediaTypeObject {
     return {
       schema:
         this.options.schema instanceof Reference

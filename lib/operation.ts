@@ -66,7 +66,7 @@ export class Operation<TPath extends string = '/'> extends Construct {
     return [];
   }
 
-  public synth(): OpenAPIV3_1.OperationObject {
+  public synth() {
     return {
       ...(this.options.operationId && {
         operationId: this.options.operationId,
@@ -91,6 +91,6 @@ export class Operation<TPath extends string = '/'> extends Construct {
           ]),
         ),
       }),
-    };
+    } satisfies OpenAPIV3_1.OperationObject;
   }
 }

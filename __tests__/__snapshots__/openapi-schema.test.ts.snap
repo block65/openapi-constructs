@@ -1,0 +1,2162 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Example > OpenAPI 1`] = `
+{
+  "components": {
+    "parameters": {
+      "UserId": {
+        "in": "path",
+        "name": "userId",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Id",
+        },
+      },
+    },
+    "schemas": {
+      "Address": {
+        "additionalProperties": false,
+        "properties": {
+          "postcode": {
+            "format": "int32",
+            "maximum": 9999,
+            "minimum": 1000,
+            "type": "integer",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+      "CreateUserRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address",
+          },
+          "age": {
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer",
+          },
+          "name": {
+            "type": "string",
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Id",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+      "Id": {
+        "type": "string",
+      },
+      "UpdateUserRequest": {
+        "additionalProperties": false,
+        "minProperties": 1,
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address",
+          },
+          "age": {
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer",
+          },
+        },
+        "type": "object",
+      },
+      "User": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address",
+          },
+          "age": {
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer",
+          },
+          "name": {
+            "type": "string",
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Id",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+      "Users": {
+        "items": {
+          "$ref": "#/components/schemas/User",
+        },
+        "type": "array",
+        "uniqueItems": true,
+      },
+    },
+    "securitySchemes": {
+      "HttpBearerJwtScheme": {
+        "bearerFormat": "JWT",
+        "scheme": "bearer",
+        "type": "http",
+      },
+    },
+  },
+  "info": {
+    "title": "Example REST API",
+    "version": "1.0.0",
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/users": {
+      "get": {
+        "operationId": "listUsersCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users",
+                },
+              },
+            },
+            "description": "User 200 response",
+          },
+        },
+        "tags": [
+          "user",
+        ],
+      },
+      "post": {
+        "operationId": "createUserCommand",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserRequest",
+              },
+            },
+          },
+          "description": "",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users",
+                },
+              },
+            },
+            "description": "User 200 response",
+          },
+        },
+        "tags": [
+          "user",
+          "random",
+        ],
+      },
+    },
+    "/users/{userId}": {
+      "delete": {
+        "operationId": "deleteUserByIdCommand",
+        "security": [
+          {
+            "HttpBearerJwtScheme": [
+              "users.delete",
+            ],
+          },
+        ],
+        "tags": [
+          "user",
+          "random",
+        ],
+      },
+      "get": {
+        "operationId": "getUserByIdCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+            },
+            "description": "User 200 response",
+          },
+        },
+        "tags": [],
+      },
+      "head": {
+        "operationId": "checkUserIdAvailableCommand",
+        "security": [
+          {},
+        ],
+        "tags": [],
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/UserId",
+        },
+      ],
+      "post": {
+        "operationId": "updateUserCommand",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest",
+              },
+            },
+          },
+          "description": "",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "tags": [],
+      },
+    },
+  },
+  "security": [
+    {
+      "HttpBearerJwtScheme": [],
+    },
+    {
+      "HttpBearerJwtScheme": [
+        "users.delete",
+      ],
+    },
+    {},
+  ],
+}
+`;
+
+exports[`Example > Swagger Parser validate 1`] = `
+{
+  "components": {
+    "parameters": {
+      "UserId": {
+        "in": "path",
+        "name": "userId",
+        "required": true,
+        "schema": {
+          "type": "string",
+        },
+      },
+    },
+    "schemas": {
+      "Address": {
+        "additionalProperties": false,
+        "properties": {
+          "postcode": {
+            "format": "int32",
+            "maximum": 9999,
+            "minimum": 1000,
+            "type": "integer",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+      "CreateUserRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "additionalProperties": false,
+            "properties": {
+              "postcode": {
+                "format": "int32",
+                "maximum": 9999,
+                "minimum": 1000,
+                "type": "integer",
+              },
+            },
+            "required": [
+              "name",
+            ],
+            "type": "object",
+          },
+          "age": {
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer",
+          },
+          "name": {
+            "type": "string",
+          },
+          "userId": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+      "Id": {
+        "type": "string",
+      },
+      "UpdateUserRequest": {
+        "additionalProperties": false,
+        "minProperties": 1,
+        "properties": {
+          "address": {
+            "additionalProperties": false,
+            "properties": {
+              "postcode": {
+                "format": "int32",
+                "maximum": 9999,
+                "minimum": 1000,
+                "type": "integer",
+              },
+            },
+            "required": [
+              "name",
+            ],
+            "type": "object",
+          },
+          "age": {
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer",
+          },
+        },
+        "type": "object",
+      },
+      "User": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "additionalProperties": false,
+            "properties": {
+              "postcode": {
+                "format": "int32",
+                "maximum": 9999,
+                "minimum": 1000,
+                "type": "integer",
+              },
+            },
+            "required": [
+              "name",
+            ],
+            "type": "object",
+          },
+          "age": {
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer",
+          },
+          "name": {
+            "type": "string",
+          },
+          "userId": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+      "Users": {
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "address": {
+              "additionalProperties": false,
+              "properties": {
+                "postcode": {
+                  "format": "int32",
+                  "maximum": 9999,
+                  "minimum": 1000,
+                  "type": "integer",
+                },
+              },
+              "required": [
+                "name",
+              ],
+              "type": "object",
+            },
+            "age": {
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer",
+            },
+            "name": {
+              "type": "string",
+            },
+            "userId": {
+              "type": "string",
+            },
+          },
+          "required": [
+            "name",
+          ],
+          "type": "object",
+        },
+        "type": "array",
+        "uniqueItems": true,
+      },
+    },
+    "securitySchemes": {
+      "HttpBearerJwtScheme": {
+        "bearerFormat": "JWT",
+        "scheme": "bearer",
+        "type": "http",
+      },
+    },
+  },
+  "info": {
+    "title": "Example REST API",
+    "version": "1.0.0",
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/users": {
+      "get": {
+        "operationId": "listUsersCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "address": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "postcode": {
+                            "format": "int32",
+                            "maximum": 9999,
+                            "minimum": 1000,
+                            "type": "integer",
+                          },
+                        },
+                        "required": [
+                          "name",
+                        ],
+                        "type": "object",
+                      },
+                      "age": {
+                        "format": "int32",
+                        "minimum": 0,
+                        "type": "integer",
+                      },
+                      "name": {
+                        "type": "string",
+                      },
+                      "userId": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "name",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                  "uniqueItems": true,
+                },
+              },
+            },
+            "description": "User 200 response",
+          },
+        },
+        "tags": [
+          "user",
+        ],
+      },
+      "post": {
+        "operationId": "createUserCommand",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "address": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "postcode": {
+                        "format": "int32",
+                        "maximum": 9999,
+                        "minimum": 1000,
+                        "type": "integer",
+                      },
+                    },
+                    "required": [
+                      "name",
+                    ],
+                    "type": "object",
+                  },
+                  "age": {
+                    "format": "int32",
+                    "minimum": 0,
+                    "type": "integer",
+                  },
+                  "name": {
+                    "type": "string",
+                  },
+                  "userId": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "name",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "address": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "postcode": {
+                            "format": "int32",
+                            "maximum": 9999,
+                            "minimum": 1000,
+                            "type": "integer",
+                          },
+                        },
+                        "required": [
+                          "name",
+                        ],
+                        "type": "object",
+                      },
+                      "age": {
+                        "format": "int32",
+                        "minimum": 0,
+                        "type": "integer",
+                      },
+                      "name": {
+                        "type": "string",
+                      },
+                      "userId": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "name",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                  "uniqueItems": true,
+                },
+              },
+            },
+            "description": "User 200 response",
+          },
+        },
+        "tags": [
+          "user",
+          "random",
+        ],
+      },
+    },
+    "/users/{userId}": {
+      "delete": {
+        "operationId": "deleteUserByIdCommand",
+        "security": [
+          {
+            "HttpBearerJwtScheme": [
+              "users.delete",
+            ],
+          },
+        ],
+        "tags": [
+          "user",
+          "random",
+        ],
+      },
+      "get": {
+        "operationId": "getUserByIdCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "address": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "postcode": {
+                          "format": "int32",
+                          "maximum": 9999,
+                          "minimum": 1000,
+                          "type": "integer",
+                        },
+                      },
+                      "required": [
+                        "name",
+                      ],
+                      "type": "object",
+                    },
+                    "age": {
+                      "format": "int32",
+                      "minimum": 0,
+                      "type": "integer",
+                    },
+                    "name": {
+                      "type": "string",
+                    },
+                    "userId": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "name",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "User 200 response",
+          },
+        },
+        "tags": [],
+      },
+      "head": {
+        "operationId": "checkUserIdAvailableCommand",
+        "security": [
+          {},
+        ],
+        "tags": [],
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": true,
+          "schema": {
+            "type": "string",
+          },
+        },
+      ],
+      "post": {
+        "operationId": "updateUserCommand",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "address": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "postcode": {
+                        "format": "int32",
+                        "maximum": 9999,
+                        "minimum": 1000,
+                        "type": "integer",
+                      },
+                    },
+                    "required": [
+                      "name",
+                    ],
+                    "type": "object",
+                  },
+                  "age": {
+                    "format": "int32",
+                    "minimum": 0,
+                    "type": "integer",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "address": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "postcode": {
+                          "format": "int32",
+                          "maximum": 9999,
+                          "minimum": 1000,
+                          "type": "integer",
+                        },
+                      },
+                      "required": [
+                        "name",
+                      ],
+                      "type": "object",
+                    },
+                    "age": {
+                      "format": "int32",
+                      "minimum": 0,
+                      "type": "integer",
+                    },
+                    "name": {
+                      "type": "string",
+                    },
+                    "userId": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "name",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "tags": [],
+      },
+    },
+  },
+  "security": [
+    {
+      "HttpBearerJwtScheme": [],
+    },
+    {
+      "HttpBearerJwtScheme": [
+        "users.delete",
+      ],
+    },
+    {},
+  ],
+}
+`;
+
+exports[`Note Taking > OpenAPI 1`] = `
+{
+  "components": {
+    "parameters": {
+      "NoteId": {
+        "in": "path",
+        "name": "noteId",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Id",
+        },
+      },
+      "NoteUserId": {
+        "in": "path",
+        "name": "userId",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Id",
+        },
+      },
+      "UserId": {
+        "in": "path",
+        "name": "userId",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Id",
+        },
+      },
+    },
+    "schemas": {
+      "Address": {
+        "additionalProperties": false,
+        "properties": {
+          "postcode": {
+            "format": "int32",
+            "maximum": 9999,
+            "minimum": 1000,
+            "type": "integer",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+      "CreateNoteRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "type": "string",
+          },
+          "labels": {
+            "items": {
+              "maxLength": 256,
+              "minLength": 1,
+              "type": "string",
+            },
+            "type": "array",
+          },
+          "title": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "title",
+          "content",
+        ],
+        "type": "object",
+      },
+      "CreateUserRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address",
+          },
+          "age": {
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer",
+          },
+          "name": {
+            "type": "string",
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Id",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+      "Id": {
+        "maxLength": 6,
+        "minLength": 6,
+        "type": "string",
+      },
+      "Note": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "type": "string",
+          },
+          "labels": {
+            "items": {
+              "maxLength": 256,
+              "minLength": 1,
+              "type": "string",
+            },
+            "type": "array",
+          },
+          "title": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "title",
+          "content",
+        ],
+        "type": "object",
+      },
+      "Notes": {
+        "items": {
+          "$ref": "#/components/schemas/Note",
+        },
+        "type": "array",
+        "uniqueItems": true,
+      },
+      "UpdateNoteRequest": {
+        "additionalProperties": false,
+        "minProperties": 1,
+        "properties": {
+          "content": {
+            "type": "string",
+          },
+          "labels": {
+            "items": {
+              "maxLength": 256,
+              "minLength": 1,
+              "type": "string",
+            },
+            "type": "array",
+          },
+          "title": {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+      "UpdateUserRequest": {
+        "additionalProperties": false,
+        "minProperties": 1,
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address",
+          },
+          "age": {
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer",
+          },
+        },
+        "type": "object",
+      },
+      "User": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address",
+          },
+          "age": {
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer",
+          },
+          "name": {
+            "type": "string",
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Id",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+      "Users": {
+        "items": {
+          "$ref": "#/components/schemas/User",
+        },
+        "type": "array",
+        "uniqueItems": true,
+      },
+    },
+    "securitySchemes": {
+      "HttpBearerJwtScheme": {
+        "bearerFormat": "JWT",
+        "scheme": "bearer",
+        "type": "http",
+      },
+    },
+  },
+  "info": {
+    "title": "Example REST API",
+    "version": "1.0.0",
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/users": {
+      "get": {
+        "operationId": "listUsersCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users",
+                },
+              },
+            },
+            "description": "User 200 response",
+          },
+        },
+        "tags": [
+          "user",
+        ],
+      },
+      "post": {
+        "operationId": "createUserCommand",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserRequest",
+              },
+            },
+          },
+          "description": "",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users",
+                },
+              },
+            },
+            "description": "User 200 response",
+          },
+        },
+        "tags": [
+          "user",
+        ],
+      },
+    },
+    "/users/{userId}": {
+      "delete": {
+        "operationId": "deleteUserByIdCommand",
+        "security": [
+          {
+            "HttpBearerJwtScheme": [
+              "users.delete",
+            ],
+          },
+        ],
+        "tags": [],
+      },
+      "get": {
+        "operationId": "getUserByIdCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+            },
+            "description": "User 200 response",
+          },
+        },
+        "tags": [],
+      },
+      "head": {
+        "operationId": "checkUserIdAvailableCommand",
+        "responses": {
+          "204": {
+            "content": {},
+            "description": "",
+          },
+          "404": {
+            "content": {},
+            "description": "",
+          },
+        },
+        "security": [
+          {},
+        ],
+        "tags": [],
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/UserId",
+        },
+      ],
+      "post": {
+        "operationId": "updateUserCommand",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest",
+              },
+            },
+          },
+          "description": "",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "tags": [],
+      },
+    },
+    "/users/{userId}/notes": {
+      "get": {
+        "operationId": "listNotesCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notes",
+                },
+              },
+            },
+            "description": "Notes 200 response",
+          },
+        },
+        "tags": [
+          "user",
+        ],
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/NoteUserId",
+        },
+      ],
+      "post": {
+        "operationId": "createNoteCommand",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNoteRequest",
+              },
+            },
+          },
+          "description": "",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Note",
+                },
+              },
+            },
+            "description": "Note created 200 response",
+          },
+        },
+        "tags": [
+          "user",
+        ],
+      },
+    },
+    "/users/{userId}/notes/{noteId}": {
+      "delete": {
+        "operationId": "deleteNoteCommand",
+        "security": [
+          {
+            "HttpBearerJwtScheme": [
+              "notes.delete",
+            ],
+          },
+        ],
+        "tags": [],
+      },
+      "get": {
+        "operationId": "getNoteCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Note",
+                },
+              },
+            },
+            "description": "Note 200 response",
+          },
+        },
+        "tags": [],
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/NoteUserId",
+        },
+        {
+          "$ref": "#/components/parameters/NoteId",
+        },
+      ],
+      "post": {
+        "operationId": "updateNoteCommand",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateNoteRequest",
+              },
+            },
+          },
+          "description": "",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Note",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "tags": [],
+      },
+    },
+  },
+  "security": [
+    {
+      "HttpBearerJwtScheme": [],
+    },
+    {
+      "HttpBearerJwtScheme": [
+        "users.delete",
+      ],
+    },
+    {},
+    {
+      "HttpBearerJwtScheme": [
+        "notes.delete",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`Note Taking > Swagger Parser validate 1`] = `
+{
+  "components": {
+    "parameters": {
+      "NoteId": {
+        "in": "path",
+        "name": "noteId",
+        "required": true,
+        "schema": {
+          "maxLength": 6,
+          "minLength": 6,
+          "type": "string",
+        },
+      },
+      "NoteUserId": {
+        "in": "path",
+        "name": "userId",
+        "required": true,
+        "schema": {
+          "maxLength": 6,
+          "minLength": 6,
+          "type": "string",
+        },
+      },
+      "UserId": {
+        "in": "path",
+        "name": "userId",
+        "required": true,
+        "schema": {
+          "maxLength": 6,
+          "minLength": 6,
+          "type": "string",
+        },
+      },
+    },
+    "schemas": {
+      "Address": {
+        "additionalProperties": false,
+        "properties": {
+          "postcode": {
+            "format": "int32",
+            "maximum": 9999,
+            "minimum": 1000,
+            "type": "integer",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+      "CreateNoteRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "type": "string",
+          },
+          "labels": {
+            "items": {
+              "maxLength": 256,
+              "minLength": 1,
+              "type": "string",
+            },
+            "type": "array",
+          },
+          "title": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "title",
+          "content",
+        ],
+        "type": "object",
+      },
+      "CreateUserRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "additionalProperties": false,
+            "properties": {
+              "postcode": {
+                "format": "int32",
+                "maximum": 9999,
+                "minimum": 1000,
+                "type": "integer",
+              },
+            },
+            "required": [
+              "name",
+            ],
+            "type": "object",
+          },
+          "age": {
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer",
+          },
+          "name": {
+            "type": "string",
+          },
+          "userId": {
+            "maxLength": 6,
+            "minLength": 6,
+            "type": "string",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+      "Id": {
+        "maxLength": 6,
+        "minLength": 6,
+        "type": "string",
+      },
+      "Note": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "type": "string",
+          },
+          "labels": {
+            "items": {
+              "maxLength": 256,
+              "minLength": 1,
+              "type": "string",
+            },
+            "type": "array",
+          },
+          "title": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "title",
+          "content",
+        ],
+        "type": "object",
+      },
+      "Notes": {
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "content": {
+              "type": "string",
+            },
+            "labels": {
+              "items": {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string",
+              },
+              "type": "array",
+            },
+            "title": {
+              "type": "string",
+            },
+          },
+          "required": [
+            "title",
+            "content",
+          ],
+          "type": "object",
+        },
+        "type": "array",
+        "uniqueItems": true,
+      },
+      "UpdateNoteRequest": {
+        "additionalProperties": false,
+        "minProperties": 1,
+        "properties": {
+          "content": {
+            "type": "string",
+          },
+          "labels": {
+            "items": {
+              "maxLength": 256,
+              "minLength": 1,
+              "type": "string",
+            },
+            "type": "array",
+          },
+          "title": {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+      "UpdateUserRequest": {
+        "additionalProperties": false,
+        "minProperties": 1,
+        "properties": {
+          "address": {
+            "additionalProperties": false,
+            "properties": {
+              "postcode": {
+                "format": "int32",
+                "maximum": 9999,
+                "minimum": 1000,
+                "type": "integer",
+              },
+            },
+            "required": [
+              "name",
+            ],
+            "type": "object",
+          },
+          "age": {
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer",
+          },
+        },
+        "type": "object",
+      },
+      "User": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "additionalProperties": false,
+            "properties": {
+              "postcode": {
+                "format": "int32",
+                "maximum": 9999,
+                "minimum": 1000,
+                "type": "integer",
+              },
+            },
+            "required": [
+              "name",
+            ],
+            "type": "object",
+          },
+          "age": {
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer",
+          },
+          "name": {
+            "type": "string",
+          },
+          "userId": {
+            "maxLength": 6,
+            "minLength": 6,
+            "type": "string",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+      "Users": {
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "address": {
+              "additionalProperties": false,
+              "properties": {
+                "postcode": {
+                  "format": "int32",
+                  "maximum": 9999,
+                  "minimum": 1000,
+                  "type": "integer",
+                },
+              },
+              "required": [
+                "name",
+              ],
+              "type": "object",
+            },
+            "age": {
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer",
+            },
+            "name": {
+              "type": "string",
+            },
+            "userId": {
+              "maxLength": 6,
+              "minLength": 6,
+              "type": "string",
+            },
+          },
+          "required": [
+            "name",
+          ],
+          "type": "object",
+        },
+        "type": "array",
+        "uniqueItems": true,
+      },
+    },
+    "securitySchemes": {
+      "HttpBearerJwtScheme": {
+        "bearerFormat": "JWT",
+        "scheme": "bearer",
+        "type": "http",
+      },
+    },
+  },
+  "info": {
+    "title": "Example REST API",
+    "version": "1.0.0",
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/users": {
+      "get": {
+        "operationId": "listUsersCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "address": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "postcode": {
+                            "format": "int32",
+                            "maximum": 9999,
+                            "minimum": 1000,
+                            "type": "integer",
+                          },
+                        },
+                        "required": [
+                          "name",
+                        ],
+                        "type": "object",
+                      },
+                      "age": {
+                        "format": "int32",
+                        "minimum": 0,
+                        "type": "integer",
+                      },
+                      "name": {
+                        "type": "string",
+                      },
+                      "userId": {
+                        "maxLength": 6,
+                        "minLength": 6,
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "name",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                  "uniqueItems": true,
+                },
+              },
+            },
+            "description": "User 200 response",
+          },
+        },
+        "tags": [
+          "user",
+        ],
+      },
+      "post": {
+        "operationId": "createUserCommand",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "address": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "postcode": {
+                        "format": "int32",
+                        "maximum": 9999,
+                        "minimum": 1000,
+                        "type": "integer",
+                      },
+                    },
+                    "required": [
+                      "name",
+                    ],
+                    "type": "object",
+                  },
+                  "age": {
+                    "format": "int32",
+                    "minimum": 0,
+                    "type": "integer",
+                  },
+                  "name": {
+                    "type": "string",
+                  },
+                  "userId": {
+                    "maxLength": 6,
+                    "minLength": 6,
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "name",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "address": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "postcode": {
+                            "format": "int32",
+                            "maximum": 9999,
+                            "minimum": 1000,
+                            "type": "integer",
+                          },
+                        },
+                        "required": [
+                          "name",
+                        ],
+                        "type": "object",
+                      },
+                      "age": {
+                        "format": "int32",
+                        "minimum": 0,
+                        "type": "integer",
+                      },
+                      "name": {
+                        "type": "string",
+                      },
+                      "userId": {
+                        "maxLength": 6,
+                        "minLength": 6,
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "name",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                  "uniqueItems": true,
+                },
+              },
+            },
+            "description": "User 200 response",
+          },
+        },
+        "tags": [
+          "user",
+        ],
+      },
+    },
+    "/users/{userId}": {
+      "delete": {
+        "operationId": "deleteUserByIdCommand",
+        "security": [
+          {
+            "HttpBearerJwtScheme": [
+              "users.delete",
+            ],
+          },
+        ],
+        "tags": [],
+      },
+      "get": {
+        "operationId": "getUserByIdCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "address": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "postcode": {
+                          "format": "int32",
+                          "maximum": 9999,
+                          "minimum": 1000,
+                          "type": "integer",
+                        },
+                      },
+                      "required": [
+                        "name",
+                      ],
+                      "type": "object",
+                    },
+                    "age": {
+                      "format": "int32",
+                      "minimum": 0,
+                      "type": "integer",
+                    },
+                    "name": {
+                      "type": "string",
+                    },
+                    "userId": {
+                      "maxLength": 6,
+                      "minLength": 6,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "name",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "User 200 response",
+          },
+        },
+        "tags": [],
+      },
+      "head": {
+        "operationId": "checkUserIdAvailableCommand",
+        "responses": {
+          "204": {
+            "content": {},
+            "description": "",
+          },
+          "404": {
+            "content": {},
+            "description": "",
+          },
+        },
+        "security": [
+          {},
+        ],
+        "tags": [],
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": true,
+          "schema": {
+            "maxLength": 6,
+            "minLength": 6,
+            "type": "string",
+          },
+        },
+      ],
+      "post": {
+        "operationId": "updateUserCommand",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "address": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "postcode": {
+                        "format": "int32",
+                        "maximum": 9999,
+                        "minimum": 1000,
+                        "type": "integer",
+                      },
+                    },
+                    "required": [
+                      "name",
+                    ],
+                    "type": "object",
+                  },
+                  "age": {
+                    "format": "int32",
+                    "minimum": 0,
+                    "type": "integer",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "address": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "postcode": {
+                          "format": "int32",
+                          "maximum": 9999,
+                          "minimum": 1000,
+                          "type": "integer",
+                        },
+                      },
+                      "required": [
+                        "name",
+                      ],
+                      "type": "object",
+                    },
+                    "age": {
+                      "format": "int32",
+                      "minimum": 0,
+                      "type": "integer",
+                    },
+                    "name": {
+                      "type": "string",
+                    },
+                    "userId": {
+                      "maxLength": 6,
+                      "minLength": 6,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "name",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "tags": [],
+      },
+    },
+    "/users/{userId}/notes": {
+      "get": {
+        "operationId": "listNotesCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "content": {
+                        "type": "string",
+                      },
+                      "labels": {
+                        "items": {
+                          "maxLength": 256,
+                          "minLength": 1,
+                          "type": "string",
+                        },
+                        "type": "array",
+                      },
+                      "title": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "title",
+                      "content",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                  "uniqueItems": true,
+                },
+              },
+            },
+            "description": "Notes 200 response",
+          },
+        },
+        "tags": [
+          "user",
+        ],
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": true,
+          "schema": {
+            "maxLength": 6,
+            "minLength": 6,
+            "type": "string",
+          },
+        },
+      ],
+      "post": {
+        "operationId": "createNoteCommand",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "content": {
+                    "type": "string",
+                  },
+                  "labels": {
+                    "items": {
+                      "maxLength": 256,
+                      "minLength": 1,
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "title": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "title",
+                  "content",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "content": {
+                      "type": "string",
+                    },
+                    "labels": {
+                      "items": {
+                        "maxLength": 256,
+                        "minLength": 1,
+                        "type": "string",
+                      },
+                      "type": "array",
+                    },
+                    "title": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "title",
+                    "content",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Note created 200 response",
+          },
+        },
+        "tags": [
+          "user",
+        ],
+      },
+    },
+    "/users/{userId}/notes/{noteId}": {
+      "delete": {
+        "operationId": "deleteNoteCommand",
+        "security": [
+          {
+            "HttpBearerJwtScheme": [
+              "notes.delete",
+            ],
+          },
+        ],
+        "tags": [],
+      },
+      "get": {
+        "operationId": "getNoteCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "content": {
+                      "type": "string",
+                    },
+                    "labels": {
+                      "items": {
+                        "maxLength": 256,
+                        "minLength": 1,
+                        "type": "string",
+                      },
+                      "type": "array",
+                    },
+                    "title": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "title",
+                    "content",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Note 200 response",
+          },
+        },
+        "tags": [],
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": true,
+          "schema": {
+            "maxLength": 6,
+            "minLength": 6,
+            "type": "string",
+          },
+        },
+        {
+          "in": "path",
+          "name": "noteId",
+          "required": true,
+          "schema": {
+            "maxLength": 6,
+            "minLength": 6,
+            "type": "string",
+          },
+        },
+      ],
+      "post": {
+        "operationId": "updateNoteCommand",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "content": {
+                    "type": "string",
+                  },
+                  "labels": {
+                    "items": {
+                      "maxLength": 256,
+                      "minLength": 1,
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "title": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "content": {
+                      "type": "string",
+                    },
+                    "labels": {
+                      "items": {
+                        "maxLength": 256,
+                        "minLength": 1,
+                        "type": "string",
+                      },
+                      "type": "array",
+                    },
+                    "title": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "title",
+                    "content",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "tags": [],
+      },
+    },
+  },
+  "security": [
+    {
+      "HttpBearerJwtScheme": [],
+    },
+    {
+      "HttpBearerJwtScheme": [
+        "users.delete",
+      ],
+    },
+    {},
+    {
+      "HttpBearerJwtScheme": [
+        "notes.delete",
+      ],
+    },
+  ],
+}
+`;

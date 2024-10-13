@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { oas31 } from 'openapi3-ts';
 import type { Header } from './header.js';
 import { MediaType, type MediaTypeOptions } from './media-type.js';
 
@@ -34,6 +34,6 @@ export class Response extends Construct {
           [this.content.contentType]: this.content.synth(),
         }),
       },
-    } satisfies OpenAPIV3_1.ResponseObject;
+    } satisfies oas31.ResponseObject;
   }
 }

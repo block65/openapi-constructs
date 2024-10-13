@@ -1,10 +1,10 @@
 import { Construct } from 'constructs';
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { oas31 } from 'openapi3-ts';
 
 interface TagOptions {
   name: string;
   description?: string;
-  externalDocs?: OpenAPIV3_1.ExternalDocumentationObject;
+  externalDocs?: oas31.ExternalDocumentationObject;
 }
 
 export class Tag extends Construct {
@@ -19,7 +19,7 @@ export class Tag extends Construct {
     this.options = options;
   }
 
-  public synth(): OpenAPIV3_1.TagObject {
+  public synth(): oas31.TagObject {
     return this.options;
   }
 }

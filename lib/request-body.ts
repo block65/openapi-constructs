@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { oas31 } from 'openapi3-ts';
 import { MediaType, type MediaTypeOptions } from './media-type.js';
 
 export interface RequestBodyOptions {
@@ -23,7 +23,7 @@ export class RequestBody extends Construct {
         : new MediaType(this, id, options.content);
   }
 
-  public synth(): OpenAPIV3_1.RequestBodyObject {
+  public synth(): oas31.RequestBodyObject {
     return {
       description: this.options.description || '',
       content: {

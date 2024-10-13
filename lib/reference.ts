@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { oas31 } from 'openapi3-ts';
 import { ApiLowLevel } from './ApiLowLevel.js';
 import { Schema } from './schema.js';
 
@@ -22,7 +22,7 @@ export class Reference<T extends Target> extends Construct {
     return this.schema.schemaKey;
   }
 
-  public synth(): OpenAPIV3_1.ReferenceObject {
+  public synth(): oas31.ReferenceObject {
     return this.schema.referenceObject();
   }
 }

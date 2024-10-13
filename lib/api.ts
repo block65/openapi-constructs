@@ -1,6 +1,5 @@
-import { Construct, type IConstruct } from 'constructs';
 import type { JSONSchema7 } from 'json-schema';
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { oas31 } from 'openapi3-ts';
 import { ApiLowLevel } from './ApiLowLevel.js';
 import { Parameter } from './parameter.js';
 import { Path } from './path.js';
@@ -17,7 +16,7 @@ export enum OpenApiVersion {
 
 export interface ApiOptions {
   openapi: OpenApiVersion; //  | `${OpenApiVersion}`;
-  info: OpenAPIV3_1.InfoObject;
+  info: oas31.InfoObject;
 }
 
 export class Api extends ApiLowLevel {
@@ -68,7 +67,7 @@ export class Api extends ApiLowLevel {
             child instanceof SecurityRequirement,
         )
         .map((child) => child.synth()),
-    } satisfies OpenAPIV3_1.Document;
+    } satisfies oas31.OpenAPIObject;
   }
 
   public synthJsonSchema() {

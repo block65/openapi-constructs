@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { oas31 } from 'openapi3-ts';
 import type { Api } from './api.js';
 
 interface ServerOptions {
@@ -15,7 +15,7 @@ export class Server extends Construct {
     this.options = options;
   }
 
-  public synth(): OpenAPIV3_1.ServerObject {
+  public synth(): oas31.ServerObject {
     return {
       url: this.options.url.toString(),
       ...(this.options.description && {

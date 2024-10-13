@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { oas31 } from 'openapi3-ts';
 import type { Api } from './api.js';
 import type { Schema } from './schema.js';
 
@@ -34,7 +34,7 @@ export class Parameter<
     this.options = options;
   }
 
-  public referenceObject(): OpenAPIV3_1.ReferenceObject {
+  public referenceObject(): oas31.ReferenceObject {
     return {
       $ref: this.jsonPointer(),
     };
@@ -66,6 +66,6 @@ export class Parameter<
       ...(this.options.schema && {
         schema: this.options.schema.referenceObject(),
       }),
-    } satisfies OpenAPIV3_1.ParameterObject | OpenAPIV3_1.ReferenceObject;
+    } satisfies oas31.ParameterObject | oas31.ReferenceObject;
   }
 }

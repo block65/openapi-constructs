@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { oas31 } from 'openapi3-ts';
 import type { HttpMethods } from './http-methods.js';
 import type { Parameter } from './parameter.js';
 import { RequestBody, type RequestBodyOptions } from './request-body.js';
@@ -92,6 +92,6 @@ export class Operation<TPath extends string = '/'> extends Construct {
           ]),
         ),
       }),
-    } satisfies OpenAPIV3_1.OperationObject;
+    } satisfies oas31.OperationObject;
   }
 }

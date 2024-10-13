@@ -1,12 +1,12 @@
 import { Construct } from 'constructs';
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { oas31 } from 'openapi3-ts';
 
-interface SchemaOptions<T extends OpenAPIV3_1.SchemaObject> {
+interface SchemaOptions<T extends oas31.SchemaObject> {
   schema: T;
 }
 
 export class Schema<
-  T extends OpenAPIV3_1.SchemaObject = OpenAPIV3_1.SchemaObject,
+  T extends oas31.SchemaObject = oas31.SchemaObject,
 > extends Construct {
   private options: SchemaOptions<T>;
 
@@ -28,10 +28,10 @@ export class Schema<
     return `#/components/schemas/${this.schemaKey}`;
   }
 
-  public referenceObject() {
+  public referenceObject(): oas31.ReferenceObject {
     return {
       $ref: this.jsonPointer(),
-    } satisfies OpenAPIV3_1.ReferenceObject;
+    };
   }
 
   // eslint-disable-next-line class-methods-use-this

@@ -1,6 +1,6 @@
 import { strict } from 'node:assert';
 import { Construct } from 'constructs';
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { oas31 } from 'openapi3-ts';
 import type { Api } from './api.js';
 import { HttpMethods } from './http-methods.js';
 import { Operation, type OperationOptions } from './operation.js';
@@ -63,6 +63,6 @@ export class Path<TPath extends string = '/'> extends Construct {
         ),
       }),
       ...(this.options.summary && { summary: this.options.summary }),
-    } satisfies OpenAPIV3_1.PathItemObject;
+    } satisfies oas31.PathItemObject;
   }
 }

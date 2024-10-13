@@ -1,6 +1,6 @@
-import { Construct, type IConstruct } from 'constructs';
 import type { JSONSchema7 } from 'json-schema';
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { oas31 } from 'openapi3-ts';
+import { ApiLowLevel } from './ApiLowLevel.js';
 import { Parameter } from './parameter.js';
 import { Path } from './path.js';
 import { Reference } from './reference.js';
@@ -16,10 +16,10 @@ export enum OpenApiVersion {
 
 export interface ApiOptions {
   openapi: OpenApiVersion; //  | `${OpenApiVersion}`;
-  info: OpenAPIV3_1.InfoObject;
+  info: oas31.InfoObject;
 }
 
-export class Api extends Construct {
+export class Api extends ApiLowLevel {
   private options: ApiOptions;
 
   constructor(options: ApiOptions) {
@@ -27,17 +27,6 @@ export class Api extends Construct {
     super(undefined as any, '');
 
     this.options = options;
-  }
-
-  public static of(c: IConstruct): Api {
-    const { scope } = c.node;
-
-    if (!scope) {
-      // Api is the only construct without a scope.
-      return c as Api;
-    }
-
-    return Api.of(scope);
   }
 
   public synth() {
@@ -78,7 +67,7 @@ export class Api extends Construct {
             child instanceof SecurityRequirement,
         )
         .map((child) => child.synth()),
-    } satisfies OpenAPIV3_1.Document;
+    } satisfies oas31.OpenAPIObject;
   }
 
   public synthJsonSchema() {

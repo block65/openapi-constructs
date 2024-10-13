@@ -36,9 +36,16 @@ exports[`Example > OpenAPI 1`] = `
             "$ref": "#/components/schemas/Address",
           },
           "age": {
-            "format": "int32",
-            "minimum": 0,
-            "type": "integer",
+            "anyOf": [
+              {
+                "format": "int32",
+                "minimum": 0,
+                "type": "integer",
+              },
+              {
+                "type": "null",
+              },
+            ],
           },
           "name": {
             "type": "string",
@@ -77,9 +84,16 @@ exports[`Example > OpenAPI 1`] = `
             "$ref": "#/components/schemas/Address",
           },
           "age": {
-            "format": "int32",
-            "minimum": 0,
-            "type": "integer",
+            "anyOf": [
+              {
+                "format": "int32",
+                "minimum": 0,
+                "type": "integer",
+              },
+              {
+                "type": "null",
+              },
+            ],
           },
           "name": {
             "type": "string",
@@ -297,9 +311,16 @@ exports[`Example > Swagger Parser validate 1`] = `
             "type": "object",
           },
           "age": {
-            "format": "int32",
-            "minimum": 0,
-            "type": "integer",
+            "anyOf": [
+              {
+                "format": "int32",
+                "minimum": 0,
+                "type": "integer",
+              },
+              {
+                "type": "null",
+              },
+            ],
           },
           "name": {
             "type": "string",
@@ -362,9 +383,16 @@ exports[`Example > Swagger Parser validate 1`] = `
             "type": "object",
           },
           "age": {
-            "format": "int32",
-            "minimum": 0,
-            "type": "integer",
+            "anyOf": [
+              {
+                "format": "int32",
+                "minimum": 0,
+                "type": "integer",
+              },
+              {
+                "type": "null",
+              },
+            ],
           },
           "name": {
             "type": "string",
@@ -398,9 +426,16 @@ exports[`Example > Swagger Parser validate 1`] = `
               "type": "object",
             },
             "age": {
-              "format": "int32",
-              "minimum": 0,
-              "type": "integer",
+              "anyOf": [
+                {
+                  "format": "int32",
+                  "minimum": 0,
+                  "type": "integer",
+                },
+                {
+                  "type": "null",
+                },
+              ],
             },
             "name": {
               "type": "string",
@@ -459,9 +494,16 @@ exports[`Example > Swagger Parser validate 1`] = `
                         "type": "object",
                       },
                       "age": {
-                        "format": "int32",
-                        "minimum": 0,
-                        "type": "integer",
+                        "anyOf": [
+                          {
+                            "format": "int32",
+                            "minimum": 0,
+                            "type": "integer",
+                          },
+                          {
+                            "type": "null",
+                          },
+                        ],
                       },
                       "name": {
                         "type": "string",
@@ -511,9 +553,16 @@ exports[`Example > Swagger Parser validate 1`] = `
                     "type": "object",
                   },
                   "age": {
-                    "format": "int32",
-                    "minimum": 0,
-                    "type": "integer",
+                    "anyOf": [
+                      {
+                        "format": "int32",
+                        "minimum": 0,
+                        "type": "integer",
+                      },
+                      {
+                        "type": "null",
+                      },
+                    ],
                   },
                   "name": {
                     "type": "string",
@@ -555,9 +604,16 @@ exports[`Example > Swagger Parser validate 1`] = `
                         "type": "object",
                       },
                       "age": {
-                        "format": "int32",
-                        "minimum": 0,
-                        "type": "integer",
+                        "anyOf": [
+                          {
+                            "format": "int32",
+                            "minimum": 0,
+                            "type": "integer",
+                          },
+                          {
+                            "type": "null",
+                          },
+                        ],
                       },
                       "name": {
                         "type": "string",
@@ -625,9 +681,16 @@ exports[`Example > Swagger Parser validate 1`] = `
                       "type": "object",
                     },
                     "age": {
-                      "format": "int32",
-                      "minimum": 0,
-                      "type": "integer",
+                      "anyOf": [
+                        {
+                          "format": "int32",
+                          "minimum": 0,
+                          "type": "integer",
+                        },
+                        {
+                          "type": "null",
+                        },
+                      ],
                     },
                     "name": {
                       "type": "string",
@@ -724,9 +787,16 @@ exports[`Example > Swagger Parser validate 1`] = `
                       "type": "object",
                     },
                     "age": {
-                      "format": "int32",
-                      "minimum": 0,
-                      "type": "integer",
+                      "anyOf": [
+                        {
+                          "format": "int32",
+                          "minimum": 0,
+                          "type": "integer",
+                        },
+                        {
+                          "type": "null",
+                        },
+                      ],
                     },
                     "name": {
                       "type": "string",

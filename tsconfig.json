@@ -4,7 +4,6 @@
     "target": "es2022",
     "lib": ["es2022"],
     "module": "node16",
-    "types": ["node", "openapi-types", "json-schema"],
     "incremental": true,
     "strict": true,
     "declaration": true,

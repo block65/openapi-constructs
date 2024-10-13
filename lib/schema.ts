@@ -1,12 +1,12 @@
 import { Construct } from 'constructs';
-import type { OpenAPIV3 } from 'openapi-types';
+import type { OpenAPIV3_1 } from 'openapi-types';
 
-interface SchemaOptions<T extends OpenAPIV3.SchemaObject> {
+interface SchemaOptions<T extends OpenAPIV3_1.SchemaObject> {
   schema: T;
 }
 
 export class Schema<
-  T extends OpenAPIV3.SchemaObject = OpenAPIV3.SchemaObject,
+  T extends OpenAPIV3_1.SchemaObject = OpenAPIV3_1.SchemaObject,
 > extends Construct {
   private options: SchemaOptions<T>;
 
@@ -24,21 +24,22 @@ export class Schema<
     return this.node.id;
   }
 
-  public jsonPointer(): string {
+  public jsonPointer() {
     return `#/components/schemas/${this.schemaKey}`;
   }
 
-  public referenceObject(): OpenAPIV3.ReferenceObject {
+  public referenceObject() {
     return {
       $ref: this.jsonPointer(),
-    };
+    } satisfies OpenAPIV3_1.ReferenceObject;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   public validate() {
     return [];
   }
 
-  public synth(): T {
+  public synth() {
     return this.options.schema;
   }
 }

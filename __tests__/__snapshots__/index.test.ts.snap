@@ -1,0 +1,72 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Synth > JSON Schema snapshot 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Address": {
+      "additionalProperties": false,
+      "properties": {
+        "postcode": {
+          "format": "int32",
+          "maximum": 9999,
+          "minimum": 1000,
+          "type": "integer",
+        },
+      },
+      "required": [
+        "name",
+      ],
+      "type": "object",
+    },
+    "Id": {
+      "type": "string",
+    },
+    "UpdateUserRequest": {
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "address": {
+          "$ref": "#/components/schemas/Address",
+        },
+        "age": {
+          "format": "int32",
+          "minimum": 0,
+          "type": "integer",
+        },
+      },
+      "type": "object",
+    },
+    "User": {
+      "additionalProperties": false,
+      "properties": {
+        "address": {
+          "$ref": "#/components/schemas/Address",
+        },
+        "age": {
+          "format": "int32",
+          "minimum": 0,
+          "type": "integer",
+        },
+        "name": {
+          "type": "string",
+        },
+        "userId": {
+          "$ref": "#/components/schemas/Id",
+        },
+      },
+      "required": [
+        "name",
+      ],
+      "type": "object",
+    },
+    "Users": {
+      "items": {
+        "$ref": "#/components/schemas/User",
+      },
+      "type": "array",
+      "uniqueItems": true,
+    },
+  },
+}
+`;

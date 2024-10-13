@@ -26,7 +26,7 @@ export class Response extends Construct {
     }
   }
 
-  public synth(): OpenAPIV3_1.ResponseObject {
+  public synth() {
     return {
       description: this.options.description || '',
       content: {
@@ -34,6 +34,6 @@ export class Response extends Construct {
           [this.content.contentType]: this.content.synth(),
         }),
       },
-    };
+    } satisfies OpenAPIV3_1.ResponseObject;
   }
 }

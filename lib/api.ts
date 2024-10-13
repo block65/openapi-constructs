@@ -1,5 +1,5 @@
 import { Construct, type IConstruct } from 'constructs';
-import type { JSONSchema4, JSONSchema7 } from 'json-schema';
+import type { JSONSchema7 } from 'json-schema';
 import type { OpenAPIV3_1 } from 'openapi-types';
 import { Parameter } from './parameter.js';
 import { Path } from './path.js';
@@ -9,7 +9,7 @@ import { SecurityRequirement } from './security-requirement.js';
 import { SecurityScheme } from './security-scheme.js';
 
 export enum OpenApiVersion {
-  V2 = '2.0',
+  // V2 = '2.0',
   V3 = '3.0',
   V3_1 = '3.1.0',
 }
@@ -40,7 +40,7 @@ export class Api extends Construct {
     return Api.of(scope);
   }
 
-  public synth(): OpenAPIV3_1.Document {
+  public synth() {
     return {
       openapi: this.options.openapi,
       info: this.options.info,
@@ -78,10 +78,10 @@ export class Api extends Construct {
             child instanceof SecurityRequirement,
         )
         .map((child) => child.synth()),
-    };
+    } satisfies OpenAPIV3_1.Document;
   }
 
-  public synthJsonSchema(): JSONSchema4 | JSONSchema7 {
+  public synthJsonSchema() {
     return {
       $schema: 'http://json-schema.org/draft-07/schema#',
       definitions: Object.fromEntries(
@@ -89,6 +89,6 @@ export class Api extends Construct {
           .filter((child): child is Schema => child instanceof Schema)
           .map((child) => [child.schemaKey, child.synth()]),
       ),
-    };
+    } satisfies JSONSchema7;
   }
 }

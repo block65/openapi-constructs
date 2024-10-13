@@ -3,15 +3,12 @@ SRCS = $(wildcard lib/**)
 
 all: dist
 
-.PHONY: deps
-deps: node_modules
-
 .PHONY: clean
-clean:
+clean: node_modules
 	pnpm exec tsc -b --clean
 
 .PHONY: test
-test: __tests__/fixtures/oas31.json
+test: node_modules
 	pnpm exec tsc
 	pnpm exec vitest
 
@@ -22,7 +19,7 @@ dist: node_modules tsconfig.json $(SRCS)
 	pnpm exec tsc
 
 .PHONY: dist-watch
-dist-watch:
+dist-watch: node_modules
 	pnpm exec tsc -w --preserveWatchOutput
 
 .PHONY: pretty

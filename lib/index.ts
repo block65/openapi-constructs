@@ -12,7 +12,7 @@ export { Parameter } from './parameter.js';
 export { Path } from './path.js';
 export { Reference } from './reference.js';
 export { Response } from './response.js';
-export { Schema } from './schema.js';
+export { Schema, type SchemaOptions } from './schema.js';
 export { SecurityRequirement } from './security-requirement.js';
 export { SecurityScheme } from './security-scheme.js';
 export { Server } from './server.js';

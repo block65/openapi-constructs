@@ -159,6 +159,7 @@ exports[`Example > OpenAPI 1`] = `
             },
           },
           "description": "",
+          "required": true,
         },
         "responses": {
           "200": {
@@ -232,6 +233,7 @@ exports[`Example > OpenAPI 1`] = `
             },
           },
           "description": "",
+          "required": true,
         },
         "responses": {
           "200": {
@@ -259,6 +261,19 @@ exports[`Example > OpenAPI 1`] = `
       ],
     },
     {},
+  ],
+  "servers": [
+    {
+      "url": "https://api.example.com/",
+    },
+  ],
+  "tags": [
+    {
+      "name": "user",
+    },
+    {
+      "name": "random",
+    },
   ],
 }
 `;
@@ -579,6 +594,7 @@ exports[`Example > Swagger Parser validate 1`] = `
             },
           },
           "description": "",
+          "required": true,
         },
         "responses": {
           "200": {
@@ -763,6 +779,7 @@ exports[`Example > Swagger Parser validate 1`] = `
             },
           },
           "description": "",
+          "required": true,
         },
         "responses": {
           "200": {
@@ -829,6 +846,19 @@ exports[`Example > Swagger Parser validate 1`] = `
       ],
     },
     {},
+  ],
+  "servers": [
+    {
+      "url": "https://api.example.com/",
+    },
+  ],
+  "tags": [
+    {
+      "name": "user",
+    },
+    {
+      "name": "random",
+    },
   ],
 }
 `;
@@ -1072,6 +1102,7 @@ exports[`Note Taking > OpenAPI 1`] = `
             },
           },
           "description": "",
+          "required": true,
         },
         "responses": {
           "200": {
@@ -1151,6 +1182,7 @@ exports[`Note Taking > OpenAPI 1`] = `
             },
           },
           "description": "",
+          "required": true,
         },
         "responses": {
           "200": {
@@ -1169,6 +1201,7 @@ exports[`Note Taking > OpenAPI 1`] = `
     },
     "/users/{userId}/notes": {
       "get": {
+        "description": "List all of the notes",
         "operationId": "listNotesCommand",
         "responses": {
           "200": {
@@ -1182,6 +1215,7 @@ exports[`Note Taking > OpenAPI 1`] = `
             "description": "Notes 200 response",
           },
         },
+        "summary": "List notes",
         "tags": [
           "user",
         ],
@@ -1192,6 +1226,7 @@ exports[`Note Taking > OpenAPI 1`] = `
         },
       ],
       "post": {
+        "deprecated": true,
         "operationId": "createNoteCommand",
         "requestBody": {
           "content": {
@@ -1202,6 +1237,7 @@ exports[`Note Taking > OpenAPI 1`] = `
             },
           },
           "description": "",
+          "required": true,
         },
         "responses": {
           "200": {
@@ -1267,6 +1303,7 @@ exports[`Note Taking > OpenAPI 1`] = `
             },
           },
           "description": "",
+          "required": true,
         },
         "responses": {
           "200": {
@@ -1298,6 +1335,16 @@ exports[`Note Taking > OpenAPI 1`] = `
       "HttpBearerJwtScheme": [
         "notes.delete",
       ],
+    },
+  ],
+  "servers": [
+    {
+      "url": "https://api.example.com/",
+    },
+  ],
+  "tags": [
+    {
+      "name": "user",
     },
   ],
 }
@@ -1715,6 +1762,7 @@ exports[`Note Taking > Swagger Parser validate 1`] = `
             },
           },
           "description": "",
+          "required": true,
         },
         "responses": {
           "200": {
@@ -1897,6 +1945,7 @@ exports[`Note Taking > Swagger Parser validate 1`] = `
             },
           },
           "description": "",
+          "required": true,
         },
         "responses": {
           "200": {
@@ -1949,6 +1998,7 @@ exports[`Note Taking > Swagger Parser validate 1`] = `
     },
     "/users/{userId}/notes": {
       "get": {
+        "description": "List all of the notes",
         "operationId": "listNotesCommand",
         "responses": {
           "200": {
@@ -1987,6 +2037,7 @@ exports[`Note Taking > Swagger Parser validate 1`] = `
             "description": "Notes 200 response",
           },
         },
+        "summary": "List notes",
         "tags": [
           "user",
         ],
@@ -2004,6 +2055,7 @@ exports[`Note Taking > Swagger Parser validate 1`] = `
         },
       ],
       "post": {
+        "deprecated": true,
         "operationId": "createNoteCommand",
         "requestBody": {
           "content": {
@@ -2035,6 +2087,7 @@ exports[`Note Taking > Swagger Parser validate 1`] = `
             },
           },
           "description": "",
+          "required": true,
         },
         "responses": {
           "200": {
@@ -2174,6 +2227,7 @@ exports[`Note Taking > Swagger Parser validate 1`] = `
             },
           },
           "description": "",
+          "required": true,
         },
         "responses": {
           "200": {
@@ -2226,6 +2280,16 @@ exports[`Note Taking > Swagger Parser validate 1`] = `
       "HttpBearerJwtScheme": [
         "notes.delete",
       ],
+    },
+  ],
+  "servers": [
+    {
+      "url": "https://api.example.com/",
+    },
+  ],
+  "tags": [
+    {
+      "name": "user",
     },
   ],
 }

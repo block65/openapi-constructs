@@ -65,7 +65,10 @@ export class Schema<
 
   public synth() {
     return {
-      additionalProperties: false,
+      // default to disallow additional properties on objects
+      ...(this.options.schema.type === 'object' && {
+        additionalProperties: false,
+      }),
       ...this.options.schema,
     };
   }

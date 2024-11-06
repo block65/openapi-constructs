@@ -28,7 +28,7 @@ export class Response extends Construct {
 
   public synth() {
     return {
-      description: this.options.description || '',
+      description: this.options.description || 'Successful response',
       content: {
         ...(this.content && {
           [this.content.contentType]: this.content.synth(),

@@ -15,7 +15,10 @@ export class RequestBody extends Construct {
 
   constructor(scope: Construct, id: string, options: RequestBodyOptions) {
     super(scope, id);
-    this.options = options;
+    this.options = {
+      required: true,
+      ...options,
+    };
 
     this.content =
       options.content instanceof MediaType

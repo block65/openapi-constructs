@@ -25,6 +25,6 @@
     "allowArbitraryExtensions": true,
     "skipLibCheck": true
   },
-  "include": ["./lib", "./__tests__"],
+  "include": ["./lib", "./examples", "./__tests__"],
   "exclude": ["./dist", "node_modules"]
 }

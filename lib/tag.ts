@@ -1,25 +1,21 @@
 import { Construct } from 'constructs';
 import type { oas31 } from 'openapi3-ts';
 
-interface TagOptions {
-  name: string;
-  description?: string;
-  externalDocs?: oas31.ExternalDocumentationObject;
-}
-
-export class Tag extends Construct {
-  private options: TagOptions;
+export class Tag<
+  T extends oas31.TagObject = oas31.TagObject,
+> extends Construct {
+  private options: T;
 
   public get name() {
     return this.options.name;
   }
 
-  constructor(scope: Construct, id: string, options: TagOptions) {
+  constructor(scope: Construct, id: string, options: T) {
     super(scope, id);
     this.options = options;
   }
 
-  public synth(): oas31.TagObject {
+  public synth() {
     return this.options;
   }
 }

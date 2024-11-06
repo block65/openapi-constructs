@@ -272,6 +272,8 @@ new Path(noteTakingApi, {
 })
   .addOperation(HttpMethods.GET, {
     operationId: 'listNotesCommand',
+    description: 'List all of the notes',
+    summary: 'List notes',
     responses: {
       200: new Response(noteTakingApi, 'ListNotesResponse', {
         description: 'Notes 200 response',
@@ -284,7 +286,9 @@ new Path(noteTakingApi, {
   })
   .addOperation(HttpMethods.POST, {
     operationId: 'createNoteCommand',
+    deprecated: true,
     requestBody: {
+      required: true,
       content: {
         contentType: 'application/json',
         schema: createNoteRequest,

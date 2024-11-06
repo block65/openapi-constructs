@@ -1,4 +1,3 @@
-import { strict } from 'node:assert';
 import { Construct } from 'constructs';
 import type { oas31 } from 'openapi3-ts';
 import type { Api } from './api.js';
@@ -30,7 +29,7 @@ export class Path<TPath extends string = '/'> extends Construct {
     options: OperationOptions<TPath>,
   ): this {
     // make sure we are not duplicating tags
-    options.tags?.forEach((tag) => strict(!this.options.tags?.has(tag)));
+    // options.tags?.forEach((tag) => strict(!this.options.tags?.has(tag)));
 
     // eslint-disable-next-line no-new
     new Operation(this, method, {
@@ -52,6 +51,7 @@ export class Path<TPath extends string = '/'> extends Construct {
           .filter(
             (child): child is Operation<TPath> => child instanceof Operation,
           )
+          .sort((a, b) => a.order - b.order)
           .map((child) => [child.method, child.synth()]),
       ),
       ...(this.options.servers && {

@@ -7,6 +7,7 @@ import type { Response } from './response.js';
 import type { SecurityRequirement } from './security-requirement.js';
 import type { Tag } from './tag.js';
 import type { ExtractRouteParams } from './types.js';
+import { stripUndefined } from './utils.js';
 
 export interface OperationOptions<TPath extends string = '/'> {
   operationId: string;
@@ -20,12 +21,15 @@ export interface OperationOptions<TPath extends string = '/'> {
     [statusCode: string | number]: Response;
   };
   requestBody?: RequestBody | RequestBodyOptions;
+  order?: number;
 }
 
 export class Operation<TPath extends string = '/'> extends Construct {
   private readonly options: OperationOptions<TPath>;
 
   public readonly method: HttpMethods;
+
+  public readonly order: number;
 
   private requestBody?: RequestBody;
 
@@ -41,6 +45,8 @@ export class Operation<TPath extends string = '/'> extends Construct {
     super(scope, method);
     this.method = method;
     this.options = options;
+
+    this.order = options.order || 0;
 
     if (options.requestBody) {
       this.requestBody =
@@ -68,10 +74,13 @@ export class Operation<TPath extends string = '/'> extends Construct {
   }
 
   public synth() {
-    return {
-      ...(this.options.operationId && {
-        operationId: this.options.operationId,
-      }),
+    return stripUndefined({
+      operationId: this.options.operationId,
+      description: this.options.description || undefined,
+      summary: this.options.summary || undefined,
+      tags:
+        this.options.tags && [...this.options.tags].map((child) => child.name),
+      deprecated: this.options.deprecated,
       ...(this.options.parameters && {
         parameters: this.options.parameters.map((child) => child.synth()),
       }),
@@ -92,6 +101,6 @@ export class Operation<TPath extends string = '/'> extends Construct {
           ]),
         ),
       }),
-    } satisfies oas31.OperationObject;
+    }) satisfies oas31.OperationObject;
   }
 }

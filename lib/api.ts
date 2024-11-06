@@ -7,6 +7,8 @@ import { Reference } from './reference.js';
 import { Schema } from './schema.js';
 import { SecurityRequirement } from './security-requirement.js';
 import { SecurityScheme } from './security-scheme.js';
+import { Server } from './server.js';
+import { Tag } from './tag.js';
 
 export enum OpenApiVersion {
   // V2 = '2.0',
@@ -33,6 +35,12 @@ export class Api extends ApiLowLevel {
     return {
       openapi: this.options.openapi,
       info: this.options.info,
+      servers: this.node.children
+        .filter((child): child is Server => child instanceof Server)
+        .map((child) => child.synth()),
+      tags: this.node.children
+        .filter((child): child is Tag => child instanceof Tag)
+        .map((child) => child.synth()),
       components: {
         schemas: Object.fromEntries(
           this.node.children

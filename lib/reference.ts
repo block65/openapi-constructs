@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import type { oas31 } from 'openapi3-ts';
-import { ApiLowLevel } from './ApiLowLevel.js';
-import { Schema } from './schema.js';
+import { ApiLowLevel } from './ApiLowLevel.ts';
+import { Schema } from './schema.ts';
 
 type Target = Schema; // | Parameter;
 

@@ -1,8 +1,8 @@
 /* eslint-disable no-new */
 import { Ajv } from 'ajv';
 import { test, expect, describe } from 'vitest';
-import { exampleApi } from './fixtures/apis/example.js';
-import { noteTakingApi } from './fixtures/apis/note-taking.js';
+import { exampleApi } from './fixtures/apis/example.ts';
+import { noteTakingApi } from './fixtures/apis/note-taking.ts';
 
 describe('Example', () => {
   const jsonSchema = exampleApi.synthJsonSchema();

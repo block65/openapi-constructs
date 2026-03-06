@@ -1,17 +1,17 @@
 /* eslint-disable no-new */
 import { test } from 'vitest';
-import * as oac from '@block65/openapi-constructs';
+import { Api, Schema } from '@block65/openapi-constructs';
 
 test('Regression', async () => {
-  const api = new oac.Api({
-    openapi: oac.OpenApiVersion.V3_1,
+  const api = new Api({
+    openapi: '3.1.0',
     info: {
       title: 'Example',
       version: '1.0.0',
     },
   });
 
-  const schema1 = new oac.Schema(api, 'Test1', {
+  const schema1 = new Schema(api, 'Test1', {
     schema: {
       type: 'object',
       additionalProperties: false,
@@ -33,7 +33,7 @@ test('Regression', async () => {
     },
   });
 
-  new oac.Schema(api, 'Test2', {
+  new Schema(api, 'Test2', {
     schema: {
       allOf: [
         schema1.schema,

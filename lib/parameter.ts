@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import type { oas31 } from 'openapi3-ts';
-import type { Api } from './api.js';
-import type { Schema } from './schema.js';
+import type { Api } from './api.ts';
+import type { Schema } from './schema.ts';
 
 interface ParameterOptionsBase<TName extends string | number | symbol> {
   name: TName;

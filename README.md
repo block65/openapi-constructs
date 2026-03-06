@@ -17,7 +17,6 @@ import {
   SecurityScheme,
   Server,
   Tag,
-  HttpMethods,
 } from '@block65/openapi-constructs';
 
 const api = new Api({
@@ -135,7 +134,7 @@ new Path(api, {
   path: '/users',
   tags: new Set([userTag]),
 })
-  .addOperation(HttpMethods.GET, {
+  .addOperation("GET", {
     operationId: 'listUsersCommand',
     responses: {
       200: new Response(api, 'ListUsersResponse', {
@@ -147,7 +146,7 @@ new Path(api, {
       }),
     },
   })
-  .addOperation(HttpMethods.POST, {
+  .addOperation("POST", {
     operationId: 'createUserCommand',
     requestBody: {
       content: {
@@ -170,7 +169,7 @@ new Path(api, {
   path: '/users/{userId}',
   parameters: [userIdParameter],
 })
-  .addOperation(HttpMethods.GET, {
+  .addOperation("GET", {
     operationId: 'getUserByIdCommand',
     responses: {
       200: new Response(api, 'GetUserById', {
@@ -182,15 +181,15 @@ new Path(api, {
       }),
     },
   })
-  .addOperation(HttpMethods.DELETE, {
+  .addOperation("DELETE", {
     operationId: 'deleteUserByIdCommand',
     security: userDeleteScopeReq,
   })
-  .addOperation(HttpMethods.HEAD, {
+  .addOperation("HEAD", {
     operationId: 'checkUserIdAvailableCommand',
     security: noSecurityRequirement,
   })
-  .addOperation(HttpMethods.POST, {
+  .addOperation("POST", {
     operationId: 'updateUserCommand',
     requestBody: {
       content: {

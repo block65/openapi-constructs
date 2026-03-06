@@ -1,13 +1,13 @@
 import { Construct } from 'constructs';
 import type { oas31 } from 'openapi3-ts';
-import type { HttpMethods } from './http-methods.js';
-import type { Parameter } from './parameter.js';
-import { RequestBody, type RequestBodyOptions } from './request-body.js';
-import type { Response } from './response.js';
-import type { SecurityRequirement } from './security-requirement.js';
-import type { Tag } from './tag.js';
-import type { ExtractRouteParams } from './types.js';
-import { stripUndefined } from './utils.js';
+import type { Parameter } from './parameter.ts';
+import { RequestBody, type RequestBodyOptions } from './request-body.ts';
+import type { Response } from './response.ts';
+import type { SecurityRequirement } from './security-requirement.ts';
+import type { Tag } from './tag.ts';
+import type { ExtractRouteParams } from './types.ts';
+import { stripUndefined } from './utils.ts';
+import type { HttpMethod } from './http-method.ts';
 
 export interface OperationOptions<TPath extends string = '/'> {
   operationId: string;
@@ -27,7 +27,7 @@ export interface OperationOptions<TPath extends string = '/'> {
 export class Operation<TPath extends string = '/'> extends Construct {
   private readonly options: OperationOptions<TPath>;
 
-  public readonly method: HttpMethods;
+  public readonly method: HttpMethod;
 
   public readonly order: number;
 
@@ -39,7 +39,7 @@ export class Operation<TPath extends string = '/'> extends Construct {
 
   constructor(
     scope: Construct,
-    method: HttpMethods,
+    method: HttpMethod,
     options: OperationOptions<TPath>,
   ) {
     super(scope, method);

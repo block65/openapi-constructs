@@ -1,22 +1,20 @@
 /* eslint-disable max-classes-per-file */
 import { Construct } from 'constructs';
 
-export { HttpMethods } from './http-methods.js';
-
 // export the version of Constructs we are using to ensure we're
 // everyone is using the same version
 export { Construct };
 
-export { Api, OpenApiVersion } from './api.js';
-export { Parameter } from './parameter.js';
-export { Path } from './path.js';
-export { Reference } from './reference.js';
-export { Response } from './response.js';
-export { Schema, type SchemaOptions } from './schema.js';
-export { SecurityRequirement } from './security-requirement.js';
-export { SecurityScheme } from './security-scheme.js';
-export { Server } from './server.js';
-export { Tag } from './tag.js';
+export { Api } from './api.ts';
+export { Parameter } from './parameter.ts';
+export { Path } from './path.ts';
+export { Reference } from './reference.ts';
+export { Response } from './response.ts';
+export { Schema, type SchemaOptions } from './schema.ts';
+export { SecurityRequirement } from './security-requirement.ts';
+export { SecurityScheme } from './security-scheme.ts';
+export { Server } from './server.ts';
+export { Tag } from './tag.ts';
 
 export class ServerVariable extends Construct {}
 

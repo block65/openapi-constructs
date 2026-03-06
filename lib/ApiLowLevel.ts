@@ -1,5 +1,5 @@
 import { Construct, type IConstruct } from 'constructs';
-import type { Api } from './api.js';
+import type { Api } from './api.ts';
 
 export class ApiLowLevel extends Construct {
   public static of(c: IConstruct): Api {

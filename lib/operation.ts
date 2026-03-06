@@ -1,11 +1,10 @@
 import { Construct } from 'constructs';
 import type { oas31 } from 'openapi3-ts';
-import type { Parameter } from './parameter.ts';
 import { RequestBody, type RequestBodyOptions } from './request-body.ts';
 import type { Response } from './response.ts';
 import type { SecurityRequirement } from './security-requirement.ts';
 import type { Tag } from './tag.ts';
-import type { ExtractRouteParams } from './types.ts';
+import type { ValidParameter } from './types.ts';
 import { stripUndefined } from './utils.ts';
 import type { HttpMethod } from './http-method.ts';
 
@@ -15,7 +14,7 @@ export interface OperationOptions<TPath extends string = '/'> {
   description?: string;
   tags?: Set<Tag>;
   deprecated?: boolean;
-  parameters?: Parameter<keyof ExtractRouteParams<TPath>>[];
+  parameters?: ValidParameter<TPath>[];
   security?: SecurityRequirement;
   responses?: {
     [statusCode: string | number]: Response;

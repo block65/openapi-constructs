@@ -3,16 +3,15 @@ import type { oas31 } from 'openapi3-ts';
 import type { Api } from './api.ts';
 import type { HttpMethod } from './http-method.ts';
 import { Operation, type OperationOptions } from './operation.ts';
-import type { Parameter } from './parameter.ts';
 import type { Server } from './server.ts';
 import type { Tag } from './tag.ts';
-import type { ExtractRouteParams } from './types.ts';
+import type { ValidParameter } from './types.ts';
 
 interface PathOptions<TPath extends string> {
   path: TPath;
   summary?: string;
   servers?: Server[];
-  parameters?: Parameter<keyof ExtractRouteParams<TPath>>[];
+  parameters?: ValidParameter<TPath>[];
   tags?: Set<Tag>;
 }
 

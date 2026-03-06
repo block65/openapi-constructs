@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import type { oas31 } from 'openapi3-ts';
-import type { Header } from './header.js';
-import { MediaType, type MediaTypeOptions } from './media-type.js';
+import type { Header } from './header.ts';
+import { MediaType, type MediaTypeOptions } from './media-type.ts';
 
 interface ResponseOptions {
   content?: MediaType | MediaTypeOptions;

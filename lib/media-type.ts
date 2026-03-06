@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import type { oas31 } from 'openapi3-ts';
-import { Reference } from './reference.js';
-import type { Schema } from './schema.js';
+import { Reference } from './reference.ts';
+import type { Schema } from './schema.ts';
 
 export interface MediaTypeOptions {
   contentType:

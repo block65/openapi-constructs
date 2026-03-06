@@ -1,7 +1,6 @@
 /* eslint-disable no-new */
 import {
   Api,
-  OpenApiVersion,
   Parameter,
   Path,
   Reference,
@@ -11,11 +10,10 @@ import {
   SecurityScheme,
   Server,
   Tag,
-  HttpMethods,
 } from '@block65/openapi-constructs';
 
 const api = new Api({
-  openapi: OpenApiVersion.V3_1,
+  openapi: "3.1.0",
   info: {
     title: 'Example REST API',
     version: '1.0.0',
@@ -51,7 +49,7 @@ const noSecurityRequirement = new SecurityRequirement(api, 'NoSecurity');
 const addressSchema = new Schema(api, 'Address', {
   schema: {
     type: 'object',
-    required: ['name'],
+    required: ['postcode'],
     additionalProperties: false,
     properties: {
       postcode: {
@@ -131,7 +129,7 @@ new Path(api, {
   path: '/users',
   tags: new Set([userTag]),
 })
-  .addOperation(HttpMethods.GET, {
+  .addOperation("get", {
     operationId: 'listUsersCommand',
     responses: {
       200: new Response(api, 'ListUsersResponse', {
@@ -143,7 +141,7 @@ new Path(api, {
       }),
     },
   })
-  .addOperation(HttpMethods.POST, {
+  .addOperation("post", {
     operationId: 'createUserCommand',
     requestBody: {
       content: {
@@ -166,7 +164,7 @@ new Path(api, {
   path: '/users/{userId}',
   parameters: [userIdParameter],
 })
-  .addOperation(HttpMethods.GET, {
+  .addOperation("get", {
     operationId: 'getUserByIdCommand',
     responses: {
       200: new Response(api, 'GetUserById', {
@@ -178,15 +176,15 @@ new Path(api, {
       }),
     },
   })
-  .addOperation(HttpMethods.DELETE, {
+  .addOperation("delete", {
     operationId: 'deleteUserByIdCommand',
     security: userDeleteScopeReq,
   })
-  .addOperation(HttpMethods.HEAD, {
+  .addOperation("head", {
     operationId: 'checkUserIdAvailableCommand',
     security: noSecurityRequirement,
   })
-  .addOperation(HttpMethods.POST, {
+  .addOperation("post", {
     operationId: 'updateUserCommand',
     requestBody: {
       content: {

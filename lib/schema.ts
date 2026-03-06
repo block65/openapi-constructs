@@ -1,34 +1,35 @@
 import { Construct } from 'constructs';
 import type { oas31 } from 'openapi3-ts';
 
-type InferExample<T> = T extends oas31.ReferenceObject
+type InferExample<TSchema, TStopRecurse extends boolean = false> = TSchema extends oas31.ReferenceObject
   ? any
-  : T extends {
+  : TSchema extends {
         type: 'string';
       }
     ? string
-    : T extends {
+    : TSchema extends {
           type: 'number' | 'integer';
         }
       ? number
-      : T extends {
+      : TSchema extends {
             type: 'boolean';
           }
         ? boolean
-        : T extends oas31.SchemaObject & { type: 'object' }
+        : TSchema extends oas31.SchemaObject & { type: 'object' }
           ? {
-              [K in keyof T['properties']]: InferExample<T['properties'][K]>;
+              [K in keyof TSchema['properties']]: TStopRecurse extends true ? unknown : InferExample<TSchema['properties'][K], true>;
             }
-          : T extends oas31.SchemaObject & { type: 'array' }
-            ? InferExample<T['items']>[]
+          : TSchema extends oas31.SchemaObject & { type: 'array' }
+            ? TStopRecurse extends true ? unknown : InferExample<TSchema['items']>[]
             : any;
 
-export type SchemaOptions<T extends oas31.SchemaObject> = {
+
+export type SchemaOptions<T extends Omit<oas31.SchemaObject, 'required'>> = {
   schema: T & {
     examples?: InferExample<T>[];
+    required?: T extends { type: 'object', properties: infer P } ? (keyof P)[] : string[];
   };
 };
-
 export class Schema<
   const T extends oas31.SchemaObject = oas31.SchemaObject,
 > extends Construct {

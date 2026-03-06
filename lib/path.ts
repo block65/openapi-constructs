@@ -1,12 +1,12 @@
 import { Construct } from 'constructs';
 import type { oas31 } from 'openapi3-ts';
-import type { Api } from './api.js';
-import { HttpMethods } from './http-methods.js';
-import { Operation, type OperationOptions } from './operation.js';
-import type { Parameter } from './parameter.js';
-import type { Server } from './server.js';
-import type { Tag } from './tag.js';
-import type { ExtractRouteParams } from './types.js';
+import type { Api } from './api.ts';
+import type { HttpMethod } from './http-method.ts';
+import { Operation, type OperationOptions } from './operation.ts';
+import type { Parameter } from './parameter.ts';
+import type { Server } from './server.ts';
+import type { Tag } from './tag.ts';
+import type { ExtractRouteParams } from './types.ts';
 
 interface PathOptions<TPath extends string> {
   path: TPath;
@@ -25,7 +25,7 @@ export class Path<TPath extends string = '/'> extends Construct {
   }
 
   public addOperation(
-    method: HttpMethods,
+    method: HttpMethod,
     options: OperationOptions<TPath>,
   ): this {
     // make sure we are not duplicating tags

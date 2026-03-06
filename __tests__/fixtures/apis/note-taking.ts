@@ -1,8 +1,6 @@
 /* eslint-disable no-new */
 import {
   Api,
-  HttpMethods,
-  OpenApiVersion,
   Parameter,
   Path,
   Reference,
@@ -15,7 +13,7 @@ import {
 } from '@block65/openapi-constructs';
 
 export const noteTakingApi = new Api({
-  openapi: OpenApiVersion.V3_1,
+  openapi: "3.1.0",
   info: {
     title: 'Example REST API',
     version: '1.0.0',
@@ -62,7 +60,7 @@ const noSecurityRequirement = new SecurityRequirement(
 const addressSchema = new Schema(noteTakingApi, 'Address', {
   schema: {
     type: 'object',
-    required: ['name'],
+    required: ['postcode'],
     additionalProperties: false,
     properties: {
       postcode: {
@@ -140,7 +138,7 @@ new Path(noteTakingApi, {
   path: '/users',
   tags: new Set([userApiTag]),
 })
-  .addOperation(HttpMethods.GET, {
+  .addOperation("get", {
     operationId: 'listUsersCommand',
     responses: {
       200: new Response(noteTakingApi, 'ListUsersResponse', {
@@ -152,7 +150,7 @@ new Path(noteTakingApi, {
       }),
     },
   })
-  .addOperation(HttpMethods.POST, {
+  .addOperation("post", {
     operationId: 'createUserCommand',
     requestBody: {
       content: {
@@ -175,7 +173,7 @@ new Path(noteTakingApi, {
   path: '/users/{userId}',
   parameters: [userIdParameter],
 })
-  .addOperation(HttpMethods.GET, {
+  .addOperation("get", {
     operationId: 'getUserByIdCommand',
     responses: {
       200: new Response(noteTakingApi, 'GetUserById', {
@@ -187,11 +185,11 @@ new Path(noteTakingApi, {
       }),
     },
   })
-  .addOperation(HttpMethods.DELETE, {
+  .addOperation("delete", {
     operationId: 'deleteUserByIdCommand',
     security: userDeleteScopeReq,
   })
-  .addOperation(HttpMethods.HEAD, {
+  .addOperation("head", {
     operationId: 'checkUserIdAvailableCommand',
     security: noSecurityRequirement,
     responses: {
@@ -199,7 +197,7 @@ new Path(noteTakingApi, {
       404: new Response(noteTakingApi, 'HeadUserResponseNotFound'),
     },
   })
-  .addOperation(HttpMethods.POST, {
+  .addOperation("post", {
     operationId: 'updateUserCommand',
     requestBody: {
       content: {
@@ -270,7 +268,7 @@ new Path(noteTakingApi, {
   tags: new Set([userApiTag]),
   parameters: [noteUserIdParameter],
 })
-  .addOperation(HttpMethods.GET, {
+  .addOperation("get", {
     operationId: 'listNotesCommand',
     description: 'List all of the notes',
     summary: 'List notes',
@@ -284,7 +282,7 @@ new Path(noteTakingApi, {
       }),
     },
   })
-  .addOperation(HttpMethods.POST, {
+  .addOperation("post", {
     operationId: 'createNoteCommand',
     deprecated: true,
     requestBody: {
@@ -342,7 +340,7 @@ new Path(noteTakingApi, {
   path: '/users/{userId}/notes/{noteId}',
   parameters: [noteUserIdParameter, noteIdParameter],
 })
-  .addOperation(HttpMethods.GET, {
+  .addOperation("get", {
     operationId: 'getNoteCommand',
     responses: {
       200: new Response(noteTakingApi, 'GetNote', {
@@ -354,11 +352,11 @@ new Path(noteTakingApi, {
       }),
     },
   })
-  .addOperation(HttpMethods.DELETE, {
+  .addOperation("delete", {
     operationId: 'deleteNoteCommand',
     security: noteDeleteScopeReq,
   })
-  .addOperation(HttpMethods.POST, {
+  .addOperation("post", {
     operationId: 'updateNoteCommand',
     requestBody: {
       content: {

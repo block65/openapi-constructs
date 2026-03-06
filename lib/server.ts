@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import type { oas31 } from 'openapi3-ts';
-import type { Api } from './api.js';
+import type { Api } from './api.ts';
 
 interface ServerOptions {
   url: URL;

@@ -2,3 +2,5 @@ node_modules
 dist
 coverage
 tmp
+.vscode
+tsconfig.tsbuildinfo

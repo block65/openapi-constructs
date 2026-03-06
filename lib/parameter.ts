@@ -3,9 +3,12 @@ import type { oas31 } from 'openapi3-ts';
 import type { Api } from './api.ts';
 import type { Schema } from './schema.ts';
 
-interface ParameterOptionsBase<TName extends string | number | symbol> {
+interface ParameterOptionsBase<
+  TName extends string | number | symbol,
+  TIn extends 'query' | 'header' | 'path' | 'cookie',
+> {
   name: TName;
-  in: 'query' | 'header' | 'path' | 'cookie';
+  in: TIn;
   required: boolean;
   description?: string;
   deprecated?: boolean;
@@ -14,8 +17,10 @@ interface ParameterOptionsBase<TName extends string | number | symbol> {
   style?: 'simple';
 }
 
-interface ParameterOptions<TName extends string | number | symbol>
-  extends ParameterOptionsBase<TName> {
+interface ParameterOptions<
+  TName extends string | number | symbol,
+  TIn extends 'query' | 'header' | 'path' | 'cookie',
+> extends ParameterOptionsBase<TName, TIn> {
   schema: Schema;
 }
 
@@ -26,10 +31,11 @@ interface ParameterOptions<TName extends string | number | symbol>
 
 export class Parameter<
   TName extends string | number | symbol = '',
+  TIn extends 'query' | 'header' | 'path' | 'cookie' = 'query',
 > extends Construct {
-  private options: ParameterOptions<TName>;
+  private options: ParameterOptions<TName, TIn>;
 
-  constructor(scope: Api, id: string, options: ParameterOptions<TName>) {
+  constructor(scope: Api, id: string, options: ParameterOptions<TName, TIn>) {
     super(scope, id);
     this.options = options;
   }

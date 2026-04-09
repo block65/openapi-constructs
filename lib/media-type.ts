@@ -3,12 +3,17 @@ import type { oas31 } from 'openapi3-ts';
 import { Reference } from './reference.ts';
 import type { Schema } from './schema.ts';
 
+type ContentType =
+  | 'application/json'
+  | 'application/octet-stream'
+  | 'application/x-www-form-urlencoded'
+  | 'multipart/form-data'
+  | 'text/plain'
+  | 'image/*'
+  | (string & {});
+
 export interface MediaTypeOptions {
-  contentType:
-    | 'multipart/form-data'
-    | 'application/x-www-form-urlencoded'
-    | 'application/json'
-    | 'image/*';
+  contentType: ContentType;
   schema: Schema | Reference<Schema>;
 }
 

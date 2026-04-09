@@ -4,36 +4,50 @@ import type { Header } from './header.ts';
 import { MediaType, type MediaTypeOptions } from './media-type.ts';
 
 interface ResponseOptions {
-  content?: MediaType | MediaTypeOptions;
+  content?: MediaType | MediaTypeOptions | (MediaType | MediaTypeOptions)[];
   description?: string;
-  headers?: Header[];
+  headers?: Record<Lowercase<string>, Header>;
 }
 
 export class Response extends Construct {
   private options: ResponseOptions;
 
-  private content?: MediaType | undefined;
+  private contentEntries: MediaType[];
 
   constructor(scope: Construct, id: string, options: ResponseOptions = {}) {
     super(scope, id);
     this.options = options;
 
-    if (options.content) {
-      this.content =
-        options.content instanceof MediaType
-          ? options.content
-          : new MediaType(this, `${id}MediaType`, options.content);
-    }
+    const items = options.content
+      ? Array.isArray(options.content)
+        ? options.content
+        : [options.content]
+      : [];
+
+    this.contentEntries = items.map((item, index) =>
+      item instanceof MediaType
+        ? item
+        : new MediaType(this, `${id}MediaType${index}`, item),
+    );
   }
 
   public synth() {
     return {
       description: this.options.description || 'Successful response',
-      content: {
-        ...(this.content && {
-          [this.content.contentType]: this.content.synth(),
-        }),
-      },
+      content: Object.fromEntries(
+        this.contentEntries.map((entry) => [
+          entry.contentType,
+          entry.synth(),
+        ]),
+      ),
+      ...(this.options.headers && {
+        headers: Object.fromEntries(
+          Object.entries(this.options.headers).map(([name, header]) => [
+            name,
+            header.synth(),
+          ]),
+        ),
+      }),
     } satisfies oas31.ResponseObject;
   }
 }

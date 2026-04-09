@@ -12,5 +12,5 @@ export type ExtractRouteParams<T> = string extends T
 export type ValidParameter<TPath extends string> =
   | Parameter<keyof ExtractRouteParams<TPath>, 'path'>
   | Parameter<string, 'query'>
-  | Parameter<string, 'header'>
+  | Parameter<Lowercase<string>, 'header'>
   | Parameter<string, 'cookie'>;

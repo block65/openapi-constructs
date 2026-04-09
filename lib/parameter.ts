@@ -3,18 +3,35 @@ import type { oas31 } from 'openapi3-ts';
 import type { Api } from './api.ts';
 import type { Schema } from './schema.ts';
 
+type StyleForIn<TIn extends 'query' | 'header' | 'path' | 'cookie'> =
+  TIn extends 'path'
+    ? 'matrix' | 'label' | 'simple'
+    : TIn extends 'query'
+      ? 'form' | 'spaceDelimited' | 'pipeDelimited' | 'deepObject'
+      : TIn extends 'header'
+        ? 'simple'
+        : TIn extends 'cookie'
+          ? 'form'
+          : never;
+
+type ParameterName<
+  TName extends string | number | symbol,
+  TIn extends 'query' | 'header' | 'path' | 'cookie',
+> = TIn extends 'header' ? TName & Lowercase<TName & string> : TName;
+
 interface ParameterOptionsBase<
   TName extends string | number | symbol,
   TIn extends 'query' | 'header' | 'path' | 'cookie',
 > {
-  name: TName;
+  name: ParameterName<TName, TIn>;
   in: TIn;
   required: boolean;
   description?: string;
   deprecated?: boolean;
   allowEmptyValue?: boolean;
   allowReserved?: boolean;
-  style?: 'simple';
+  style?: StyleForIn<TIn>;
+  explode?: boolean;
 }
 
 interface ParameterOptions<
@@ -23,11 +40,6 @@ interface ParameterOptions<
 > extends ParameterOptionsBase<TName, TIn> {
   schema: Schema;
 }
-
-// interface ParameterOptions<TName extends string | number | symbol>
-//   extends ParameterOptionsBase<TName> {
-//   content: unknown;
-// }
 
 export class Parameter<
   TName extends string | number | symbol = '',
@@ -69,6 +81,7 @@ export class Parameter<
         allowEmptyValue: this.options.allowEmptyValue,
       }),
       ...(this.options.style && { style: this.options.style }),
+      ...(this.options.explode != null && { explode: this.options.explode }),
       ...(this.options.schema && {
         schema: this.options.schema.referenceObject(),
       }),

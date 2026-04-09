@@ -6,6 +6,7 @@ import { Construct } from 'constructs';
 export { Construct };
 
 export { Api } from './api.ts';
+export { Header } from './header.ts';
 export { Parameter } from './parameter.ts';
 export { Path } from './path.ts';
 export { Reference } from './reference.ts';

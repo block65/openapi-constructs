@@ -19,6 +19,10 @@ exports[`Example > JSON Schema snapshot 1`] = `
       ],
       "type": "object",
     },
+    "Binary": {
+      "format": "binary",
+      "type": "string",
+    },
     "CreateUserRequest": {
       "additionalProperties": false,
       "properties": {
@@ -51,6 +55,11 @@ exports[`Example > JSON Schema snapshot 1`] = `
     },
     "Id": {
       "type": "string",
+    },
+    "RateLimit": {
+      "format": "int32",
+      "minimum": 0,
+      "type": "integer",
     },
     "UpdateUserRequest": {
       "additionalProperties": false,

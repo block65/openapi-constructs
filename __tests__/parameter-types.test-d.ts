@@ -14,7 +14,12 @@ expectTypeOf<Parameter<'anyName', 'query'>>().toExtend<
   ValidParameter<'/users/{userId}'>
 >();
 
-// Test that header parameters can be any string
+// Test that lowercase header parameters are allowed
+expectTypeOf<Parameter<'x-custom-header', 'header'>>().toExtend<
+  ValidParameter<'/users/{userId}'>
+>();
+
+// @ts-expect-error uppercase header parameter names are not allowed (HTTP/2)
 expectTypeOf<Parameter<'X-Custom-Header', 'header'>>().toExtend<
   ValidParameter<'/users/{userId}'>
 >();

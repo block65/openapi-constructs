@@ -3,6 +3,21 @@
 exports[`Example > OpenAPI 1`] = `
 {
   "components": {
+    "headers": {
+      "x-rate-limit": {
+        "description": "Number of requests allowed per hour",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/RateLimit",
+        },
+      },
+      "x-rate-limit-remaining": {
+        "description": "Number of requests remaining in the current window",
+        "schema": {
+          "$ref": "#/components/schemas/RateLimit",
+        },
+      },
+    },
     "parameters": {
       "UserId": {
         "in": "path",
@@ -28,6 +43,10 @@ exports[`Example > OpenAPI 1`] = `
           "postcode",
         ],
         "type": "object",
+      },
+      "Binary": {
+        "format": "binary",
+        "type": "string",
       },
       "CreateUserRequest": {
         "additionalProperties": false,
@@ -61,6 +80,11 @@ exports[`Example > OpenAPI 1`] = `
       },
       "Id": {
         "type": "string",
+      },
+      "RateLimit": {
+        "format": "int32",
+        "minimum": 0,
+        "type": "integer",
       },
       "UpdateUserRequest": {
         "additionalProperties": false,
@@ -142,6 +166,21 @@ exports[`Example > OpenAPI 1`] = `
               },
             },
             "description": "User 200 response",
+            "headers": {
+              "x-rate-limit": {
+                "description": "Number of requests allowed per hour",
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimit",
+                },
+              },
+              "x-rate-limit-remaining": {
+                "description": "Number of requests remaining in the current window",
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimit",
+                },
+              },
+            },
           },
         },
         "tags": [
@@ -250,6 +289,63 @@ exports[`Example > OpenAPI 1`] = `
         "tags": [],
       },
     },
+    "/users/{userId}/avatar": {
+      "get": {
+        "description": "Download user avatar as JSON metadata or raw binary",
+        "operationId": "getUserAvatarCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/Binary",
+                },
+              },
+            },
+            "description": "Avatar response",
+          },
+        },
+        "tags": [],
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/UserId",
+        },
+      ],
+      "put": {
+        "description": "Upload user avatar as binary",
+        "operationId": "uploadUserAvatarCommand",
+        "requestBody": {
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "$ref": "#/components/schemas/Binary",
+              },
+            },
+          },
+          "description": "",
+          "required": true,
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+            },
+            "description": "Successful response",
+          },
+        },
+        "tags": [],
+      },
+    },
   },
   "security": [
     {
@@ -281,6 +377,25 @@ exports[`Example > OpenAPI 1`] = `
 exports[`Example > Swagger Parser validate 1`] = `
 {
   "components": {
+    "headers": {
+      "x-rate-limit": {
+        "description": "Number of requests allowed per hour",
+        "required": true,
+        "schema": {
+          "format": "int32",
+          "minimum": 0,
+          "type": "integer",
+        },
+      },
+      "x-rate-limit-remaining": {
+        "description": "Number of requests remaining in the current window",
+        "schema": {
+          "format": "int32",
+          "minimum": 0,
+          "type": "integer",
+        },
+      },
+    },
     "parameters": {
       "UserId": {
         "in": "path",
@@ -306,6 +421,10 @@ exports[`Example > Swagger Parser validate 1`] = `
           "postcode",
         ],
         "type": "object",
+      },
+      "Binary": {
+        "format": "binary",
+        "type": "string",
       },
       "CreateUserRequest": {
         "additionalProperties": false,
@@ -351,6 +470,11 @@ exports[`Example > Swagger Parser validate 1`] = `
       },
       "Id": {
         "type": "string",
+      },
+      "RateLimit": {
+        "format": "int32",
+        "minimum": 0,
+        "type": "integer",
       },
       "UpdateUserRequest": {
         "additionalProperties": false,
@@ -538,6 +662,25 @@ exports[`Example > Swagger Parser validate 1`] = `
               },
             },
             "description": "User 200 response",
+            "headers": {
+              "x-rate-limit": {
+                "description": "Number of requests allowed per hour",
+                "required": true,
+                "schema": {
+                  "format": "int32",
+                  "minimum": 0,
+                  "type": "integer",
+                },
+              },
+              "x-rate-limit-remaining": {
+                "description": "Number of requests remaining in the current window",
+                "schema": {
+                  "format": "int32",
+                  "minimum": 0,
+                  "type": "integer",
+                },
+              },
+            },
           },
         },
         "tags": [
@@ -835,6 +978,148 @@ exports[`Example > Swagger Parser validate 1`] = `
         "tags": [],
       },
     },
+    "/users/{userId}/avatar": {
+      "get": {
+        "description": "Download user avatar as JSON metadata or raw binary",
+        "operationId": "getUserAvatarCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "address": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "postcode": {
+                          "format": "int32",
+                          "maximum": 9999,
+                          "minimum": 1000,
+                          "type": "integer",
+                        },
+                      },
+                      "required": [
+                        "postcode",
+                      ],
+                      "type": "object",
+                    },
+                    "age": {
+                      "anyOf": [
+                        {
+                          "format": "int32",
+                          "minimum": 0,
+                          "type": "integer",
+                        },
+                        {
+                          "type": "null",
+                        },
+                      ],
+                    },
+                    "name": {
+                      "type": "string",
+                    },
+                    "userId": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "name",
+                  ],
+                  "type": "object",
+                },
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string",
+                },
+              },
+            },
+            "description": "Avatar response",
+          },
+        },
+        "tags": [],
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": true,
+          "schema": {
+            "type": "string",
+          },
+        },
+      ],
+      "put": {
+        "description": "Upload user avatar as binary",
+        "operationId": "uploadUserAvatarCommand",
+        "requestBody": {
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "format": "binary",
+                "type": "string",
+              },
+            },
+          },
+          "description": "",
+          "required": true,
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "address": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "postcode": {
+                          "format": "int32",
+                          "maximum": 9999,
+                          "minimum": 1000,
+                          "type": "integer",
+                        },
+                      },
+                      "required": [
+                        "postcode",
+                      ],
+                      "type": "object",
+                    },
+                    "age": {
+                      "anyOf": [
+                        {
+                          "format": "int32",
+                          "minimum": 0,
+                          "type": "integer",
+                        },
+                        {
+                          "type": "null",
+                        },
+                      ],
+                    },
+                    "name": {
+                      "type": "string",
+                    },
+                    "userId": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "name",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Successful response",
+          },
+        },
+        "tags": [],
+      },
+    },
   },
   "security": [
     {
@@ -866,6 +1151,7 @@ exports[`Example > Swagger Parser validate 1`] = `
 exports[`Note Taking > OpenAPI 1`] = `
 {
   "components": {
+    "headers": {},
     "parameters": {
       "NoteId": {
         "in": "path",
@@ -1353,6 +1639,7 @@ exports[`Note Taking > OpenAPI 1`] = `
 exports[`Note Taking > Swagger Parser validate 1`] = `
 {
   "components": {
+    "headers": {},
     "parameters": {
       "NoteId": {
         "in": "path",

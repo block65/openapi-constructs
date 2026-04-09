@@ -1,6 +1,7 @@
 import type { JSONSchema7 } from 'json-schema';
 import type { oas31 } from 'openapi3-ts';
 import { ApiLowLevel } from './ApiLowLevel.ts';
+import { Header } from './header.ts';
 import { Parameter } from './parameter.ts';
 import { Path } from './path.ts';
 import { Reference } from './reference.ts';
@@ -57,6 +58,11 @@ export class Api extends ApiLowLevel {
               (child): child is SecurityScheme =>
                 child instanceof SecurityScheme,
             )
+            .map((child) => [child.schemaKey, child.synth()]),
+        ),
+        headers: Object.fromEntries(
+          this.node.children
+            .filter((child): child is Header => child instanceof Header)
             .map((child) => [child.schemaKey, child.synth()]),
         ),
       },

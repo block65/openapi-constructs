@@ -1,6 +1,7 @@
 /* eslint-disable no-new */
 import {
   Api,
+  Header,
   Schema,
   Parameter,
   Path,
@@ -154,6 +155,32 @@ const users = new Schema(exampleApi, 'Users', {
   schema: idSchema,
 }); */
 
+const rateLimitSchema = new Schema(exampleApi, 'RateLimit', {
+  schema: {
+    type: 'integer',
+    format: 'int32',
+    minimum: 0,
+  },
+});
+
+const rateLimitHeader = new Header(exampleApi, 'x-rate-limit', {
+  description: 'Number of requests allowed per hour',
+  required: true,
+  schema: rateLimitSchema,
+});
+
+const rateLimitRemainingHeader = new Header(exampleApi, 'x-rate-limit-remaining', {
+  description: 'Number of requests remaining in the current window',
+  schema: rateLimitSchema,
+});
+
+const binarySchema = new Schema(exampleApi, 'Binary', {
+  schema: {
+    type: 'string',
+    format: 'binary',
+  },
+});
+
 const userIdParameter = new Parameter(exampleApi, 'UserId', {
   name: 'userId',
   in: 'path',
@@ -192,6 +219,10 @@ new Path(exampleApi, {
         content: {
           contentType: 'application/json',
           schema: users,
+        },
+        headers: {
+          'x-rate-limit': rateLimitHeader,
+          'x-rate-limit-remaining': rateLimitRemainingHeader,
         },
       }),
     },
@@ -251,6 +282,48 @@ new Path(exampleApi, {
     },
     responses: {
       200: new Response(exampleApi, 'UpdateUserResponse200', {
+        content: {
+          contentType: 'application/json',
+          schema: user,
+        },
+      }),
+    },
+  });
+
+new Path(exampleApi, {
+  path: '/users/{userId}/avatar',
+  parameters: [userIdParameter],
+})
+  .addOperation("get", {
+    operationId: 'getUserAvatarCommand',
+    description: 'Download user avatar as JSON metadata or raw binary',
+    responses: {
+      200: new Response(exampleApi, 'GetUserAvatar200Response', {
+        description: 'Avatar response',
+        content: [
+          {
+            contentType: 'application/json',
+            schema: user,
+          },
+          {
+            contentType: 'application/octet-stream',
+            schema: binarySchema,
+          },
+        ],
+      }),
+    },
+  })
+  .addOperation("put", {
+    operationId: 'uploadUserAvatarCommand',
+    description: 'Upload user avatar as binary',
+    requestBody: {
+      content: {
+        contentType: 'application/octet-stream',
+        schema: binarySchema,
+      },
+    },
+    responses: {
+      200: new Response(exampleApi, 'UploadUserAvatar200Response', {
         content: {
           contentType: 'application/json',
           schema: user,

@@ -1,18 +1,11 @@
-import { Ajv2020 } from "ajv/dist/2020.js";
+import { validate } from "@hyperjump/json-schema/openapi-3-1";
 import { describe, expect, test } from "vitest";
 import { exampleApi } from "./fixtures/apis/example.ts";
 import { noteTakingApi } from "./fixtures/apis/note-taking.ts";
-import oas31Schema from "./fixtures/oas31.json" with { type: "json" };
+import { toJson } from "./json.ts";
 
-const ajv = new Ajv2020({
-	// the official schema leaves the object type implicit beside object keywords
-	strictTypes: false,
-	// and lists components both by name and by a pattern that matches them
-	allowMatchingProperties: true,
-	// its formats are checked only with ajv-formats, which is not installed
-	validateFormats: false,
-});
-const validateOas31 = ajv.compile(oas31Schema);
+// schema-base also checks each Schema Object against the OpenAPI 3.1 dialect
+const oas31SchemaBase = "https://spec.openapis.org/oas/3.1/schema-base";
 
 describe.each([
 	["Example", exampleApi],
@@ -24,13 +17,19 @@ describe.each([
 		expect(document).toMatchSnapshot();
 	});
 
-	test("OpenAPI 3.1 schema validate", () => {
-		validateOas31(document);
+	test("OpenAPI 3.1 schema validate", async () => {
+		const output = await validate(oas31SchemaBase, toJson(document), "BASIC");
 
-		expect(validateOas31.errors ?? []).toStrictEqual([]);
+		expect(output).toStrictEqual({ valid: true });
 	});
 
-	test("OpenAPI 3.1 schema rejects an unknown top-level key", () => {
-		expect(validateOas31({ ...document, bogus: true })).toBe(false);
+	test("OpenAPI 3.1 schema rejects an unknown top-level key", async () => {
+		const output = await validate(
+			oas31SchemaBase,
+			toJson({ ...document, bogus: true }),
+			"BASIC",
+		);
+
+		expect(output.valid).toBe(false);
 	});
 });

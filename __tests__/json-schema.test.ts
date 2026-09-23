@@ -1,30 +1,36 @@
-import { Ajv } from "ajv";
-import { test, expect, describe } from "vitest";
+import { validate } from "@hyperjump/json-schema/draft-07";
+import { describe, expect, test } from "vitest";
 import { exampleApi } from "./fixtures/apis/example.ts";
 import { noteTakingApi } from "./fixtures/apis/note-taking.ts";
+import { toJson } from "./json.ts";
 
-describe("Example", () => {
-	const jsonSchema = exampleApi.synthJsonSchema();
+describe.each([
+	["Example", exampleApi],
+	["Note Taking", noteTakingApi],
+])("%s", (_, api) => {
+	const jsonSchema = api.synthJsonSchema();
 
-	test("JSON Schema snapshot", async () => {
+	test("JSON Schema snapshot", () => {
 		expect(jsonSchema).toMatchSnapshot();
 	});
 
-	test("JSON Schema AJV validate", async () => {
-		const ajv = new Ajv();
-		expect(ajv.validateSchema(jsonSchema)).toBeTruthy();
-	});
-});
+	test("JSON Schema validates against the dialect it declares", async () => {
+		const output = await validate(
+			jsonSchema.$schema,
+			toJson(jsonSchema),
+			"BASIC",
+		);
 
-describe("Note Taking", () => {
-	const jsonSchema = noteTakingApi.synthJsonSchema();
-
-	test("JSON Schema snapshot", async () => {
-		expect(jsonSchema).toMatchSnapshot();
+		expect(output).toStrictEqual({ valid: true });
 	});
 
-	test("JSON Schema AJV validate", async () => {
-		const ajv = new Ajv();
-		expect(ajv.validateSchema(jsonSchema)).toBeTruthy();
+	test("JSON Schema dialect rejects an invalid type", async () => {
+		const output = await validate(
+			jsonSchema.$schema,
+			toJson({ ...jsonSchema, definitions: { Invalid: { type: "nope" } } }),
+			"BASIC",
+		);
+
+		expect(output.valid).toBe(false);
 	});
 });

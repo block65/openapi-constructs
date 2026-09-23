@@ -1,6 +1,7 @@
 {
 	"$id": "https://spec.openapis.org/oas/3.1/schema/2022-10-07",
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$comment": "Vendored 2024-10-12 from https://spec.openapis.org/oas/3.1/schema/2022-10-07 and patched: each \"$dynamicRef\": \"#meta\" is \"$ref\": \"#/$defs/schema\", because ajv mis-resolves $dynamicRef. The two are equivalent here, since $defs/schema holds the only meta anchor.",
 	"description": "The description of OpenAPI v3.1.x documents without schema validation, as defined by https://spec.openapis.org/oas/v3.1.0",
 	"type": "object",
 	"properties": {
@@ -197,7 +198,7 @@
 				"schemas": {
 					"type": "object",
 					"additionalProperties": {
-						"$dynamicRef": "#meta"
+						"$ref": "#/$defs/schema"
 					}
 				},
 				"responses": {
@@ -437,7 +438,7 @@
 					"type": "boolean"
 				},
 				"schema": {
-					"$dynamicRef": "#meta"
+					"$ref": "#/$defs/schema"
 				},
 				"content": {
 					"$ref": "#/$defs/content",
@@ -650,7 +651,7 @@
 			"type": "object",
 			"properties": {
 				"schema": {
-					"$dynamicRef": "#meta"
+					"$ref": "#/$defs/schema"
 				},
 				"encoding": {
 					"type": "object",
@@ -885,7 +886,7 @@
 					"type": "boolean"
 				},
 				"schema": {
-					"$dynamicRef": "#meta"
+					"$ref": "#/$defs/schema"
 				},
 				"content": {
 					"$ref": "#/$defs/content",

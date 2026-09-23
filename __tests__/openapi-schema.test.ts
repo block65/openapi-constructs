@@ -1,48 +1,36 @@
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import path from "node:path";
-import SwaggerParser from "@apidevtools/swagger-parser";
-import { test, expect, describe } from "vitest";
+import { Ajv2020 } from "ajv/dist/2020.js";
+import { describe, expect, test } from "vitest";
 import { exampleApi } from "./fixtures/apis/example.ts";
 import { noteTakingApi } from "./fixtures/apis/note-taking.ts";
+import oas31Schema from "./fixtures/oas31.json" with { type: "json" };
 
-// the JSON is validated, since openapi3-ts and openapi-types types disagree
-async function validate(document: object) {
-	const dir = await mkdtemp(path.join(tmpdir(), "openapi-constructs-"));
-	const file = path.join(dir, "openapi.json");
-
-	try {
-		await writeFile(file, JSON.stringify(document));
-		return await SwaggerParser.validate(file);
-	} finally {
-		await rm(dir, { recursive: true });
-	}
-}
-
-describe("Example", () => {
-	test("OpenAPI", async () => {
-		const document = exampleApi.synth();
-		expect(document).toMatchSnapshot();
-	});
-
-	test("Swagger Parser validate", async () => {
-		const document = exampleApi.synth();
-
-		const result = await validate(document);
-		expect(result).toMatchSnapshot();
-	});
+const ajv = new Ajv2020({
+	// the official schema leaves the object type implicit beside object keywords
+	strictTypes: false,
+	// and lists components both by name and by a pattern that matches them
+	allowMatchingProperties: true,
+	// its formats are checked only with ajv-formats, which is not installed
+	validateFormats: false,
 });
+const validateOas31 = ajv.compile(oas31Schema);
 
-describe("Note Taking", () => {
-	test("OpenAPI", async () => {
-		const document = noteTakingApi.synth();
+describe.each([
+	["Example", exampleApi],
+	["Note Taking", noteTakingApi],
+])("%s", (_, api) => {
+	const document = api.synth();
+
+	test("OpenAPI", () => {
 		expect(document).toMatchSnapshot();
 	});
 
-	test("Swagger Parser validate", async () => {
-		const document = noteTakingApi.synth();
+	test("OpenAPI 3.1 schema validate", () => {
+		validateOas31(document);
 
-		const result = await validate(document);
-		expect(result).toMatchSnapshot();
+		expect(validateOas31.errors ?? []).toStrictEqual([]);
+	});
+
+	test("OpenAPI 3.1 schema rejects an unknown top-level key", () => {
+		expect(validateOas31({ ...document, bogus: true })).toBe(false);
 	});
 });

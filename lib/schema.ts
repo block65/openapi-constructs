@@ -72,12 +72,60 @@ export class Schema<
 	}
 
 	public synth() {
+		const { schema } = this.options;
+
 		return {
 			// default to disallow additional properties on objects
-			...(this.options.schema.type === "object" && {
+			...((schema.type === "object" || isOpenObject(schema)) && {
 				additionalProperties: false,
 			}),
-			...this.options.schema,
+			...schema,
+			...closeNested(schema),
 		};
 	}
+}
+
+type SchemaOrReference = oas31.SchemaObject | oas31.ReferenceObject;
+
+// JSON Schema lets through any key an object does not rule out
+function isOpenObject(schema: oas31.SchemaObject) {
+	return (
+		schema.properties !== undefined &&
+		schema.additionalProperties === undefined &&
+		!("patternProperties" in schema) &&
+		!("unevaluatedProperties" in schema)
+	);
+}
+
+// allOf is left alone, because closed members reject each other's keys
+function closeNested(schema: oas31.SchemaObject) {
+	const { properties, items, prefixItems, oneOf, anyOf, additionalProperties } =
+		schema;
+
+	return {
+		...(properties && {
+			properties: Object.fromEntries(
+				Object.entries(properties).map(([name, value]) => [name, close(value)]),
+			),
+		}),
+		...(items && { items: close(items) }),
+		...(prefixItems && { prefixItems: prefixItems.map((item) => close(item)) }),
+		...(oneOf && { oneOf: oneOf.map((item) => close(item)) }),
+		...(anyOf && { anyOf: anyOf.map((item) => close(item)) }),
+		...(typeof additionalProperties === "object" && {
+			additionalProperties: close(additionalProperties),
+		}),
+	} satisfies oas31.SchemaObject;
+}
+
+function close(schema: SchemaOrReference): SchemaOrReference {
+	if ("$ref" in schema) {
+		return schema;
+	}
+
+	return {
+		...(isOpenObject(schema) && { additionalProperties: false }),
+		...schema,
+		...closeNested(schema),
+	};
 }

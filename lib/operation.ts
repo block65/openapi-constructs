@@ -1,105 +1,105 @@
-import { Construct } from 'constructs';
-import type { oas31 } from 'openapi3-ts';
-import { RequestBody, type RequestBodyOptions } from './request-body.ts';
-import type { Response } from './response.ts';
-import type { SecurityRequirement } from './security-requirement.ts';
-import type { Tag } from './tag.ts';
-import type { ValidParameter } from './types.ts';
-import { stripUndefined } from './utils.ts';
-import type { HttpMethod } from './http-method.ts';
+import { Construct } from "constructs";
+import type { oas31 } from "openapi3-ts";
+import type { HttpMethod } from "./http-method.ts";
+import { RequestBody, type RequestBodyOptions } from "./request-body.ts";
+import type { Response } from "./response.ts";
+import type { SecurityRequirement } from "./security-requirement.ts";
+import type { Tag } from "./tag.ts";
+import type { ValidParameter } from "./types.ts";
+import { stripUndefined } from "./utils.ts";
 
-export interface OperationOptions<TPath extends string = '/'> {
-  operationId: string;
-  summary?: string;
-  description?: string;
-  tags?: Set<Tag>;
-  deprecated?: boolean;
-  parameters?: ValidParameter<TPath>[];
-  security?: SecurityRequirement;
-  responses?: {
-    [statusCode: string | number]: Response;
-  };
-  requestBody?: RequestBody | RequestBodyOptions;
-  order?: number;
+export interface OperationOptions<TPath extends string = "/"> {
+	operationId: string;
+	summary?: string;
+	description?: string;
+	tags?: Set<Tag>;
+	deprecated?: boolean;
+	parameters?: ValidParameter<TPath>[];
+	security?: SecurityRequirement;
+	responses?: {
+		[statusCode: string | number]: Response;
+	};
+	requestBody?: RequestBody | RequestBodyOptions;
+	order?: number;
 }
 
-export class Operation<TPath extends string = '/'> extends Construct {
-  private readonly options: OperationOptions<TPath>;
+export class Operation<TPath extends string = "/"> extends Construct {
+	private readonly options: OperationOptions<TPath>;
 
-  public readonly method: HttpMethod;
+	public readonly method: HttpMethod;
 
-  public readonly order: number;
+	public readonly order: number;
 
-  private requestBody?: RequestBody;
+	private requestBody?: RequestBody;
 
-  public hasOperationId(operationId: OperationOptions['operationId']): boolean {
-    return this.options.operationId === operationId;
-  }
+	public hasOperationId(operationId: OperationOptions["operationId"]): boolean {
+		return this.options.operationId === operationId;
+	}
 
-  constructor(
-    scope: Construct,
-    method: HttpMethod,
-    options: OperationOptions<TPath>,
-  ) {
-    super(scope, method);
-    this.method = method;
-    this.options = options;
+	constructor(
+		scope: Construct,
+		method: HttpMethod,
+		options: OperationOptions<TPath>,
+	) {
+		super(scope, method);
+		this.method = method;
+		this.options = options;
 
-    this.order = options.order || 0;
+		this.order = options.order || 0;
 
-    if (options.requestBody) {
-      this.requestBody =
-        options.requestBody instanceof RequestBody
-          ? options.requestBody
-          : new RequestBody(this, method, options.requestBody);
-    }
-  }
+		if (options.requestBody) {
+			this.requestBody =
+				options.requestBody instanceof RequestBody
+					? options.requestBody
+					: new RequestBody(this, method, options.requestBody);
+		}
+	}
 
-  public validate() {
-    // const api = Api.of(this).node.findChild;
+	public validate() {
+		// const api = Api.of(this).node.findChild;
 
-    const duplicateOperation = this.node.scope?.node.children
-      .filter(
-        (child): child is Operation =>
-          child instanceof Operation && child !== this,
-      )
-      .find((child) => child.hasOperationId(this.options.operationId));
+		const duplicateOperation = this.node.scope?.node.children
+			.filter(
+				(child): child is Operation =>
+					child instanceof Operation && child !== this,
+			)
+			.find((child) => child.hasOperationId(this.options.operationId));
 
-    if (duplicateOperation) {
-      return [`Duplicate operationId ${this.options.operationId}`];
-    }
+		if (duplicateOperation) {
+			return [`Duplicate operationId ${this.options.operationId}`];
+		}
 
-    return [];
-  }
+		return [];
+	}
 
-  public synth() {
-    return stripUndefined({
-      operationId: this.options.operationId,
-      description: this.options.description || undefined,
-      summary: this.options.summary || undefined,
-      tags:
-        this.options.tags && [...this.options.tags].map((child) => child.name),
-      deprecated: this.options.deprecated,
-      ...(this.options.parameters && {
-        parameters: this.options.parameters.map((child) => child.synth()),
-      }),
-      ...(this.options.security && {
-        security: [this.options.security.synth()],
-      }),
-      ...(this.options.tags && {
-        tags: Array.from(this.options.tags).map((child) => child.name),
-      }),
-      ...(this.requestBody && {
-        requestBody: this.requestBody.synth(),
-      }),
-      ...(this.options.responses && {
-        responses: Object.fromEntries(
-          Object.entries(this.options.responses).map(([statusCode, child]) => [
-            statusCode.toString(),
-            child.synth(),
-          ]),
-        ),
-      }),
-    }) satisfies oas31.OperationObject;
-  }
+	public synth() {
+		return stripUndefined({
+			operationId: this.options.operationId,
+			description: this.options.description || undefined,
+			summary: this.options.summary || undefined,
+			tags:
+				this.options.tags && [...this.options.tags].map((child) => child.name),
+			deprecated: this.options.deprecated,
+			...(this.options.parameters && {
+				parameters: this.options.parameters.map((child) => child.synth()),
+			}),
+			...(this.options.security && {
+				security: [this.options.security.synth()],
+			}),
+			...(this.options.tags && {
+				tags: Array.from(this.options.tags).map((child) => child.name),
+			}),
+			...(this.requestBody && {
+				requestBody: this.requestBody.synth(),
+			}),
+			...(this.options.responses && {
+				responses: Object.fromEntries(
+					Object.entries(this.options.responses).map(([statusCode, child]) => [
+						statusCode.toString(),
+						child.synth(),
+					]),
+				),
+			}),
+		}) satisfies oas31.OperationObject;
+	}
 }

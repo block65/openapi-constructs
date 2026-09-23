@@ -1,138 +1,138 @@
 /* eslint-disable no-new */
 import {
-  Api,
-  Header,
-  Schema,
-  Parameter,
-  Path,
-  Reference,
-  Response,
-  SecurityRequirement,
-  SecurityScheme,
-  Server,
-  Tag,
-} from '@block65/openapi-constructs';
+	Api,
+	Header,
+	Schema,
+	Parameter,
+	Path,
+	Reference,
+	Response,
+	SecurityRequirement,
+	SecurityScheme,
+	Server,
+	Tag,
+} from "@block65/openapi-constructs";
 
 export const exampleApi = new Api({
-  openapi: "3.1.0",
-  info: {
-    title: 'Example REST API',
-    version: '1.0.0',
-  },
+	openapi: "3.1.0",
+	info: {
+		title: "Example REST API",
+		version: "1.0.0",
+	},
 });
 
-new Server(exampleApi, 'ExampleServer', {
-  url: new URL('https://api.example.com'),
+new Server(exampleApi, "ExampleServer", {
+	url: new URL("https://api.example.com"),
 });
 
 const httpBearerJwtScheme = new SecurityScheme(
-  exampleApi,
-  'HttpBearerJwtScheme',
-  {
-    type: 'http',
-    scheme: 'bearer',
-    bearerFormat: 'JWT',
-  },
+	exampleApi,
+	"HttpBearerJwtScheme",
+	{
+		type: "http",
+		scheme: "bearer",
+		bearerFormat: "JWT",
+	},
 );
 
-new SecurityRequirement(exampleApi, 'AllScopes', {
-  securityScheme: httpBearerJwtScheme,
-  scopes: [],
+new SecurityRequirement(exampleApi, "AllScopes", {
+	securityScheme: httpBearerJwtScheme,
+	scopes: [],
 });
 
-const userTag = new Tag(exampleApi, 'UserTag', {
-  name: 'user',
+const userTag = new Tag(exampleApi, "UserTag", {
+	name: "user",
 });
 
-const randomTag = new Tag(exampleApi, 'RandomTag', {
-  name: 'random',
+const randomTag = new Tag(exampleApi, "RandomTag", {
+	name: "random",
 });
 
 const userDeleteScopeReq = new SecurityRequirement(
-  exampleApi,
-  'UserReadScope',
-  {
-    securityScheme: httpBearerJwtScheme,
-    scopes: ['users.delete'],
-  },
+	exampleApi,
+	"UserReadScope",
+	{
+		securityScheme: httpBearerJwtScheme,
+		scopes: ["users.delete"],
+	},
 );
 
-const noSecurityRequirement = new SecurityRequirement(exampleApi, 'NoSecurity');
+const noSecurityRequirement = new SecurityRequirement(exampleApi, "NoSecurity");
 
-const addressSchema = new Schema(exampleApi, 'Address', {
-  schema: {
-    type: 'object',
-    required: ['postcode'],
-    additionalProperties: false,
-    properties: {
-      postcode: {
-        type: 'integer',
-        format: 'int32',
-        minimum: 1000,
-        maximum: 9999,
-      },
-    },
-  },
+const addressSchema = new Schema(exampleApi, "Address", {
+	schema: {
+		type: "object",
+		required: ["postcode"],
+		additionalProperties: false,
+		properties: {
+			postcode: {
+				type: "integer",
+				format: "int32",
+				minimum: 1000,
+				maximum: 9999,
+			},
+		},
+	},
 });
 
-const idSchema = new Schema(exampleApi, 'Id', {
-  schema: {
-    type: 'string',
-  },
+const idSchema = new Schema(exampleApi, "Id", {
+	schema: {
+		type: "string",
+	},
 });
 
-const user = new Schema(exampleApi, 'User', {
-  schema: {
-    type: 'object',
-    required: ['name'],
-    additionalProperties: false,
-    properties: {
-      userId: idSchema.referenceObject(),
-      name: {
-        type: 'string',
-      },
-      address: addressSchema.referenceObject(),
-      age: {
-        anyOf: [
-          {
-            type: 'integer',
-            format: 'int32',
-            minimum: 0,
-          },
-          {
-            type: 'null',
-          },
-        ],
-      },
-    },
-  },
+const user = new Schema(exampleApi, "User", {
+	schema: {
+		type: "object",
+		required: ["name"],
+		additionalProperties: false,
+		properties: {
+			userId: idSchema.referenceObject(),
+			name: {
+				type: "string",
+			},
+			address: addressSchema.referenceObject(),
+			age: {
+				anyOf: [
+					{
+						type: "integer",
+						format: "int32",
+						minimum: 0,
+					},
+					{
+						type: "null",
+					},
+				],
+			},
+		},
+	},
 });
 
-const updateUserRequest = new Schema(exampleApi, 'UpdateUserRequest', {
-  schema: {
-    type: 'object',
-    minProperties: 1,
-    additionalProperties: false,
-    properties: {
-      address: addressSchema.referenceObject(),
-      age: {
-        type: 'integer',
-        format: 'int32',
-        minimum: 0,
-      },
-    },
-  },
+const updateUserRequest = new Schema(exampleApi, "UpdateUserRequest", {
+	schema: {
+		type: "object",
+		minProperties: 1,
+		additionalProperties: false,
+		properties: {
+			address: addressSchema.referenceObject(),
+			age: {
+				type: "integer",
+				format: "int32",
+				minimum: 0,
+			},
+		},
+	},
 });
 
-const createUserRequest = new Reference(user, 'CreateUserRequest');
+const createUserRequest = new Reference(user, "CreateUserRequest");
 
-const users = new Schema(exampleApi, 'Users', {
-  schema: {
-    type: 'array',
-    // additionalItems: false,
-    uniqueItems: true,
-    items: user.referenceObject(),
-  },
+const users = new Schema(exampleApi, "Users", {
+	schema: {
+		type: "array",
+		// additionalItems: false,
+		uniqueItems: true,
+		items: user.referenceObject(),
+	},
 });
 
 /* const errorSchema = new Schema(api, 'ErrorSchema', {
@@ -155,37 +155,41 @@ const users = new Schema(exampleApi, 'Users', {
   schema: idSchema,
 }); */
 
-const rateLimitSchema = new Schema(exampleApi, 'RateLimit', {
-  schema: {
-    type: 'integer',
-    format: 'int32',
-    minimum: 0,
-  },
+const rateLimitSchema = new Schema(exampleApi, "RateLimit", {
+	schema: {
+		type: "integer",
+		format: "int32",
+		minimum: 0,
+	},
 });
 
-const rateLimitHeader = new Header(exampleApi, 'x-rate-limit', {
-  description: 'Number of requests allowed per hour',
-  required: true,
-  schema: rateLimitSchema,
+const rateLimitHeader = new Header(exampleApi, "x-rate-limit", {
+	description: "Number of requests allowed per hour",
+	required: true,
+	schema: rateLimitSchema,
 });
 
-const rateLimitRemainingHeader = new Header(exampleApi, 'x-rate-limit-remaining', {
-  description: 'Number of requests remaining in the current window',
-  schema: rateLimitSchema,
+const rateLimitRemainingHeader = new Header(
+	exampleApi,
+	"x-rate-limit-remaining",
+	{
+		description: "Number of requests remaining in the current window",
+		schema: rateLimitSchema,
+	},
+);
+
+const binarySchema = new Schema(exampleApi, "Binary", {
+	schema: {
+		type: "string",
+		format: "binary",
+	},
 });
 
-const binarySchema = new Schema(exampleApi, 'Binary', {
-  schema: {
-    type: 'string',
-    format: 'binary',
-  },
-});
-
-const userIdParameter = new Parameter(exampleApi, 'UserId', {
-  name: 'userId',
-  in: 'path',
-  required: true,
-  schema: idSchema,
+const userIdParameter = new Parameter(exampleApi, "UserId", {
+	name: "userId",
+	in: "path",
+	required: true,
+	schema: idSchema,
 });
 
 /* const userIdentifiersSchema = new Schema(api, 'UserIdentifiers', {
@@ -208,126 +212,126 @@ const userIdParameter = new Parameter(exampleApi, 'UserId', {
 }); */
 
 new Path(exampleApi, {
-  path: '/users',
-  tags: new Set([userTag]),
+	path: "/users",
+	tags: new Set([userTag]),
 })
-  .addOperation("get", {
-    operationId: 'listUsersCommand',
-    responses: {
-      200: new Response(exampleApi, 'ListUsers200Response', {
-        description: 'User 200 response',
-        content: {
-          contentType: 'application/json',
-          schema: users,
-        },
-        headers: {
-          'x-rate-limit': rateLimitHeader,
-          'x-rate-limit-remaining': rateLimitRemainingHeader,
-        },
-      }),
-    },
-  })
-  .addOperation("post", {
-    operationId: 'createUserCommand',
-    tags: new Set([randomTag]),
-    requestBody: {
-      content: {
-        contentType: 'application/json',
-        schema: createUserRequest,
-      },
-    },
-    responses: {
-      200: new Response(exampleApi, 'CreateUser200Response', {
-        description: 'User 200 response',
-        content: {
-          contentType: 'application/json',
-          schema: users,
-        },
-      }),
-    },
-  });
+	.addOperation("get", {
+		operationId: "listUsersCommand",
+		responses: {
+			200: new Response(exampleApi, "ListUsers200Response", {
+				description: "User 200 response",
+				content: {
+					contentType: "application/json",
+					schema: users,
+				},
+				headers: {
+					"x-rate-limit": rateLimitHeader,
+					"x-rate-limit-remaining": rateLimitRemainingHeader,
+				},
+			}),
+		},
+	})
+	.addOperation("post", {
+		operationId: "createUserCommand",
+		tags: new Set([randomTag]),
+		requestBody: {
+			content: {
+				contentType: "application/json",
+				schema: createUserRequest,
+			},
+		},
+		responses: {
+			200: new Response(exampleApi, "CreateUser200Response", {
+				description: "User 200 response",
+				content: {
+					contentType: "application/json",
+					schema: users,
+				},
+			}),
+		},
+	});
 
 new Path(exampleApi, {
-  path: '/users/{userId}',
-  parameters: [userIdParameter],
+	path: "/users/{userId}",
+	parameters: [userIdParameter],
 })
-  .addOperation("get", {
-    operationId: 'getUserByIdCommand',
-    responses: {
-      200: new Response(exampleApi, 'GetUserById', {
-        description: 'User 200 response',
-        content: {
-          contentType: 'application/json',
-          schema: user,
-        },
-      }),
-    },
-  })
-  .addOperation("delete", {
-    operationId: 'deleteUserByIdCommand',
-    security: userDeleteScopeReq,
-    tags: new Set([userTag, randomTag]),
-  })
-  .addOperation("head", {
-    operationId: 'checkUserIdAvailableCommand',
-    security: noSecurityRequirement,
-  })
-  .addOperation("post", {
-    operationId: 'updateUserCommand',
-    requestBody: {
-      content: {
-        contentType: 'application/json',
-        schema: updateUserRequest,
-      },
-    },
-    responses: {
-      200: new Response(exampleApi, 'UpdateUserResponse200', {
-        content: {
-          contentType: 'application/json',
-          schema: user,
-        },
-      }),
-    },
-  });
+	.addOperation("get", {
+		operationId: "getUserByIdCommand",
+		responses: {
+			200: new Response(exampleApi, "GetUserById", {
+				description: "User 200 response",
+				content: {
+					contentType: "application/json",
+					schema: user,
+				},
+			}),
+		},
+	})
+	.addOperation("delete", {
+		operationId: "deleteUserByIdCommand",
+		security: userDeleteScopeReq,
+		tags: new Set([userTag, randomTag]),
+	})
+	.addOperation("head", {
+		operationId: "checkUserIdAvailableCommand",
+		security: noSecurityRequirement,
+	})
+	.addOperation("post", {
+		operationId: "updateUserCommand",
+		requestBody: {
+			content: {
+				contentType: "application/json",
+				schema: updateUserRequest,
+			},
+		},
+		responses: {
+			200: new Response(exampleApi, "UpdateUserResponse200", {
+				content: {
+					contentType: "application/json",
+					schema: user,
+				},
+			}),
+		},
+	});
 
 new Path(exampleApi, {
-  path: '/users/{userId}/avatar',
-  parameters: [userIdParameter],
+	path: "/users/{userId}/avatar",
+	parameters: [userIdParameter],
 })
-  .addOperation("get", {
-    operationId: 'getUserAvatarCommand',
-    description: 'Download user avatar as JSON metadata or raw binary',
-    responses: {
-      200: new Response(exampleApi, 'GetUserAvatar200Response', {
-        description: 'Avatar response',
-        content: [
-          {
-            contentType: 'application/json',
-            schema: user,
-          },
-          {
-            contentType: 'application/octet-stream',
-            schema: binarySchema,
-          },
-        ],
-      }),
-    },
-  })
-  .addOperation("put", {
-    operationId: 'uploadUserAvatarCommand',
-    description: 'Upload user avatar as binary',
-    requestBody: {
-      content: {
-        contentType: 'application/octet-stream',
-        schema: binarySchema,
-      },
-    },
-    responses: {
-      200: new Response(exampleApi, 'UploadUserAvatar200Response', {
-        content: {
-          contentType: 'application/json',
-          schema: user,
-        },
-      }),
-    },
-  });
+	.addOperation("get", {
+		operationId: "getUserAvatarCommand",
+		description: "Download user avatar as JSON metadata or raw binary",
+		responses: {
+			200: new Response(exampleApi, "GetUserAvatar200Response", {
+				description: "Avatar response",
+				content: [
+					{
+						contentType: "application/json",
+						schema: user,
+					},
+					{
+						contentType: "application/octet-stream",
+						schema: binarySchema,
+					},
+				],
+			}),
+		},
+	})
+	.addOperation("put", {
+		operationId: "uploadUserAvatarCommand",
+		description: "Upload user avatar as binary",
+		requestBody: {
+			content: {
+				contentType: "application/octet-stream",
+				schema: binarySchema,
+			},
+		},
+		responses: {
+			200: new Response(exampleApi, "UploadUserAvatar200Response", {
+				content: {
+					contentType: "application/json",
+					schema: user,
+				},
+			}),
+		},
+	});

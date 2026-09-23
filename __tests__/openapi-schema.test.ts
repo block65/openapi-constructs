@@ -11,6 +11,7 @@ describe("Example", () => {
 
 	test("Swagger Parser validate", async () => {
 		const document = exampleApi.synth();
+
 		// WARN: this function mutates the input
 		// @ts-expect-error openapi3-ts and openapi-types have incompatible types under exactOptionalPropertyTypes
 		const result = await SwaggerParser.validate(structuredClone(document));
@@ -26,6 +27,7 @@ describe("Note Taking", () => {
 
 	test("Swagger Parser validate", async () => {
 		const document = noteTakingApi.synth();
+
 		// WARN: this function mutates the input
 		// @ts-expect-error openapi3-ts and openapi-types have incompatible types under exactOptionalPropertyTypes
 		const result = await SwaggerParser.validate(structuredClone(document));

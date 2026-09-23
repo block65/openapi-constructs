@@ -1,4 +1,4 @@
-/* eslint-disable no-new */
+// oxlint-disable no-new -- constructs attach to their scope when built
 import {
 	Api,
 	Parameter,

@@ -1,4 +1,4 @@
-/* eslint-disable no-new */
+// oxlint-disable no-new -- constructs attach to their scope when built
 import {
 	Api,
 	Parameter,
@@ -202,4 +202,4 @@ new Path(api, {
 		},
 	});
 
-process.stdout.write(JSON.stringify(api.synth(), null, 2));
+process.stdout.write(JSON.stringify(api.synth(), undefined, 2));

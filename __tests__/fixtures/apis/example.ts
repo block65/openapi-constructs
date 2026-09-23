@@ -1,4 +1,4 @@
-/* eslint-disable no-new */
+// oxlint-disable no-new -- constructs attach to their scope when built
 import {
 	Api,
 	Header,
@@ -129,31 +129,10 @@ const createUserRequest = new Reference(user, "CreateUserRequest");
 const users = new Schema(exampleApi, "Users", {
 	schema: {
 		type: "array",
-		// additionalItems: false,
 		uniqueItems: true,
 		items: user.referenceObject(),
 	},
 });
-
-/* const errorSchema = new Schema(api, 'ErrorSchema', {
-  schema: {
-    type: 'object',
-    required: ['name'],
-    additionalProperties: false,
-    properties: {
-      name: {
-        type: 'string',
-      },
-    },
-  },
-}); */
-
-/* const idParameter = new Parameter(api, 'IdParam', {
-  name: 'userId',
-  in: 'path',
-  required: true,
-  schema: idSchema,
-}); */
 
 const rateLimitSchema = new Schema(exampleApi, "RateLimit", {
 	schema: {
@@ -191,25 +170,6 @@ const userIdParameter = new Parameter(exampleApi, "UserId", {
 	required: true,
 	schema: idSchema,
 });
-
-/* const userIdentifiersSchema = new Schema(api, 'UserIdentifiers', {
-  schema: {
-    type: 'object',
-    additionalProperties: false,
-    required: ['userId'],
-    properties: {
-      userId: userIdParameter.referenceObject(),
-    },
-  },
-}); */
-
-/* const errorResponse = new Response(api, 'ErrorResponse', {
-  description: 'Error response',
-  content: new MediaType(api, 'Error', {
-    contentType: 'application/json',
-    schema: errorSchema,
-  }),
-}); */
 
 new Path(exampleApi, {
 	path: "/users",

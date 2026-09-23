@@ -1,6 +1,5 @@
 import { Api, Schema } from "@block65/openapi-constructs";
-/* eslint-disable no-new */
-import { test } from "vitest";
+import { expect, test } from "vitest";
 
 test("Regression", async () => {
 	const api = new Api({
@@ -33,20 +32,23 @@ test("Regression", async () => {
 		},
 	});
 
-	new Schema(api, "Test2", {
-		schema: {
-			allOf: [
-				schema1.schema,
-				{
-					type: "object",
-					required: ["name"],
-					properties: {
-						name: {
-							type: "string",
+	expect(
+		() =>
+			new Schema(api, "Test2", {
+				schema: {
+					allOf: [
+						schema1.schema,
+						{
+							type: "object",
+							required: ["name"],
+							properties: {
+								name: {
+									type: "string",
+								},
+							},
 						},
-					},
+					],
 				},
-			],
-		},
-	});
+			}),
+	).not.toThrow();
 });

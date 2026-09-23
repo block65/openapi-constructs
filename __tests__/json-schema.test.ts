@@ -1,4 +1,3 @@
-/* eslint-disable no-new */
 import { Ajv } from "ajv";
 import { test, expect, describe } from "vitest";
 import { exampleApi } from "./fixtures/apis/example.ts";

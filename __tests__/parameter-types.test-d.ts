@@ -10,7 +10,7 @@ expectTypeOf<Parameter<"userId", "path">>().toExtend<PathParams>();
 expectTypeOf<Parameter<"notInRoute", "path">>().toExtend<PathParams>();
 
 // Test that query parameters can be any string
-expectTypeOf<Parameter<"anyName", "query">>().toExtend<
+expectTypeOf<Parameter<"anyName">>().toExtend<
 	ValidParameter<"/users/{userId}">
 >();
 
@@ -38,5 +38,5 @@ expectTypeOf<Parameter<"noteId", "path">>().toExtend<MultiParamRoute>();
 expectTypeOf<Parameter<"otherParam", "path">>().toExtend<MultiParamRoute>();
 
 // Test that non-path parameters work for any route
-expectTypeOf<Parameter<"limit", "query">>().toExtend<MultiParamRoute>();
-expectTypeOf<Parameter<"offset", "query">>().toExtend<MultiParamRoute>();
+expectTypeOf<Parameter<"limit">>().toExtend<MultiParamRoute>();
+expectTypeOf<Parameter<"offset">>().toExtend<MultiParamRoute>();

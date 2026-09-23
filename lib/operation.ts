@@ -6,7 +6,6 @@ import type { Response } from "./response.ts";
 import type { SecurityRequirement } from "./security-requirement.ts";
 import type { Tag } from "./tag.ts";
 import type { ValidParameter } from "./types.ts";
-import { stripUndefined } from "./utils.ts";
 
 export type OperationOptions<TPath extends string = "/"> = {
 	operationId: string;
@@ -71,21 +70,23 @@ export class Operation<TPath extends string = "/"> extends Construct {
 	}
 
 	public synth() {
-		return stripUndefined({
+		return {
 			operationId: this.options.operationId,
-			description: this.options.description || undefined,
-			summary: this.options.summary || undefined,
-			tags:
-				this.options.tags && [...this.options.tags].map((child) => child.name),
-			deprecated: this.options.deprecated,
+			...(this.options.description && {
+				description: this.options.description,
+			}),
+			...(this.options.summary && { summary: this.options.summary }),
+			...(this.options.tags && {
+				tags: [...this.options.tags].map((child) => child.name),
+			}),
+			...(this.options.deprecated !== undefined && {
+				deprecated: this.options.deprecated,
+			}),
 			...(this.options.parameters && {
 				parameters: this.options.parameters.map((child) => child.synth()),
 			}),
 			...(this.options.security && {
 				security: [this.options.security.synth()],
-			}),
-			...(this.options.tags && {
-				tags: [...this.options.tags].map((child) => child.name),
 			}),
 			...(this.requestBody && {
 				requestBody: this.requestBody.synth(),
@@ -98,6 +99,6 @@ export class Operation<TPath extends string = "/"> extends Construct {
 					]),
 				),
 			}),
-		}) satisfies oas31.OperationObject;
+		} satisfies oas31.OperationObject;
 	}
 }

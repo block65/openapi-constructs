@@ -1,17 +1,16 @@
-import { Construct, type IConstruct } from "constructs";
-import type { Api } from "./api.ts";
+import { RootConstruct, type IConstruct } from "constructs";
 
-export class ApiLowLevel extends Construct {
-	public static of(c: IConstruct): Api {
-		const { scope } = c.node;
+export class ApiLowLevel extends RootConstruct {
+	public static of<T extends ApiLowLevel>(
+		this: abstract new (...args: never[]) => T,
+		c: IConstruct,
+	): T {
+		const { root } = c.node;
 
-		if (!scope) {
-			// the root of the tree, which the API constructor creates. That class
-			// imports this module, so instanceof would be a circular import
-			// oxlint-disable-next-line typescript/no-unsafe-type-assertion -- the root
-			return c as Api;
+		if (root instanceof this) {
+			return root;
 		}
 
-		return ApiLowLevel.of(scope);
+		throw new TypeError(`${c.node.path} is not in a ${this.name} tree`);
 	}
 }

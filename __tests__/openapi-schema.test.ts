@@ -1,7 +1,23 @@
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import SwaggerParser from "@apidevtools/swagger-parser";
 import { test, expect, describe } from "vitest";
 import { exampleApi } from "./fixtures/apis/example.ts";
 import { noteTakingApi } from "./fixtures/apis/note-taking.ts";
+
+// the JSON is validated, since openapi3-ts and openapi-types types disagree
+async function validate(document: object) {
+	const dir = await mkdtemp(path.join(tmpdir(), "openapi-constructs-"));
+	const file = path.join(dir, "openapi.json");
+
+	try {
+		await writeFile(file, JSON.stringify(document));
+		return await SwaggerParser.validate(file);
+	} finally {
+		await rm(dir, { recursive: true });
+	}
+}
 
 describe("Example", () => {
 	test("OpenAPI", async () => {
@@ -12,9 +28,7 @@ describe("Example", () => {
 	test("Swagger Parser validate", async () => {
 		const document = exampleApi.synth();
 
-		// WARN: this function mutates the input
-		// @ts-expect-error openapi3-ts and openapi-types have incompatible types under exactOptionalPropertyTypes
-		const result = await SwaggerParser.validate(structuredClone(document));
+		const result = await validate(document);
 		expect(result).toMatchSnapshot();
 	});
 });
@@ -28,9 +42,7 @@ describe("Note Taking", () => {
 	test("Swagger Parser validate", async () => {
 		const document = noteTakingApi.synth();
 
-		// WARN: this function mutates the input
-		// @ts-expect-error openapi3-ts and openapi-types have incompatible types under exactOptionalPropertyTypes
-		const result = await SwaggerParser.validate(structuredClone(document));
+		const result = await validate(document);
 		expect(result).toMatchSnapshot();
 	});
 });

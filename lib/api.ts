@@ -22,9 +22,7 @@ export class Api extends ApiLowLevel {
 	private options: ApiOptions;
 
 	constructor(options: ApiOptions) {
-		// the root's scope is undefined, which the Construct constructor types deny
-		// oxlint-disable-next-line typescript/no-unsafe-type-assertion -- the root
-		super(undefined as any, "");
+		super("");
 
 		this.options = options;
 	}

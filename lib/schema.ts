@@ -5,7 +5,7 @@ type InferExample<
 	TSchema,
 	TStopRecurse extends boolean = false,
 > = TSchema extends oas31.ReferenceObject
-	? any
+	? unknown
 	: TSchema extends {
 				type: "string";
 		  }
@@ -28,7 +28,7 @@ type InferExample<
 						? TStopRecurse extends true
 							? unknown
 							: InferExample<TSchema["items"]>[]
-						: any;
+						: unknown;
 
 export type SchemaOptions<T extends Omit<oas31.SchemaObject, "required">> = {
 	schema: T & {

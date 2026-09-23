@@ -1,0 +1,10 @@
+{
+	"extends": ["npm:@block65/shared-config/lib/fallow/fallow.jsonc"],
+
+	"entry": [
+		"lib/index.ts",
+		"examples/example.ts",
+		"oxfmt.config.ts",
+		"oxlint.config.ts"
+	]
+}

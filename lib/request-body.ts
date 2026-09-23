@@ -2,11 +2,11 @@ import { Construct } from "constructs";
 import type { oas31 } from "openapi3-ts";
 import { MediaType, type MediaTypeOptions } from "./media-type.ts";
 
-export interface RequestBodyOptions {
+export type RequestBodyOptions = {
 	content: MediaType | MediaTypeOptions | (MediaType | MediaTypeOptions)[];
 	description?: string;
 	required?: boolean;
-}
+};
 
 export class RequestBody extends Construct {
 	private options: RequestBodyOptions;

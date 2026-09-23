@@ -8,7 +8,7 @@ import type { Tag } from "./tag.ts";
 import type { ValidParameter } from "./types.ts";
 import { stripUndefined } from "./utils.ts";
 
-export interface OperationOptions<TPath extends string = "/"> {
+export type OperationOptions<TPath extends string = "/"> = {
 	operationId: string;
 	summary?: string;
 	description?: string;
@@ -21,7 +21,7 @@ export interface OperationOptions<TPath extends string = "/"> {
 	};
 	requestBody?: RequestBody | RequestBodyOptions;
 	order?: number;
-}
+};
 
 export class Operation<TPath extends string = "/"> extends Construct {
 	private readonly options: OperationOptions<TPath>;
@@ -56,8 +56,6 @@ export class Operation<TPath extends string = "/"> extends Construct {
 	}
 
 	public validate() {
-		// const api = Api.of(this).node.findChild;
-
 		const duplicateOperation = this.node.scope?.node.children
 			.filter(
 				(child): child is Operation =>
@@ -87,7 +85,7 @@ export class Operation<TPath extends string = "/"> extends Construct {
 				security: [this.options.security.synth()],
 			}),
 			...(this.options.tags && {
-				tags: Array.from(this.options.tags).map((child) => child.name),
+				tags: [...this.options.tags].map((child) => child.name),
 			}),
 			...(this.requestBody && {
 				requestBody: this.requestBody.synth(),
@@ -95,7 +93,7 @@ export class Operation<TPath extends string = "/"> extends Construct {
 			...(this.options.responses && {
 				responses: Object.fromEntries(
 					Object.entries(this.options.responses).map(([statusCode, child]) => [
-						statusCode.toString(),
+						statusCode,
 						child.synth(),
 					]),
 				),

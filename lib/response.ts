@@ -3,11 +3,11 @@ import type { oas31 } from "openapi3-ts";
 import type { Header } from "./header.ts";
 import { MediaType, type MediaTypeOptions } from "./media-type.ts";
 
-interface ResponseOptions {
+type ResponseOptions = {
 	content?: MediaType | MediaTypeOptions | (MediaType | MediaTypeOptions)[];
 	description?: string;
 	headers?: Record<Lowercase<string>, Header>;
-}
+};
 
 export class Response extends Construct {
 	private options: ResponseOptions;
@@ -18,11 +18,8 @@ export class Response extends Construct {
 		super(scope, id);
 		this.options = options;
 
-		const items = options.content
-			? Array.isArray(options.content)
-				? options.content
-				: [options.content]
-			: [];
+		const { content = [] } = options;
+		const items = Array.isArray(content) ? content : [content];
 
 		this.contentEntries = items.map((item, index) =>
 			item instanceof MediaType

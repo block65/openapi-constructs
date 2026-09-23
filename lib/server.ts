@@ -2,10 +2,10 @@ import { Construct } from "constructs";
 import type { oas31 } from "openapi3-ts";
 import type { Api } from "./api.ts";
 
-interface ServerOptions {
+type ServerOptions = {
 	url: URL;
 	description?: string;
-}
+};
 
 export class Server extends Construct {
 	private options: ServerOptions;

@@ -1,9 +1,8 @@
-/* eslint-disable max-classes-per-file */
 import { Construct } from "constructs";
 
-// export the version of Constructs we are using to ensure we're
-// everyone is using the same version
-export { Construct };
+// consumers build on this copy of constructs, so their constructs and ours
+// share one class
+export { Construct } from "constructs";
 
 export { Api } from "./api.ts";
 export { Header } from "./header.ts";

@@ -2,7 +2,7 @@ import { Construct } from "constructs";
 import type { oas31 } from "openapi3-ts";
 import type { Schema } from "./schema.ts";
 
-interface HeaderOptions {
+type HeaderOptions = {
 	description?: string;
 	required?: boolean;
 	deprecated?: boolean;
@@ -11,7 +11,7 @@ interface HeaderOptions {
 	explode?: boolean;
 	allowReserved?: boolean;
 	schema: Schema;
-}
+};
 
 export class Header<TName extends string = string> extends Construct {
 	private options: HeaderOptions;

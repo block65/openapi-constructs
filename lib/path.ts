@@ -7,13 +7,13 @@ import type { Server } from "./server.ts";
 import type { Tag } from "./tag.ts";
 import type { ValidParameter } from "./types.ts";
 
-interface PathOptions<TPath extends string> {
+type PathOptions<TPath extends string> = {
 	path: TPath;
 	summary?: string;
 	servers?: Server[];
 	parameters?: ValidParameter<TPath>[];
 	tags?: Set<Tag>;
-}
+};
 
 export class Path<TPath extends string = "/"> extends Construct {
 	public options: PathOptions<TPath>;
@@ -27,10 +27,7 @@ export class Path<TPath extends string = "/"> extends Construct {
 		method: HttpMethod,
 		options: OperationOptions<TPath>,
 	): this {
-		// make sure we are not duplicating tags
-		// options.tags?.forEach((tag) => strict(!this.options.tags?.has(tag)));
-
-		// eslint-disable-next-line no-new
+		// oxlint-disable-next-line no-new -- it attaches itself to this path
 		new Operation(this, method, {
 			...options,
 			tags: new Set([...(this.options.tags || []), ...(options.tags || [])]),
@@ -50,7 +47,7 @@ export class Path<TPath extends string = "/"> extends Construct {
 					.filter(
 						(child): child is Operation<TPath> => child instanceof Operation,
 					)
-					.sort((a, b) => a.order - b.order)
+					.toSorted((a, b) => a.order - b.order)
 					.map((child) => [child.method, child.synth()]),
 			),
 			...(this.options.servers && {

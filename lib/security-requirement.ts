@@ -3,10 +3,10 @@ import type { oas31 } from "openapi3-ts";
 import type { Api } from "./api.ts";
 import type { SecurityScheme } from "./security-scheme.ts";
 
-interface SecurityRequirementOptions {
+type SecurityRequirementOptions = {
 	securityScheme?: SecurityScheme;
 	scopes?: string[];
-}
+};
 
 export class SecurityRequirement extends Construct {
 	private options: SecurityRequirementOptions;

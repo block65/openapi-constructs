@@ -19,10 +19,10 @@ type ParameterName<
 	TIn extends "query" | "header" | "path" | "cookie",
 > = TIn extends "header" ? TName & Lowercase<TName & string> : TName;
 
-interface ParameterOptionsBase<
+type ParameterOptionsBase<
 	TName extends string | number | symbol,
 	TIn extends "query" | "header" | "path" | "cookie",
-> {
+> = {
 	name: ParameterName<TName, TIn>;
 	in: TIn;
 	required: boolean;
@@ -32,7 +32,7 @@ interface ParameterOptionsBase<
 	allowReserved?: boolean;
 	style?: StyleForIn<TIn>;
 	explode?: boolean;
-}
+};
 
 interface ParameterOptions<
 	TName extends string | number | symbol,
@@ -81,7 +81,9 @@ export class Parameter<
 				allowEmptyValue: this.options.allowEmptyValue,
 			}),
 			...(this.options.style && { style: this.options.style }),
-			...(this.options.explode != null && { explode: this.options.explode }),
+			...(this.options.explode !== undefined && {
+				explode: this.options.explode,
+			}),
 			...(this.options.schema && {
 				schema: this.options.schema.referenceObject(),
 			}),

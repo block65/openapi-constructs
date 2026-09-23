@@ -12,10 +12,10 @@ type ContentType =
 	| "image/*"
 	| (string & {});
 
-export interface MediaTypeOptions {
+export type MediaTypeOptions = {
 	contentType: ContentType;
 	schema: Schema | Reference<Schema>;
-}
+};
 
 export class MediaType extends Construct {
 	private options: MediaTypeOptions;

@@ -1,6 +1,6 @@
 import type { JSONSchema7 } from "json-schema";
 import type { oas31 } from "openapi3-ts";
-import { ApiLowLevel } from "./ApiLowLevel.ts";
+import { ApiLowLevel } from "./api-low-level.ts";
 import { Header } from "./header.ts";
 import { Parameter } from "./parameter.ts";
 import { Path } from "./path.ts";
@@ -13,16 +13,17 @@ import { Tag } from "./tag.ts";
 
 export type OpenApiVersion = "3.0" | "3.1.0";
 
-export interface ApiOptions {
+export type ApiOptions = {
 	openapi: OpenApiVersion;
 	info: oas31.InfoObject;
-}
+};
 
 export class Api extends ApiLowLevel {
 	private options: ApiOptions;
 
 	constructor(options: ApiOptions) {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
+		// the root's scope is undefined, which the Construct constructor types deny
+		// oxlint-disable-next-line typescript/no-unsafe-type-assertion -- the root
 		super(undefined as any, "");
 
 		this.options = options;

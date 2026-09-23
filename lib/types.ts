@@ -1,6 +1,5 @@
 import type { Parameter } from "./parameter.ts";
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 export type ExtractRouteParams<T> = string extends T
 	? Record<string, string>
 	: T extends `${infer _Start}{${infer Param}}/${infer Rest}`
@@ -11,6 +10,6 @@ export type ExtractRouteParams<T> = string extends T
 
 export type ValidParameter<TPath extends string> =
 	| Parameter<keyof ExtractRouteParams<TPath>, "path">
-	| Parameter<string, "query">
+	| Parameter<string>
 	| Parameter<Lowercase<string>, "header">
 	| Parameter<string, "cookie">;

@@ -6,7 +6,9 @@ export class ApiLowLevel extends Construct {
 		const { scope } = c.node;
 
 		if (!scope) {
-			// Api is the only construct without a scope.
+			// the root of the tree, which the API constructor creates. That class
+			// imports this module, so instanceof would be a circular import
+			// oxlint-disable-next-line typescript/no-unsafe-type-assertion -- the root
 			return c as Api;
 		}
 

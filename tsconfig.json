@@ -1,11 +1,15 @@
 {
-  "extends": ["@tsconfig/node24/tsconfig.json", "@tsconfig/strictest/tsconfig.json"],
-  "compilerOptions": {
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
-    "noEmit": true,
-    "skipLibCheck": true
-  },
-  "include": ["./lib", "./examples", "./__tests__"],
-  "exclude": ["./dist", "node_modules"]
+	"extends": ["@block65/tsconfig/vanilla", "@block65/tsconfig/noprojref"],
+
+	"compilerOptions": {
+		"types": ["node"]
+	},
+
+	"include": [
+		"lib",
+		"examples",
+		"__tests__",
+		"oxlint.config.ts",
+		"oxfmt.config.ts"
+	]
 }

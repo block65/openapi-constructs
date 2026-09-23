@@ -1,0 +1,25 @@
+{
+	"extends": ["npm:@block65/shared-config/lib/fallow/fallow.jsonc"],
+
+	"entry": [
+		"lib/index.ts",
+		"examples/example.ts",
+		"oxfmt.config.ts",
+		"oxlint.config.ts"
+	],
+
+	// Constructs are reached through node.children and a type guard, which
+	// fallow does not follow, so these members read as unused
+	"usedClassMembers": [
+		{
+			"extends": "Construct",
+			"members": ["synth", "contentType", "hasOperationId"]
+		}
+	],
+
+	"duplicates": {
+		// Header and Parameter synth() differ in how they emit explode and
+		// required, so sharing one body would change the output
+		"ignoredClones": ["dup:6f87acd9:2"]
+	}
+}

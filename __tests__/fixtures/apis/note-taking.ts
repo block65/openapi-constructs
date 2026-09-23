@@ -1,375 +1,375 @@
-/* eslint-disable no-new */
+// oxlint-disable no-new -- constructs attach to their scope when built
 import {
-  Api,
-  Parameter,
-  Path,
-  Reference,
-  Response,
-  Schema,
-  SecurityRequirement,
-  SecurityScheme,
-  Server,
-  Tag,
-} from '@block65/openapi-constructs';
+	Api,
+	Parameter,
+	Path,
+	Reference,
+	Response,
+	Schema,
+	SecurityRequirement,
+	SecurityScheme,
+	Server,
+	Tag,
+} from "@block65/openapi-constructs";
 
 export const noteTakingApi = new Api({
-  openapi: "3.1.0",
-  info: {
-    title: 'Example REST API',
-    version: '1.0.0',
-  },
+	openapi: "3.1.0",
+	info: {
+		title: "Example REST API",
+		version: "1.0.0",
+	},
 });
 
-new Server(noteTakingApi, 'ExampleServer', {
-  url: new URL('https://api.example.com'),
+new Server(noteTakingApi, "ExampleServer", {
+	url: new URL("https://api.example.com"),
 });
 
 const httpBearerJwtScheme = new SecurityScheme(
-  noteTakingApi,
-  'HttpBearerJwtScheme',
-  {
-    type: 'http',
-    scheme: 'bearer',
-    bearerFormat: 'JWT',
-  },
+	noteTakingApi,
+	"HttpBearerJwtScheme",
+	{
+		type: "http",
+		scheme: "bearer",
+		bearerFormat: "JWT",
+	},
 );
 
-new SecurityRequirement(noteTakingApi, 'AllScopes', {
-  securityScheme: httpBearerJwtScheme,
-  scopes: [],
+new SecurityRequirement(noteTakingApi, "AllScopes", {
+	securityScheme: httpBearerJwtScheme,
+	scopes: [],
 });
 
-const userApiTag = new Tag(noteTakingApi, 'UserApiTag', {
-  name: 'user',
+const userApiTag = new Tag(noteTakingApi, "UserApiTag", {
+	name: "user",
 });
 
 const userDeleteScopeReq = new SecurityRequirement(
-  noteTakingApi,
-  'UserDeleteScope',
-  {
-    securityScheme: httpBearerJwtScheme,
-    scopes: ['users.delete'],
-  },
+	noteTakingApi,
+	"UserDeleteScope",
+	{
+		securityScheme: httpBearerJwtScheme,
+		scopes: ["users.delete"],
+	},
 );
 
 const noSecurityRequirement = new SecurityRequirement(
-  noteTakingApi,
-  'NoSecurity',
+	noteTakingApi,
+	"NoSecurity",
 );
 
-const addressSchema = new Schema(noteTakingApi, 'Address', {
-  schema: {
-    type: 'object',
-    required: ['postcode'],
-    additionalProperties: false,
-    properties: {
-      postcode: {
-        type: 'integer',
-        format: 'int32',
-        minimum: 1000,
-        maximum: 9999,
-      },
-    },
-  },
+const addressSchema = new Schema(noteTakingApi, "Address", {
+	schema: {
+		type: "object",
+		required: ["postcode"],
+		additionalProperties: false,
+		properties: {
+			postcode: {
+				type: "integer",
+				format: "int32",
+				minimum: 1000,
+				maximum: 9999,
+			},
+		},
+	},
 });
 
-const idSchema = new Schema(noteTakingApi, 'Id', {
-  schema: {
-    type: 'string',
-    minLength: 6,
-    maxLength: 6,
-  },
+const idSchema = new Schema(noteTakingApi, "Id", {
+	schema: {
+		type: "string",
+		minLength: 6,
+		maxLength: 6,
+	},
 });
 
-const user = new Schema(noteTakingApi, 'User', {
-  schema: {
-    type: 'object',
-    required: ['name'],
-    additionalProperties: false,
-    properties: {
-      userId: idSchema.referenceObject(),
-      name: {
-        type: 'string',
-      },
-      address: addressSchema.referenceObject(),
-      age: {
-        type: 'integer',
-        format: 'int32',
-        minimum: 0,
-      },
-    },
-  },
+const user = new Schema(noteTakingApi, "User", {
+	schema: {
+		type: "object",
+		required: ["name"],
+		additionalProperties: false,
+		properties: {
+			userId: idSchema.referenceObject(),
+			name: {
+				type: "string",
+			},
+			address: addressSchema.referenceObject(),
+			age: {
+				type: "integer",
+				format: "int32",
+				minimum: 0,
+			},
+		},
+	},
 });
 
-const updateUserRequest = new Schema(noteTakingApi, 'UpdateUserRequest', {
-  schema: {
-    type: 'object',
-    minProperties: 1,
-    additionalProperties: false,
-    properties: {
-      address: addressSchema.referenceObject(),
-      age: {
-        type: 'integer',
-        format: 'int32',
-        minimum: 0,
-      },
-    },
-  },
+const updateUserRequest = new Schema(noteTakingApi, "UpdateUserRequest", {
+	schema: {
+		type: "object",
+		minProperties: 1,
+		additionalProperties: false,
+		properties: {
+			address: addressSchema.referenceObject(),
+			age: {
+				type: "integer",
+				format: "int32",
+				minimum: 0,
+			},
+		},
+	},
 });
 
-const createUserRequest = new Reference(user, 'CreateUserRequest');
+const createUserRequest = new Reference(user, "CreateUserRequest");
 
-const users = new Schema(noteTakingApi, 'Users', {
-  schema: {
-    type: 'array',
-    uniqueItems: true,
-    items: user.referenceObject(),
-  },
+const users = new Schema(noteTakingApi, "Users", {
+	schema: {
+		type: "array",
+		uniqueItems: true,
+		items: user.referenceObject(),
+	},
 });
 
-const userIdParameter = new Parameter(noteTakingApi, 'UserId', {
-  name: 'userId',
-  in: 'path',
-  required: true,
-  schema: idSchema,
-});
-
-new Path(noteTakingApi, {
-  path: '/users',
-  tags: new Set([userApiTag]),
-})
-  .addOperation("get", {
-    operationId: 'listUsersCommand',
-    responses: {
-      200: new Response(noteTakingApi, 'ListUsersResponse', {
-        description: 'User 200 response',
-        content: {
-          contentType: 'application/json',
-          schema: users,
-        },
-      }),
-    },
-  })
-  .addOperation("post", {
-    operationId: 'createUserCommand',
-    requestBody: {
-      content: {
-        contentType: 'application/json',
-        schema: createUserRequest,
-      },
-    },
-    responses: {
-      200: new Response(noteTakingApi, 'CreateUserResponse', {
-        description: 'User 200 response',
-        content: {
-          contentType: 'application/json',
-          schema: users,
-        },
-      }),
-    },
-  });
-
-new Path(noteTakingApi, {
-  path: '/users/{userId}',
-  parameters: [userIdParameter],
-})
-  .addOperation("get", {
-    operationId: 'getUserByIdCommand',
-    responses: {
-      200: new Response(noteTakingApi, 'GetUserById', {
-        description: 'User 200 response',
-        content: {
-          contentType: 'application/json',
-          schema: user,
-        },
-      }),
-    },
-  })
-  .addOperation("delete", {
-    operationId: 'deleteUserByIdCommand',
-    security: userDeleteScopeReq,
-  })
-  .addOperation("head", {
-    operationId: 'checkUserIdAvailableCommand',
-    security: noSecurityRequirement,
-    responses: {
-      204: new Response(noteTakingApi, 'HeadUserResponseFound'),
-      404: new Response(noteTakingApi, 'HeadUserResponseNotFound'),
-    },
-  })
-  .addOperation("post", {
-    operationId: 'updateUserCommand',
-    requestBody: {
-      content: {
-        contentType: 'application/json',
-        schema: updateUserRequest,
-      },
-    },
-    responses: {
-      200: new Response(noteTakingApi, 'UpdateUserResponse', {
-        content: {
-          contentType: 'application/json',
-          schema: user,
-        },
-      }),
-    },
-  });
-
-const noteSchema = new Schema(noteTakingApi, 'Note', {
-  schema: {
-    type: 'object',
-    required: ['title', 'content'],
-    additionalProperties: false,
-    properties: {
-      title: {
-        type: 'string',
-      },
-      content: {
-        type: 'string',
-      },
-      labels: {
-        type: 'array',
-        items: {
-          type: 'string',
-          minLength: 1,
-          maxLength: 256,
-        },
-      },
-    },
-  },
-});
-
-const createNoteRequest = new Reference(noteSchema, 'CreateNoteRequest');
-
-const notes = new Schema(noteTakingApi, 'Notes', {
-  schema: {
-    type: 'array',
-    uniqueItems: true,
-    items: noteSchema.referenceObject(),
-  },
-});
-
-const noteUserIdParameter = new Parameter(noteTakingApi, 'NoteUserId', {
-  name: 'userId',
-  in: 'path',
-  required: true,
-  schema: idSchema,
-});
-
-const noteIdParameter = new Parameter(noteTakingApi, 'NoteId', {
-  name: 'noteId',
-  in: 'path',
-  required: true,
-  schema: idSchema,
+const userIdParameter = new Parameter(noteTakingApi, "UserId", {
+	name: "userId",
+	in: "path",
+	required: true,
+	schema: idSchema,
 });
 
 new Path(noteTakingApi, {
-  path: '/users/{userId}/notes',
-  tags: new Set([userApiTag]),
-  parameters: [noteUserIdParameter],
+	path: "/users",
+	tags: new Set([userApiTag]),
 })
-  .addOperation("get", {
-    operationId: 'listNotesCommand',
-    description: 'List all of the notes',
-    summary: 'List notes',
-    responses: {
-      200: new Response(noteTakingApi, 'ListNotesResponse', {
-        description: 'Notes 200 response',
-        content: {
-          contentType: 'application/json',
-          schema: notes,
-        },
-      }),
-    },
-  })
-  .addOperation("post", {
-    operationId: 'createNoteCommand',
-    deprecated: true,
-    requestBody: {
-      required: true,
-      content: {
-        contentType: 'application/json',
-        schema: createNoteRequest,
-      },
-    },
-    responses: {
-      200: new Response(noteTakingApi, 'CreateNoteResponse', {
-        description: 'Note created 200 response',
-        content: {
-          contentType: 'application/json',
-          schema: noteSchema,
-        },
-      }),
-    },
-  });
+	.addOperation("get", {
+		operationId: "listUsersCommand",
+		responses: {
+			200: new Response(noteTakingApi, "ListUsersResponse", {
+				description: "User 200 response",
+				content: {
+					contentType: "application/json",
+					schema: users,
+				},
+			}),
+		},
+	})
+	.addOperation("post", {
+		operationId: "createUserCommand",
+		requestBody: {
+			content: {
+				contentType: "application/json",
+				schema: createUserRequest,
+			},
+		},
+		responses: {
+			200: new Response(noteTakingApi, "CreateUserResponse", {
+				description: "User 200 response",
+				content: {
+					contentType: "application/json",
+					schema: users,
+				},
+			}),
+		},
+	});
 
-const updateNoteRequest = new Schema(noteTakingApi, 'UpdateNoteRequest', {
-  schema: {
-    type: 'object',
-    minProperties: 1,
-    additionalProperties: false,
-    properties: {
-      title: {
-        type: 'string',
-      },
-      content: {
-        type: 'string',
-      },
-      labels: {
-        type: 'array',
-        items: {
-          type: 'string',
-          minLength: 1,
-          maxLength: 256,
-        },
-      },
-    },
-  },
+new Path(noteTakingApi, {
+	path: "/users/{userId}",
+	parameters: [userIdParameter],
+})
+	.addOperation("get", {
+		operationId: "getUserByIdCommand",
+		responses: {
+			200: new Response(noteTakingApi, "GetUserById", {
+				description: "User 200 response",
+				content: {
+					contentType: "application/json",
+					schema: user,
+				},
+			}),
+		},
+	})
+	.addOperation("delete", {
+		operationId: "deleteUserByIdCommand",
+		security: userDeleteScopeReq,
+	})
+	.addOperation("head", {
+		operationId: "checkUserIdAvailableCommand",
+		security: noSecurityRequirement,
+		responses: {
+			204: new Response(noteTakingApi, "HeadUserResponseFound"),
+			404: new Response(noteTakingApi, "HeadUserResponseNotFound"),
+		},
+	})
+	.addOperation("post", {
+		operationId: "updateUserCommand",
+		requestBody: {
+			content: {
+				contentType: "application/json",
+				schema: updateUserRequest,
+			},
+		},
+		responses: {
+			200: new Response(noteTakingApi, "UpdateUserResponse", {
+				content: {
+					contentType: "application/json",
+					schema: user,
+				},
+			}),
+		},
+	});
+
+const noteSchema = new Schema(noteTakingApi, "Note", {
+	schema: {
+		type: "object",
+		required: ["title", "content"],
+		additionalProperties: false,
+		properties: {
+			title: {
+				type: "string",
+			},
+			content: {
+				type: "string",
+			},
+			labels: {
+				type: "array",
+				items: {
+					type: "string",
+					minLength: 1,
+					maxLength: 256,
+				},
+			},
+		},
+	},
+});
+
+const createNoteRequest = new Reference(noteSchema, "CreateNoteRequest");
+
+const notes = new Schema(noteTakingApi, "Notes", {
+	schema: {
+		type: "array",
+		uniqueItems: true,
+		items: noteSchema.referenceObject(),
+	},
+});
+
+const noteUserIdParameter = new Parameter(noteTakingApi, "NoteUserId", {
+	name: "userId",
+	in: "path",
+	required: true,
+	schema: idSchema,
+});
+
+const noteIdParameter = new Parameter(noteTakingApi, "NoteId", {
+	name: "noteId",
+	in: "path",
+	required: true,
+	schema: idSchema,
+});
+
+new Path(noteTakingApi, {
+	path: "/users/{userId}/notes",
+	tags: new Set([userApiTag]),
+	parameters: [noteUserIdParameter],
+})
+	.addOperation("get", {
+		operationId: "listNotesCommand",
+		description: "List all of the notes",
+		summary: "List notes",
+		responses: {
+			200: new Response(noteTakingApi, "ListNotesResponse", {
+				description: "Notes 200 response",
+				content: {
+					contentType: "application/json",
+					schema: notes,
+				},
+			}),
+		},
+	})
+	.addOperation("post", {
+		operationId: "createNoteCommand",
+		deprecated: true,
+		requestBody: {
+			required: true,
+			content: {
+				contentType: "application/json",
+				schema: createNoteRequest,
+			},
+		},
+		responses: {
+			200: new Response(noteTakingApi, "CreateNoteResponse", {
+				description: "Note created 200 response",
+				content: {
+					contentType: "application/json",
+					schema: noteSchema,
+				},
+			}),
+		},
+	});
+
+const updateNoteRequest = new Schema(noteTakingApi, "UpdateNoteRequest", {
+	schema: {
+		type: "object",
+		minProperties: 1,
+		additionalProperties: false,
+		properties: {
+			title: {
+				type: "string",
+			},
+			content: {
+				type: "string",
+			},
+			labels: {
+				type: "array",
+				items: {
+					type: "string",
+					minLength: 1,
+					maxLength: 256,
+				},
+			},
+		},
+	},
 });
 
 const noteDeleteScopeReq = new SecurityRequirement(
-  noteTakingApi,
-  'NoteDeleteScope',
-  {
-    securityScheme: httpBearerJwtScheme,
-    scopes: ['notes.delete'],
-  },
+	noteTakingApi,
+	"NoteDeleteScope",
+	{
+		securityScheme: httpBearerJwtScheme,
+		scopes: ["notes.delete"],
+	},
 );
 
 new Path(noteTakingApi, {
-  path: '/users/{userId}/notes/{noteId}',
-  parameters: [noteUserIdParameter, noteIdParameter],
+	path: "/users/{userId}/notes/{noteId}",
+	parameters: [noteUserIdParameter, noteIdParameter],
 })
-  .addOperation("get", {
-    operationId: 'getNoteCommand',
-    responses: {
-      200: new Response(noteTakingApi, 'GetNote', {
-        description: 'Note 200 response',
-        content: {
-          contentType: 'application/json',
-          schema: noteSchema,
-        },
-      }),
-    },
-  })
-  .addOperation("delete", {
-    operationId: 'deleteNoteCommand',
-    security: noteDeleteScopeReq,
-  })
-  .addOperation("post", {
-    operationId: 'updateNoteCommand',
-    requestBody: {
-      content: {
-        contentType: 'application/json',
-        schema: updateNoteRequest,
-      },
-    },
-    responses: {
-      200: new Response(noteTakingApi, 'UpdateNoteResponse', {
-        content: {
-          contentType: 'application/json',
-          schema: noteSchema,
-        },
-      }),
-    },
-  });
+	.addOperation("get", {
+		operationId: "getNoteCommand",
+		responses: {
+			200: new Response(noteTakingApi, "GetNote", {
+				description: "Note 200 response",
+				content: {
+					contentType: "application/json",
+					schema: noteSchema,
+				},
+			}),
+		},
+	})
+	.addOperation("delete", {
+		operationId: "deleteNoteCommand",
+		security: noteDeleteScopeReq,
+	})
+	.addOperation("post", {
+		operationId: "updateNoteCommand",
+		requestBody: {
+			content: {
+				contentType: "application/json",
+				schema: updateNoteRequest,
+			},
+		},
+		responses: {
+			200: new Response(noteTakingApi, "UpdateNoteResponse", {
+				content: {
+					contentType: "application/json",
+					schema: noteSchema,
+				},
+			}),
+		},
+	});

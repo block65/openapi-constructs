@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import type { oas31 } from "openapi3-ts";
+import type { oas32 } from "openapi3-ts";
 import type { Api } from "./api.ts";
 import type { HttpMethod } from "./http-method.ts";
 import { Operation, type OperationOptions } from "./operation.ts";
@@ -59,6 +59,6 @@ export class Path<TPath extends string = "/"> extends Construct {
 				),
 			}),
 			...(this.options.summary && { summary: this.options.summary }),
-		} satisfies oas31.PathItemObject;
+		} satisfies oas32.PathItemObject;
 	}
 }

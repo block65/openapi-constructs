@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import type { oas31 } from "openapi3-ts";
+import type { oas32 } from "openapi3-ts";
 import { MediaType, type MediaTypeOptions } from "./media-type.ts";
 
 export type RequestBodyOptions = {
@@ -31,7 +31,7 @@ export class RequestBody extends Construct {
 		);
 	}
 
-	public synth(): oas31.RequestBodyObject {
+	public synth(): oas32.RequestBodyObject {
 		return {
 			description: this.options.description || "",
 			content: Object.fromEntries(

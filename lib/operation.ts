@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import type { oas31 } from "openapi3-ts";
+import type { oas32 } from "openapi3-ts";
 import type { HttpMethod } from "./http-method.ts";
 import { RequestBody, type RequestBodyOptions } from "./request-body.ts";
 import type { Response } from "./response.ts";
@@ -99,6 +99,6 @@ export class Operation<TPath extends string = "/"> extends Construct {
 					]),
 				),
 			}),
-		} satisfies oas31.OperationObject;
+		} satisfies oas32.OperationObject;
 	}
 }

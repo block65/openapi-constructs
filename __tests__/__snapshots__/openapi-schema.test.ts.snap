@@ -1,5 +1,80 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Event Stream > OpenAPI 1`] = `
+{
+  "components": {
+    "headers": {},
+    "parameters": {},
+    "schemas": {
+      "Tick": {
+        "additionalProperties": false,
+        "properties": {
+          "count": {
+            "type": "integer",
+          },
+        },
+        "required": [
+          "count",
+        ],
+        "type": "object",
+      },
+      "TickEvent": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "contentMediaType": "application/json",
+            "contentSchema": {
+              "$ref": "#/components/schemas/Tick",
+            },
+            "type": "string",
+          },
+          "event": {
+            "const": "tick",
+          },
+          "id": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "event",
+          "data",
+        ],
+        "type": "object",
+      },
+    },
+    "securitySchemes": {},
+  },
+  "info": {
+    "title": "Event Stream API",
+    "version": "1.0.0",
+  },
+  "openapi": "3.2.0",
+  "paths": {
+    "/ticks": {
+      "get": {
+        "operationId": "streamTicksCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "text/event-stream": {
+                "itemSchema": {
+                  "$ref": "#/components/schemas/TickEvent",
+                },
+              },
+            },
+            "description": "One tick per second",
+          },
+        },
+        "tags": [],
+      },
+    },
+  },
+  "security": [],
+  "servers": [],
+  "tags": [],
+}
+`;
+
 exports[`Example > OpenAPI 1`] = `
 {
   "components": {

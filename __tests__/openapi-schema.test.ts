@@ -1,5 +1,7 @@
 import { validate } from "@hyperjump/json-schema/openapi-3-1";
+import { validate as validate32 } from "@hyperjump/json-schema/openapi-3-2";
 import { describe, expect, test } from "vitest";
+import { eventStreamApi } from "./fixtures/apis/event-stream.ts";
 import { exampleApi } from "./fixtures/apis/example.ts";
 import { noteTakingApi } from "./fixtures/apis/note-taking.ts";
 import { toJson } from "./json.ts";
@@ -31,5 +33,23 @@ describe.each([
 		);
 
 		expect(output.valid).toBe(false);
+	});
+});
+
+describe("Event Stream", () => {
+	const document = eventStreamApi.synth();
+
+	test("OpenAPI", () => {
+		expect(document).toMatchSnapshot();
+	});
+
+	test("OpenAPI 3.2 schema validate", async () => {
+		const output = await validate32(
+			"https://spec.openapis.org/oas/3.2/schema-base",
+			toJson(document),
+			"BASIC",
+		);
+
+		expect(output).toStrictEqual({ valid: true });
 	});
 });

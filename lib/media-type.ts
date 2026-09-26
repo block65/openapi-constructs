@@ -1,5 +1,4 @@
 import { Construct } from "constructs";
-import type { oas31 } from "openapi3-ts";
 import { Reference } from "./reference.ts";
 import type { Schema } from "./schema.ts";
 
@@ -12,10 +11,18 @@ type ContentType =
 	| "image/*"
 	| (string & {});
 
-export type MediaTypeOptions = {
-	contentType: ContentType;
-	schema: Schema | Reference<Schema>;
-};
+export type MediaTypeOptions = { contentType: ContentType } & (
+	| { schema: Schema | Reference<Schema> }
+
+	// OpenAPI 3.2 describes each item of a sequential type, such as an event
+	| { itemSchema: Schema | Reference<Schema> }
+);
+
+function refOf(schema: Schema | Reference<Schema>) {
+	return schema instanceof Reference
+		? schema.synth()
+		: schema.referenceObject();
+}
 
 export class MediaType extends Construct {
 	private options: MediaTypeOptions;
@@ -29,12 +36,9 @@ export class MediaType extends Construct {
 		this.options = options;
 	}
 
-	public synth(): oas31.MediaTypeObject {
-		return {
-			schema:
-				this.options.schema instanceof Reference
-					? this.options.schema.synth()
-					: this.options.schema.referenceObject(),
-		};
+	public synth() {
+		return "itemSchema" in this.options
+			? { itemSchema: refOf(this.options.itemSchema) }
+			: { schema: refOf(this.options.schema) };
 	}
 }

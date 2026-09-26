@@ -1,5 +1,5 @@
 import type { JSONSchema7 } from "json-schema";
-import type { oas31 } from "openapi3-ts";
+import type { oas32 } from "openapi3-ts";
 import { ApiLowLevel } from "./api-low-level.ts";
 import { Header } from "./header.ts";
 import { Parameter } from "./parameter.ts";
@@ -11,11 +11,11 @@ import { SecurityScheme } from "./security-scheme.ts";
 import { Server } from "./server.ts";
 import { Tag } from "./tag.ts";
 
-export type OpenApiVersion = "3.0" | "3.1.0";
+export type OpenApiVersion = "3.0" | "3.1.0" | "3.2.0";
 
 export type ApiOptions = {
 	openapi: OpenApiVersion;
-	info: oas31.InfoObject;
+	info: oas32.InfoObject;
 };
 
 export class Api extends ApiLowLevel {
@@ -76,7 +76,7 @@ export class Api extends ApiLowLevel {
 						child instanceof SecurityRequirement,
 				)
 				.map((child) => child.synth()),
-		} satisfies oas31.OpenAPIObject;
+		} satisfies oas32.OpenAPIObject;
 	}
 
 	public synthJsonSchema() {

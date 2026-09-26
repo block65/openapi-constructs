@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import type { oas31 } from "openapi3-ts";
+import type { oas32 } from "openapi3-ts";
 import type { Header } from "./header.ts";
 import { MediaType, type MediaTypeOptions } from "./media-type.ts";
 
@@ -42,6 +42,6 @@ export class Response extends Construct {
 					]),
 				),
 			}),
-		} satisfies oas31.ResponseObject;
+		} satisfies oas32.ResponseObject;
 	}
 }
